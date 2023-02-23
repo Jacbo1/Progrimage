@@ -50,6 +50,8 @@ The main feature of this image editor is the ability for users to easily create 
 * Allow dragging anywhere on layer and composite tabs for reordering instead of only the thumbnail or name
 * Multiple project tabs
 * Create my own icons for the tools that currently have placeholders from Google images
+* Better Lua implementations
+* More Lua functionality
 * More that were not mentioned
 
 # Building
@@ -63,4 +65,4 @@ The main feature of this image editor is the ability for users to easily create 
 * [ImageSharp.Drawing](https://www.nuget.org/packages/SixLabors.ImageSharp.Drawing/1.0.0-beta15?_src=template)
 
 ## Ownership
-I do not own or take credit for the brush, eraser, or move tool icons. They are placeholders I found on Google images.
+I do not own or take credit for the brush, eraser, fill, or move tool icons. They are placeholders I found on Google images.
