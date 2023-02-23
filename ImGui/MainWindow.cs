@@ -333,28 +333,28 @@ namespace Progrimage
                     switch (eventHandler)
                     {
                         case Events.OnMouseDown:
-                            interactable.OnMouseDown(JobQueue.State.MousePosScreen, JobQueue.State.MousePosCanvas);
+                            interactable.OnMouseDown(MousePosScreen, MousePosCanvas);
                             break;
                         case Events.OnMouseDownCanvas:
-                            interactable.OnMouseDownCanvas(JobQueue.State.MousePosCanvas);
+                            interactable.OnMouseDownCanvas(MousePosCanvas);
                             break;
                         case Events.OnMouseEnterCanvas:
-                            interactable.OnMouseEnterCanvas(JobQueue.State.MousePosScreen, JobQueue.State.MousePosCanvas);
+                            interactable.OnMouseEnterCanvas(MousePosScreen, MousePosCanvas);
                             break;
                         case Events.OnMouseExitConvas:
-                            interactable.OnMouseExitConvas(JobQueue.State.MousePosScreen, JobQueue.State.MousePosCanvas);
+                            interactable.OnMouseExitConvas(MousePosScreen, MousePosCanvas);
                             break;
                         case Events.OnMouseMoveCanvas:
-                            interactable.OnMouseMoveCanvas(JobQueue.State.MousePosCanvas);
+                            interactable.OnMouseMoveCanvas(MousePosCanvas);
                             break;
                         case Events.OnMouseMoveCanvasDouble:
                             interactable.OnMouseMoveCanvasDouble(MousePosCanvasDouble);
                             break;
                         case Events.OnMouseMoveScreen:
-                            interactable.OnMouseMoveScreen(JobQueue.State.MousePosScreen);
+                            interactable.OnMouseMoveScreen(MousePosScreen);
                             break;
                         case Events.OnMouseUp:
-                            interactable.OnMouseUp(JobQueue.State.MousePosScreen, JobQueue.State.MousePosCanvas);
+                            interactable.OnMouseUp(MousePosScreen, MousePosCanvas);
                             break;
                     }
                 }

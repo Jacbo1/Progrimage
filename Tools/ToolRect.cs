@@ -57,14 +57,14 @@ namespace Progrimage.Tools
 
         public void OnMouseMoveCanvas(int2 pos)
         {
-            if (JobQueue.State.IsMouseDown && JobQueue.State.MouseDownStartInCanvas)
+            if (MainWindow.IsMouseDown && MainWindow.MouseDownStartInCanvas)
                 DrawOverlay(pos);
         }
 
         public void OnMouseUp(int2 _, int2 pos)
         {
             _overlayShapeSet?.Dispose();
-            if (!JobQueue.State.PostMouseDownStartInCanvas || Program.ActiveInstance.ActiveLayer is not Layer layer) return;
+            if (!MainWindow.PostMouseDownStartInCanvas || Program.ActiveInstance.ActiveLayer is not Layer layer) return;
             var bounds = _drawingRect.GetBounds();
             UndoManager.AddUndo(new UndoImagePatch(layer, bounds));
 			layer.Image.ExpandToContain(bounds);

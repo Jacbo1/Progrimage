@@ -80,10 +80,10 @@ namespace Progrimage.Tools
                 {
                     // Move selection
                     if (Program.ActiveInstance.Selection is null) return;
-                    var delta = pos - JobQueue.State.LastMousePosCanvas;
+                    var delta = pos - MainWindow.LastMousePosCanvas;
                     Program.ActiveInstance.Selection!.Pos += delta;
                 }
-                else Program.ActiveInstance.ActiveLayer!.Pos += pos - JobQueue.State.LastMousePosCanvas;
+                else Program.ActiveInstance.ActiveLayer!.Pos += pos - MainWindow.LastMousePosCanvas;
                 Program.ActiveInstance.Changed = true;
             }
         }
@@ -98,7 +98,10 @@ namespace Progrimage.Tools
             _resizing = dir is not null;
 
             if (Program.ActiveInstance.Selection is not null)
+            {
                 Program.ActiveInstance.Selection.DrawBoundaryDots = false;
+				Program.ActiveInstance.Selection.ClearSelection();
+			}
 
             if (_resizing)
             {

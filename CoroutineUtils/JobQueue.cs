@@ -6,11 +6,9 @@ namespace Progrimage.CoroutineUtils
     public static class JobQueue
     {
         public static List<CoroutineJob> Queue = new();
-        public static Snapshot State;
         public static int MaxProcessingTime = 1000 / 60 - 4;
 		public static bool UnlimitedTime = false;
 
-		private static readonly Queue<Snapshot> _snapshotQueue = new();
         private static long _processingStartTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         private static long _nextYieldTime = _processingStartTime + MaxProcessingTime;
 
@@ -23,24 +21,6 @@ namespace Progrimage.CoroutineUtils
         {
             _processingStartTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
             _nextYieldTime = _processingStartTime + MaxProcessingTime;
-        }
-
-        public struct Snapshot
-        {
-            public bool IsMouseDown, MouseDownStartInCanvas, PostMouseDownStartInCanvas, MouseInCanvas;
-            public int2 MousePosCanvas, LastMousePosCanvas, MousePosScreen, LastMousePosScreen;
-
-            public Snapshot()
-            {
-                IsMouseDown = MainWindow.IsMouseDown;
-                MouseDownStartInCanvas = MainWindow.MouseDownStartInCanvas;
-                PostMouseDownStartInCanvas = MainWindow.PostMouseDownStartInCanvas;
-                MouseInCanvas = MainWindow.MouseInCanvas;
-                MousePosCanvas = MainWindow.MousePosCanvas;
-                LastMousePosCanvas = MainWindow.LastMousePosCanvas;
-                MousePosScreen = MainWindow.MousePosScreen;
-                LastMousePosScreen = MainWindow.LastMousePosScreen;
-            }
         }
 
         public static void Work()
@@ -105,17 +85,5 @@ namespace Progrimage.CoroutineUtils
         }
 
         public static IEnumerator EmptyEnumerator() { yield break; }
-
-        public static void TakeSnapshot()
-        {
-            _snapshotQueue.Enqueue(new Snapshot());
-            Queue.Add(new CoroutineJob(SnapshotEnumerator()));
-        }
-
-        private static IEnumerator SnapshotEnumerator()
-        {
-            State = _snapshotQueue.Dequeue();
-            yield break;
-        }
     }
 }
