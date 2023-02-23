@@ -74,12 +74,10 @@ namespace Progrimage
         public List<ToolLua> LuaTools = new();
         public ITool[] DefaultTools = new ITool[]
         {
-            /*new ToolPointer(), */
             new ToolBrush(),
-            //new ToolPencil(),
             new ToolEraser(),
-            new ToolMove(),
-            new ToolFill(),
+			new ToolFill(),
+			new ToolMove(),
             new ToolMarqueSelect(),
             new ToolRect(),
             new ToolOval(),
