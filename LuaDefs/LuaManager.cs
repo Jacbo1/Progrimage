@@ -9,6 +9,7 @@ using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using UnsafeRefStruct;
 using Color = SixLabors.ImageSharp.Color;
@@ -162,13 +163,16 @@ namespace Progrimage.LuaDefs
             Lua["input.isMouseDown"] = () => MainWindow.IsDragging;
             Lua["render.getActiveLayer"] = () => Program.ActiveInstance?.ActiveLuaLayer;
             Lua["render.getBrushColor"] = () => CreateVector4(Program.ActiveInstance.BrushSettings.Color * 255);
-            Lua["render.setBrushColor"] = (Action<LuaTable>)(colorIn =>
+            Lua["render.setBrushColor"] = (Action<LuaTable>)(color =>
             {
-                Program.ActiveInstance.BrushSettings.Color = ToColor(colorIn) * 255;
-                if (Program.ActiveInstance.ActiveTool is ToolBrush) Program.ActiveInstance.Stroke.BrushState = Program.ActiveInstance.BrushSettings;
+				Vector4 vec = ToColor(color) / 255;
+				Program.ActiveInstance.BrushSettings.Color = vec;
+				BrushState brushState = Program.ActiveInstance.Stroke.BrushState;
+				brushState.Color = vec;
+				Program.ActiveInstance.Stroke.BrushState = brushState;
+				Program.ActiveInstance.Stroke.BrushStateChanged();
 			});
-            Lua["render.getLayers"] = () => Program.ActiveInstance?.LayerManager.LuaLayers;
-            Lua["render.setBrushColor"] = SetBrushColor;
+            //Lua["render.getLayers"] = () => Lua.DoString("return {" + string.Join(',', Program.ActiveInstance?.LayerManager.LuaLayers) + "}");
             Lua["render.startBrush"] = (Action<LuaTable>) (pos => Program.ActiveInstance?.ActiveLayer?.BrushDown(ToDouble2(pos)));
             Lua["render.moveBrush"] = (Action<LuaTable>) (pos => Program.ActiveInstance?.ActiveLayer?.MoveBrush(ToDouble2(pos)));
             Lua["render.createLayer"] = (Func<int, int, LuaLayer>) ((w, h) => new LuaLayer(w, h));
@@ -177,24 +181,11 @@ namespace Progrimage.LuaDefs
             Lua["render.canvasPos"] = () => CreateVector2(Program.ActiveInstance.Pos + MainWindow.CanvasOriginDouble);
             Lua["render.canvasSize"] = () => CreateVector2(Program.ActiveInstance.CanvasSize);
             Lua["render.zoom"] = () => CreateVector2(Program.ActiveInstance.Zoom);
-            //Lua["render.createImage"] = (Func<int, int, LuaImage>) ((w, h) => new LuaImage(w, h));
+            Lua["render.createImage"] = (Func<int, int, LuaImage>) ((w, h) => new LuaImage(0, 0, w, h));
             Lua["render.update"] = () => Program.ActiveInstance.Changed = true;
-            //Lua["getValue"] = (Action<LuaTable>) (obj => {foreach (var x in obj.Values) Console.WriteLine(x);});
-            //Lua["math.min"] = LuaMath.Min;
-            //Lua["math.max"] = LuaMath.Max;
-            //Lua["math.floor"] = LuaMath.Floor;
-            //Lua["math.ceil"] = LuaMath.Ceiling;
-            //Lua["math.round"] = LuaMath.Round;
             InitLuaValues();
 			MainWindow.OnPreUpdate += PreUpdate!;
 		}
-
-        #region Render
-        private void SetBrushColor(LuaTable color)
-        {
-            //Program.ActiveInstance.BrushColor = ToColor(color);
-        }
-        #endregion
 
         #region Vector
         public LuaTable CreateVector2(double2 n)

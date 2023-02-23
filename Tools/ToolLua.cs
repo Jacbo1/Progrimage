@@ -29,8 +29,8 @@ namespace Progrimage.Tools
         #endregion
 
         #region ITool Methods
-        public void OnMouseDown(int2 mousePosScreen, int2 mousePosCanvas) => LuaManager.CallFunction("OnMouseDown", LuaManager.Current.CreateVector2(MainWindow.MousePosCanvasDouble));
-        public void OnMouseDownCanvas(int2 mousePosCanvas) => LuaManager.CallFunction("OnMouseDownCanvas", LuaManager.Current.CreateVector2(MainWindow.MousePosCanvasDouble));
+        //public void OnMouseDown(int2 mousePosScreen, int2 mousePosCanvas) => LuaManager.CallFunction("OnMouseDown", LuaManager.Current.CreateVector2(MainWindow.MousePosCanvasDouble));
+        public void OnMouseDownCanvas(int2 mousePosCanvas) => LuaManager.CallFunction("OnMouseDown", LuaManager.Current.CreateVector2(MainWindow.MousePosCanvasDouble));
         public void OnMouseUp(int2 mousePosScreen, int2 mousePosCanvas) => LuaManager.CallFunction("OnMouseUp", LuaManager.Current.CreateVector2(MainWindow.MousePosCanvasDouble));
         public void OnMouseMoveScreen(int2 mousePos) => LuaManager.CallFunction("OnMouseMoveScreen", LuaManager.Current.CreateVector2(mousePos));
         public void OnMouseMoveCanvasDouble(double2 mousePos) => LuaManager.CallFunction("OnMouseMoveCanvas", LuaManager.Current.CreateVector2(mousePos));

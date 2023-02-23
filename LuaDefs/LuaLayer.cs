@@ -14,6 +14,12 @@ namespace Progrimage.LuaDefs
 		internal Layer Layer;
 
 		#region Properties
+		public string name
+		{
+			get => Layer.Name;
+			set => Layer.Name = value;
+		}
+
 		public LuaImage image
 		{
 			get => LuaImage;

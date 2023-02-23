@@ -137,8 +137,6 @@ namespace Progrimage.LuaDefs
 			catch (Exception e)
 			{
 				LuaManager.Error = e.Message;
-				LuaManager.Dispose();
-				LuaManager = new LuaManager();
 			}
 		}
 

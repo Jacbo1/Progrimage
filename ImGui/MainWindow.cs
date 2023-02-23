@@ -565,10 +565,9 @@ namespace Progrimage
                 {
                     Style.Colors[(int)ImGuiCol.Text] = red;
                     ImGui.BeginTooltip();
-					ImGui.PushTextWrapPos(ImGui.GetFontSize() * 35);
+					ImGui.PushTextWrapPos(Width - ImGui.GetMousePos().X);
 					ImGui.TextUnformatted(tool.Error);
 					ImGui.PopTextWrapPos();
-					//ImGui.Text(tool.Error);
 					ImGui.EndTooltip();
                     Style.Colors[(int)ImGuiCol.Text] = textColor;
                 }
@@ -900,10 +899,10 @@ namespace Progrimage
                             {
                                 Style.Colors[(int)ImGuiCol.Text] = new Vector4(1, 0, 0, 1);
                                 ImGui.BeginTooltip();
-                                ImGui.PushTextWrapPos(ImGui.GetFontSize() * 35);
-                                ImGui.TextUnformatted(luaComp.Error);
-                                ImGui.PopTextWrapPos();
-                                ImGui.EndTooltip();
+								ImGui.PushTextWrapPos(Width - ImGui.GetMousePos().X);
+								ImGui.TextUnformatted(luaComp.Error);
+								ImGui.PopTextWrapPos();
+								ImGui.EndTooltip();
                                 Style.Colors[(int)ImGuiCol.Text] = textColor;
                             }
 
