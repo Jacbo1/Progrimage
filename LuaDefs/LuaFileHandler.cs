@@ -57,7 +57,24 @@ namespace Progrimage.LuaDefs
 		{
 			path = Directory.GetCurrentDirectory() + '\\' + Defs.LUA_BASE_PATH + path;
 			if (!File.Exists(path)) File.Create(path);
-			Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Programs\Microsoft VS Code\Code.exe", '"' + path + '"');
+
+			try
+			{
+				string exePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Programs\Microsoft VS Code\Code.exe";
+				if (File.Exists(exePath))
+				{
+					Process.Start(exePath, '"' + path + '"');
+					return;
+				}
+
+				exePath = @"C:\Program Files (x86)\Notepad++.exe";
+				if (File.Exists(exePath))
+				{
+					Process.Start(exePath, '"' + path + '"');
+					return;
+				}
+			}
+			catch { }
 		}
 		#endregion
 
