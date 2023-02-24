@@ -663,7 +663,11 @@ namespace Progrimage
                 {
                     SetCanvasOrigin();
                     double2 oldPos = Util.ScreenToCanvasDouble(MousePosScreen);
+                    bool over1 = instance.Zoom > 1;
+                    bool under1 = instance.Zoom < 1;
                     instance.ZoomLerp = Math2.Clamp(instance.ZoomLerp + scroll * 0.025, 0, 1); // Zoom canvas
+                    if ((over1 && instance.Zoom < 1) || (under1 && instance.Zoom > 1))
+                        instance.Zoom = 1;
                     SetCanvasOrigin();
                     double2 newPos = Util.ScreenToCanvasDouble(MousePosScreen);
                     instance.Pos += newPos - oldPos;

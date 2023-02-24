@@ -34,6 +34,7 @@ namespace Progrimage
         Pencil,
         Eraser
     }
+
     #region Structs
     //public struct Selection
     //{
@@ -97,16 +98,10 @@ namespace Progrimage
 
 		// Private fields
 		private Layer? _activeLayer;
-        private IEffect? _activeEffect = null;
         private ITool _activeTool;
         private int2 _canvasSize, _renderOffset, _renderSize;
-        //private Image<Rgb24> ;
         private Image<Argb32> _transparencyBg, _renderedImage;
         private double2 _pos;
-        //private int _promptsBlockingBrush_hidden = 0;
-        //private Vector2 _pos_hidden = new Vector2();
-        //private bool _movingCanvas = false;
-        //private Vector2 _oldMousePos;
         private double _zoomLerp, _zoom = 1;
         private bool _firstUpdate = true;
         private Queue<IShape> _overlayShapes = new();
@@ -141,7 +136,6 @@ namespace Progrimage
                 else
                 {
                     ActiveLuaLayer = new LuaLayer(_activeLayer!);
-                    //LayerHandler?.UpdateDrawingActive();
                     _activeTool?.OnLayerSelect(_activeLayer);
                 }
             }
@@ -167,37 +161,6 @@ namespace Progrimage
                 if (_activeLayer is Layer layerHidden)
                     _activeTool.OnLayerSelect(layerHidden);
             }
-        }
-
-        public IEffect? ActiveEffect
-        {
-            get => _activeEffect;
-            set
-            {
-                if (value is null && _activeEffect is not null)
-                {
-                    // Effect unselected
-                    //if (_activeTool_hidden != null)
-                    //{
-                    //    _activeTool_hidden.OnSelect(this);
-                    //    if (_activeLayer is Layer layerHidden)
-                    //        _activeTool_hidden.OnLayerSelect(layerHidden);
-                    //}
-                }
-                else if (value is not null && _activeEffect is null)
-                {
-                    // New effect selected
-                    //_activeTool_hidden?.OnDeselect();
-                }
-
-                _activeEffect = value;
-                _activeEffect?.OnSelect(ActiveLayer);
-            }
-        }
-
-        public IInteractable ActiveInteractive
-        {
-            get => (IInteractable?)_activeEffect ?? _activeTool;
         }
 
         public int2 CanvasSize
@@ -296,7 +259,6 @@ namespace Progrimage
         {
             Queue<IInteractable> queue = new();
             if (_activeTool != null) queue.Enqueue(_activeTool);
-            if (_activeEffect is not null) queue.Enqueue(_activeEffect);
             return queue;
         }
 
@@ -304,7 +266,6 @@ namespace Progrimage
         {
             Queue<IUsesToolbar> queue = new();
 			if (_activeTool != null) queue.Enqueue(_activeTool);
-            if (_activeEffect is not null) queue.Enqueue(_activeEffect);
             if (ActiveComposite is not null) queue.Enqueue(ActiveComposite);
             return queue;
         }
