@@ -142,9 +142,9 @@ namespace Progrimage.LuaDefs
         private void PreUpdate(object _, EventArgs _2)
         {
             if (Lua is null) return;
-            Lua["timer.deltaTime"] = MainWindow.IO.DeltaTime;
-            Lua["timer.frameTime"] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond / 1000.0;
-            Lua.DoString("timer.clockFrameTime = os.clock()");
+            Lua["timer.frameTime"] = MainWindow.IO.DeltaTime;
+            Lua["timer.frameStartTime"] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond / 1000.0;
+            Lua.DoString("timer.frameStartTimeClock = os.clock()");
             TryResumeCoroutine();
             ProcessFuncCallQueue();
         }
