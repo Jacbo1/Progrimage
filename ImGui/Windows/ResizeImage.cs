@@ -2,17 +2,18 @@
 using ImGuiNET;
 using NewMath;
 using Progrimage;
+using SixLabors.ImageSharp.Processing;
 using System.Numerics;
 
 namespace ProgrimageImGui.Windows
 {
-	internal static class ResizeCanvas
+	internal static class ResizeImage
 	{
 		public static bool Show;
 		private static bool _wasShowing, _maintainAspectRatio;
 		private static string _widthInput = "", _heightInput = "";
 
-		public static void TryShowResizeCanvasWindow(ref bool mouseOverCanvasWindow)
+		public static void TryShowResizeImageWindow(ref bool mouseOverCanvasWindow)
 		{
 			if (!Show)
 			{
@@ -20,7 +21,7 @@ namespace ProgrimageImGui.Windows
 				return;
 			}
 
-			if (!ImGui.Begin("Resize Canvas", ref Show, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse))
+			if (!ImGui.Begin("Resize Image", ref Show, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse))
 				return;
 
 			if (!_wasShowing)
@@ -54,7 +55,7 @@ namespace ProgrimageImGui.Windows
 			int? width = null, height = null;
 			if (Calculator.TryCalculateDouble(_widthInput, out double temp)) width = (int)Math.Round(temp, MidpointRounding.AwayFromZero);
 			if (Calculator.TryCalculateDouble(_heightInput, out temp)) height = (int)Math.Round(temp, MidpointRounding.AwayFromZero);
-			
+
 			if (_maintainAspectRatio)
 			{
 				int2 canvasSize = Program.ActiveInstance.CanvasSize;
@@ -68,7 +69,7 @@ namespace ProgrimageImGui.Windows
 				{
 					width = (int)Math.Round((int)height / (double)canvasSize.y * canvasSize.x, MidpointRounding.AwayFromZero);
 					_widthInput = ((int)width).ToString();
-				}	
+				}
 			}
 
 			int2? newSize = null;
@@ -89,11 +90,18 @@ namespace ProgrimageImGui.Windows
 			if (ImGui.Button("Apply", new Vector2(windowWidth * 0.5f, itemHeight)) && newSize is not null)
 			{
 				var instance = Program.ActiveInstance;
-				int2 delta = ((int2)newSize - Program.ActiveInstance.CanvasSize) / 2;
+				int2 size = (int2)newSize;
+				double2 scale = size / (double2)Program.ActiveInstance.CanvasSize;
 				instance.CanvasSize = (int2)newSize;
 				var layers = instance.LayerManager.Layers;
 				for (int i = 0; i < layers.Count; i++)
-					layers[i].Pos += delta;
+				{
+					Layer layer = layers[i];
+					int2 layerSize = Math2.RoundToInt(layer.Size * scale);
+					layer.Image.Mutate(op => op.Resize(layerSize.x, layerSize.y));
+					layer.Pos = Math2.RoundToInt(layer.Pos * scale);
+					layer.Changed();
+				}
 				Show = false;
 			}
 

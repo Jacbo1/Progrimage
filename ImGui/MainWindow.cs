@@ -304,6 +304,8 @@ namespace Progrimage
             FontPickerPopup.Draw();
             CreateLuaCompPopup.Draw();
             ResizeCanvas.TryShowResizeCanvasWindow(ref MouseOverCanvasWindow);
+            ResizeImage.TryShowResizeImageWindow(ref MouseOverCanvasWindow);
+            ResizeLayer.TryShowResizeLayerWindow(ref MouseOverCanvasWindow);
 
             ImGui.End();
 
@@ -442,8 +444,9 @@ namespace Progrimage
 
             if (ImGui.BeginMenu("Edit"))
             {
-                if (ImGui.MenuItem("Resize Canvas"))
-                    ResizeCanvas.Show = true;
+                if (ImGui.MenuItem("Resize Canvas")) ResizeCanvas.Show = true;
+                if (ImGui.MenuItem("Resize Image")) ResizeImage.Show = true;
+                if (ImGui.MenuItem("Resize Layer")) ResizeLayer.Show = true;
                 ImGui.EndMenu();
             }
 

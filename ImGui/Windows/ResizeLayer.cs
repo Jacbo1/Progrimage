@@ -2,31 +2,34 @@
 using ImGuiNET;
 using NewMath;
 using Progrimage;
+using Progrimage.Undo;
+using SixLabors.ImageSharp.Processing;
 using System.Numerics;
 
 namespace ProgrimageImGui.Windows
 {
-	internal static class ResizeCanvas
+	internal static class ResizeLayer
 	{
 		public static bool Show;
 		private static bool _wasShowing, _maintainAspectRatio;
 		private static string _widthInput = "", _heightInput = "";
 
-		public static void TryShowResizeCanvasWindow(ref bool mouseOverCanvasWindow)
+		public static void TryShowResizeLayerWindow(ref bool mouseOverCanvasWindow)
 		{
+			if (Program.ActiveInstance.ActiveLayer is not Layer layer || layer.Image.Image is null) return; // No active layer
 			if (!Show)
 			{
 				_wasShowing = false;
 				return;
 			}
 
-			if (!ImGui.Begin("Resize Canvas", ref Show, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse))
+			if (!ImGui.Begin("Resize Layer", ref Show, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse))
 				return;
 
 			if (!_wasShowing)
 			{
-				_widthInput = Program.ActiveInstance.CanvasSize.x.ToString();
-				_heightInput = Program.ActiveInstance.CanvasSize.y.ToString();
+				_widthInput = layer.Image.Width.ToString();
+				_heightInput = layer.Image.Height.ToString();
 			}
 
 			const int TARGET_TEXT_WIDTH = 50;
@@ -54,21 +57,20 @@ namespace ProgrimageImGui.Windows
 			int? width = null, height = null;
 			if (Calculator.TryCalculateDouble(_widthInput, out double temp)) width = (int)Math.Round(temp, MidpointRounding.AwayFromZero);
 			if (Calculator.TryCalculateDouble(_heightInput, out temp)) height = (int)Math.Round(temp, MidpointRounding.AwayFromZero);
-			
+
 			if (_maintainAspectRatio)
 			{
-				int2 canvasSize = Program.ActiveInstance.CanvasSize;
 				if (oldWidthString != _widthInput && width is not null)
 				{
-					height = (int)Math.Round((int)width / (double)canvasSize.x * canvasSize.y, MidpointRounding.AwayFromZero);
+					height = (int)Math.Round((int)width / (double)layer.Image.Width * layer.Image.Height, MidpointRounding.AwayFromZero);
 					_heightInput = ((int)height).ToString();
 				}
 
 				if (oldHeightString != _heightInput && height is not null)
 				{
-					width = (int)Math.Round((int)height / (double)canvasSize.y * canvasSize.x, MidpointRounding.AwayFromZero);
+					width = (int)Math.Round((int)height / (double)layer.Image.Height * layer.Image.Width, MidpointRounding.AwayFromZero);
 					_widthInput = ((int)width).ToString();
-				}	
+				}
 			}
 
 			int2? newSize = null;
@@ -77,9 +79,8 @@ namespace ProgrimageImGui.Windows
 
 			if (newSize is not null)
 			{
-				int2 canvasSize = Program.ActiveInstance.CanvasSize;
 				int2 size = (int2)newSize;
-				ImGui.Text($"({canvasSize.x}, {canvasSize.y}) => ({size.x}, {size.y})");
+				ImGui.Text($"({layer.Image.Width}, {layer.Image.Height}) => ({size.x}, {size.y})");
 			}
 			else ImGui.Text("Cannot apply");
 
@@ -88,12 +89,10 @@ namespace ProgrimageImGui.Windows
 
 			if (ImGui.Button("Apply", new Vector2(windowWidth * 0.5f, itemHeight)) && newSize is not null)
 			{
-				var instance = Program.ActiveInstance;
-				int2 delta = ((int2)newSize - Program.ActiveInstance.CanvasSize) / 2;
-				instance.CanvasSize = (int2)newSize;
-				var layers = instance.LayerManager.Layers;
-				for (int i = 0; i < layers.Count; i++)
-					layers[i].Pos += delta;
+				UndoManager.AddUndo(new UndoImagePatch(layer, layer.Pos, layer.Size));
+				int2 size = (int2)newSize;
+				layer.Image.Mutate(op => op.Resize(size.x, size.y));
+				layer.Changed();
 				Show = false;
 			}
 
