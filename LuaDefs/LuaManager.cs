@@ -158,8 +158,8 @@ namespace Progrimage.LuaDefs
 			_createVector2Func = (LuaFunction)Lua["vec2"];
 			_createVector3Func = (LuaFunction)Lua["vec3"];
 			_createVector4Func = (LuaFunction)Lua["vec4"];
-            Lua["input.mousePosCanvas"] = () => CreateVector2(MainWindow.MousePosCanvasDouble);
-            Lua["input.mousePosScreen"] = () => CreateVector2(MainWindow.MousePosScreen);
+            Lua["input.getMousePosCanvas"] = () => CreateVector2(MainWindow.MousePosCanvasDouble);
+            Lua["input.getMousePosScreen"] = () => CreateVector2(MainWindow.MousePosScreen);
             Lua["input.isMouseDown"] = () => MainWindow.IsDragging;
             Lua["render.getActiveLayer"] = () => Program.ActiveInstance?.ActiveLuaLayer;
             Lua["render.getStrokeColor"] = () => CreateVector4(Program.ActiveInstance.Stroke.BrushState.Color * 255);
@@ -190,11 +190,9 @@ namespace Progrimage.LuaDefs
             Lua["render.beginStroke"] = (Action<LuaTable>) (pos => Program.ActiveInstance?.ActiveLayer?.BrushDown(ToDouble2(pos)));
             Lua["render.continueStroke"] = (Action<LuaTable>) (pos => Program.ActiveInstance?.ActiveLayer?.MoveBrush(ToDouble2(pos)));
             Lua["render.createLayer"] = (Func<int, int, LuaLayer>) ((w, h) => new LuaLayer(w, h));
-            Lua["render.canvasOrigin"] = () => CreateVector2(MainWindow.CanvasOriginDouble);
-            Lua["render.canvasOffset"] = () => CreateVector2(Program.ActiveInstance.Pos);
-            Lua["render.canvasPos"] = () => CreateVector2(Program.ActiveInstance.Pos + MainWindow.CanvasOriginDouble);
-            Lua["render.canvasSize"] = () => CreateVector2(Program.ActiveInstance.CanvasSize);
-            Lua["render.zoom"] = () => CreateVector2(Program.ActiveInstance.Zoom);
+            Lua["render.getCanvasPos"] = () => CreateVector2(MainWindow.CanvasOriginDouble);
+            Lua["render.getCanvasSize"] = () => CreateVector2(Program.ActiveInstance.CanvasSize);
+            Lua["render.getZoom"] = () => CreateVector2(Program.ActiveInstance.Zoom);
             Lua["render.createImage"] = (Func<int, int, LuaImage>) ((w, h) => new LuaImage(0, 0, w, h));
             Lua["render.update"] = () => Program.ActiveInstance.Changed = true;
             InitLuaValues();
