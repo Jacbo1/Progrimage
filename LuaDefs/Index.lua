@@ -2,7 +2,7 @@ input = {}
 render = {}
 timer = {
 	shouldYield = function()
-		return os.clock() - timer.clockFrameTime > 0.0126666667
+		return os.clock() - timer.frameStartTimeClock > 0.0126666667
 	end
 }
 
