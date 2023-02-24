@@ -17,6 +17,33 @@
 
         <h2>General info can be found on the <a href="https://github.com/Jacbo1/Progrimage/wiki/Editor">GitHub Wiki</a></h2>
         
+		<h2 class="type noul" id="global">global</h2>
+		<div class="tab group">
+			<h3 class="code"><a class="type" href="#vector2">vector2</a> vec2(<a class="type">number?</a> x, <a class="type">number?</a> y)</h3>
+			<p>Creates a <a class="type" href="#vector2">vector2</a>.</p>
+			<p>If called as <a class="type">vec2()</a>, returns <a class="type">vec2(0, 0)</a>.</p>
+			<p>If called as <a class="type">vec2(number n)</a>, returns <a class="type">vec2(n, n)</a>.</p>
+			<p>If called as <a class="type">vec2(number x, number y)</a>, returns <a class="type">vec2(x, y)</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector3">vector3</a> vec3(<a class="type">number?</a> x, <a class="type">number?</a> y, <a class="type">number?</a> z)</h3>
+			<p>Creates a <a class="type" href="#vector3">vector3</a>.</p>
+			<p>If called as <a class="type">vec3()</a>, returns <a class="type">vec3(0, 0, 0)</a>.</p>
+			<p>If called as <a class="type">vec3(number n)</a>, returns <a class="type">vec3(n, n, n)</a>.</p>
+			<p>If called as <a class="type">vec3(number x, number y)</a>, returns <a class="type">vec3(x, y, 0)</a>.</p>
+			<p>If called as <a class="type">vec3(number x, number y, number z)</a>, returns <a class="type">vec3(x, y, z)</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector4">vector4</a> vec4(<a class="type">number?</a> x, <a class="type">number?</a> y, <a class="type">number?</a> z, <a class="type">number?</a> w)</h3>
+			<p>Creates a <a class="type" href="#vector4">vector4</a>.</p>
+			<p>If called as <a class="type">vec4()</a>, returns <a class="type">vec4(0, 0, 0, 0)</a>.</p>
+			<p>If called as <a class="type">vec4(number n)</a>, returns <a class="type">vec4(n, n, n, n)</a>.</p>
+			<p>If called as <a class="type">vec4(number x, number y)</a>, returns <a class="type">vec4(x, y, 0, 0)</a>.</p>
+			<p>If called as <a class="type">vec4(number x, number y, number z)</a>, returns <a class="type">vec4(x, y, z, 0)</a>.</p>
+			<p>If called as <a class="type">vec4(number x, number y, number w)</a>, returns <a class="type">vec4(x, y, z, w)</a>.</p>
+		</div>
+
+		<br>
 		<h2 class="type noul" id="render">render</h2>
 		<div class="tab group">
 			<h3 class="code"><a class="type">render</a>.beginStroke(<a class="type" href="#vector2">vector2</a> pos)</h3>
@@ -27,11 +54,11 @@
 			<p>Moves continues the current stroke.</p>
 			<hr>
 
-			<h3 class="code"><a class="type" href="#LuaImage">LuaImage</a> <a class="type">render</a>.createImage(<a class="type">number</a> width, <a class="type">number</a>, height)</h3>
+			<h3 class="code"><a class="type" href="#LuaImage">LuaImage</a> <a class="type">render</a>.createImage(<a class="type">number</a> width, <a class="type">number</a> height)</h3>
 			<p>Creates a new image.</p>
 			<hr>
 
-			<h3 class="code"><a class="type" href="#LuaLayer">LuaLayer</a> <a class="type">render</a>.createLayer(<a class="type">number</a> width, <a class="type">number</a>, height)</h3>
+			<h3 class="code"><a class="type" href="#LuaLayer">LuaLayer</a> <a class="type">render</a>.createLayer(<a class="type">number</a> width, <a class="type">number</a> height)</h3>
 			<p>Creates a new layer.</p>
 			<hr>
 
@@ -108,6 +135,12 @@
 
 			<h3 class="code"><a class="type">boolean timer</a>.shouldYield()</h3>
 			<p>Returns <a class="type">true</a> if the calling code should yield. This is determined by checking if the processing time has exceeded <a class="type">os.clock() - </a><a class="type" href="#timer_frameStartTimeClock">timer.frameStartTimeClock</a><a class="type"> > 0.0126666667</a>.</p>
+		</div>
+
+		<br>
+		<h2 class="type noul" id="vector2">vector2</h2>
+		<div class="tab group">
+
 		</div>
     </body>
 </html>
