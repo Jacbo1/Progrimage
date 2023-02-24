@@ -162,26 +162,25 @@ namespace Progrimage.LuaDefs
             Lua["input.mousePosScreen"] = () => CreateVector2(MainWindow.MousePosScreen);
             Lua["input.isMouseDown"] = () => MainWindow.IsDragging;
             Lua["render.getActiveLayer"] = () => Program.ActiveInstance?.ActiveLuaLayer;
-            Lua["render.getBrushColor"] = () => CreateVector4(Program.ActiveInstance.BrushSettings.Color * 255);
-            Lua["render.setBrushColor"] = (Action<LuaTable>)(color =>
+            Lua["render.getStrokeColor"] = () => CreateVector4(Program.ActiveInstance.Stroke.BrushState.Color * 255);
+            Lua["render.setStrokeColor"] = (Action<LuaTable>)(color =>
             {
 				Vector4 vec = ToColor(color) / 255;
-				Program.ActiveInstance.BrushSettings.Color = vec;
 				BrushState brushState = Program.ActiveInstance.Stroke.BrushState;
 				brushState.Color = vec;
 				Program.ActiveInstance.Stroke.BrushState = brushState;
 				Program.ActiveInstance.Stroke.BrushStateChanged();
 			});
             //Lua["render.getLayers"] = () => Lua.DoString("return {" + string.Join(',', Program.ActiveInstance?.LayerManager.LuaLayers) + "}");
-            Lua["render.endBrush"] = (Action<bool>) (draw =>
+            Lua["render.endStroke"] = (Action<bool>) (draw =>
             {
                 if (Program.ActiveInstance.ActiveLayer == null) return;
                 if (draw) Program.ActiveInstance?.Stroke.Draw(Program.ActiveInstance.ActiveLayer.Image, true);
                 else Program.ActiveInstance?.Stroke.Erase(Program.ActiveInstance.ActiveLayer.Image);
             });
             Lua["render.setActiveLayer"] = (Action<LuaLayer>) (layer => Program.ActiveInstance.ActiveLayer = layer.Layer);
-            Lua["render.startBrush"] = (Action<LuaTable>) (pos => Program.ActiveInstance?.ActiveLayer?.BrushDown(ToDouble2(pos)));
-            Lua["render.moveBrush"] = (Action<LuaTable>) (pos => Program.ActiveInstance?.ActiveLayer?.MoveBrush(ToDouble2(pos)));
+            Lua["render.beginStroke"] = (Action<LuaTable>) (pos => Program.ActiveInstance?.ActiveLayer?.BrushDown(ToDouble2(pos)));
+            Lua["render.continueStroke"] = (Action<LuaTable>) (pos => Program.ActiveInstance?.ActiveLayer?.MoveBrush(ToDouble2(pos)));
             Lua["render.createLayer"] = (Func<int, int, LuaLayer>) ((w, h) => new LuaLayer(w, h));
             Lua["render.canvasOrigin"] = () => CreateVector2(MainWindow.CanvasOriginDouble);
             Lua["render.canvasOffset"] = () => CreateVector2(Program.ActiveInstance.Pos);
