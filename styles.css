@@ -84,3 +84,7 @@ div.group {
     padding: 25px 25px 25px 25px;
     border-radius: 25px;
 }
+
+hr {
+    opacity: 75%;
+}
