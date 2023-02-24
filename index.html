@@ -17,10 +17,97 @@
 
         <h2>General info can be found on the <a href="https://github.com/Jacbo1/Progrimage/wiki/Editor">GitHub Wiki</a></h2>
         
-		<h2 class="type">render</h2>
-        <h3 class="code"><a class="type">LuaLayer render</a>.createLayer(<a class="type">number</a> width, <a class="type">number</a>, height)</h3>
-		<p>Creates a new layer.</p>
+		<h2 class="type noul" id="render">render</h2>
+		<div class="tab group">
+			<h3 class="code"><a class="type">render</a>.beginStroke(<a class="type" href="#vector2">vector2</a> pos)</h3>
+			<p>Starts the stroke on the active layer.</p>
+			<hr>
 
+			<h3 class="code"><a class="type">render</a>.continueStroke(<a class="type" href="#vector2">vector2</a> pos)</h3>
+			<p>Moves continues the current stroke.</p>
+			<hr>
 
+			<h3 class="code"><a class="type" href="#LuaImage">LuaImage</a> <a class="type">render</a>.createImage(<a class="type">number</a> width, <a class="type">number</a>, height)</h3>
+			<p>Creates a new image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#LuaLayer">LuaLayer</a> <a class="type">render</a>.createLayer(<a class="type">number</a> width, <a class="type">number</a>, height)</h3>
+			<p>Creates a new layer.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">render</a>.endStroke(<a class="type">boolean</a> erase)</h3>
+			<p>Finishes the current stroke. Pass <a class="type">false</a> to draw and <a class="type">true</a> to erase.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#LuaLayer">LuaLayer</a> <a class="type">render</a>.getActiveLayer()</h3>
+			<p>Gets the active layer.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector2">vector2</a> <a class="type">render</a>.getCanvasPos()</h3>
+			<p>Gets the position of the canvas in the window.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector2">vector2</a> <a class="type">render</a>.getCanvasSize()</h3>
+			<p>Gets the size of the canvas.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector2">vector2</a> <a class="type">render</a>.getMousePosCanvas()</h3>
+			<p>Gets the mouse position in canvas coordinates.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector2">vector2</a> <a class="type">render</a>.getMousePosScreen()</h3>
+			<p>Gets the mouse position in screen coordinates.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector4">vector4</a> <a class="type">render</a>.getStrokeColor()</h3>
+			<p>Gets the stroke color.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number render</a>.getStrokeSize()</h3>
+			<p>Gets the stroke size.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number render</a>.getZoom()</h3>
+			<p>Gets the zoom of the rendered canvas.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">boolean render</a>.isMouseDown()</h3>
+			<p>Returns <a class="type">true</a> if the left mouse button is down as long as a normal tool should react. Returns <a class="type">false</a> if the mouse was pressed outside of the canvas, while over a menu, or while the window was unfocused.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">render</a>.setActiveLayer(<a class="type" href="#LuaLayer">LuaLayer</a> layer)</h3>
+			<p>Sets the active layer.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">render</a>.setStrokeColor(<a class="type" href="#vector3">vector3</a> <a class="type">or</a> <a class="type" href="#vector4">vector4</a> color)</h3>
+			<p>Sets the stroke color.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">render</a>.setStrokeSize(<a class="type">number</a> diameter)</h3>
+			<p>Sets the stroke size.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">render</a>.update()</h3>
+			<p>Tells the program to update the rendered image. This is automatically called by <a class="type" href="#LuaLayer">LuaLayer</a><a class="type">:update()</a></p>
+		</div>
+
+		<br>
+		<h2 class="type noul" id="timer">timer</h2>
+		<div class="tab group">
+			<h3 class="code"><a class="type">number timer</a>.frameTime</h3>
+			<p>The time the last frame took to process in seconds.</p>
+			<hr>
+			
+			<h3 class="code" id="timer_frameStartTime"><a class="type">number timer</a>.frameStartTime</h3>
+			<p>The time the current frame began processing in seconds.</p>
+			<hr>
+
+			<h3 class="code" id="timer_frameStartTimeClock"><a class="type">number timer</a>.frameStartTimeClock</h3>
+			<p>The time the current frame began processing based on <a class="type">os.clock()</a> which has less precision than <a class="type" href="#timer_frameStartTime">timer.frameStartTime</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">boolean timer</a>.shouldYield()</h3>
+			<p>Returns <a class="type">true</a> if the calling code should yield. This is determined by checking if the processing time has exceeded <a class="type">os.clock() - </a><a class="type" href="#timer_frameStartTimeClock">timer.frameStartTimeClock</a><a class="type"> > 0.0126666667</a>.</p>
+		</div>
     </body>
 </html>
