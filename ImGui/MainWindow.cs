@@ -994,27 +994,43 @@ namespace Progrimage
             float height = ImGui.GetFontSize() * 1.5f;
             List<string> strings = new();
             strings.Add($"Cursor Pos: ({MousePosCanvas.x}x, {MousePosCanvas.y}y)");
+            if (Program.ActiveInstance.ActiveLayer is not null)
+            {
+                Layer layer = Program.ActiveInstance.ActiveLayer;
+                strings.Add($"Layer: [({layer.X}x, {layer.Y}y) ({layer.Width}w, {layer.Height}h)]");
+            }
+
             if (Program.ActiveInstance.Selection is not null)
             {
                 var selection = Program.ActiveInstance.Selection;
 				strings.Add($"Selection: [({selection.Pos.x}x, {selection.Pos.y}y) ({selection.Max.x - selection.Min.x + 1}w, {selection.Max.y - selection.Min.y + 1}h)]");
 			}
+
 			foreach (var interactable in Program.ActiveInstance.GetInteractables())
                 strings.AddRange(interactable.DrawBottomBar());
+
+            strings.Add($"Zoom: {Math2.RoundToInt(Program.ActiveInstance.Zoom * 100)}%");
 
             ref var ChildBg = ref Style.Colors[(int)ImGuiCol.ChildBg];
             var childBg = ChildBg;
             ChildBg = ColorManager.CustomColorsSRGB[(int)CustomColor.BottomBar];
             ImGui.SetNextWindowPos(new Vector2((float)(30 * _uiScale), ImGui.GetWindowHeight() - height));
 			ImGui.BeginChild("bottom bar", new Vector2(width, height), false, ImGuiWindowFlags.NoBringToFrontOnFocus);
-            float interval = width / Math.Max(1, strings.Count - 1);
-            float x = 0;
-            for (int i = 0; i < strings.Count; i++)
+            float interval = width / Math.Max(1, strings.Count - 0.5f);
+            float x = interval;
+            for (int i = 0; i < Math.Max(strings.Count - 1, 1); i++)
             {
                 ImGui.SameLine();
-                ImGui.Indent(interval * i - x);
-                ImGui.Text(strings[i]);
-                x += ImGui.CalcItemWidth();
+                if (i != 0) ImGui.Indent(interval);
+                ImGui.TextUnformatted(strings[i]);
+            }
+
+            if (strings.Count > 1)
+            {
+                ImGui.SameLine();
+                string s = strings[strings.Count - 1];
+                ImGui.Indent(width - ImGui.CalcTextSize("Zoom: 100%").X - interval * (strings.Count - 2));
+                ImGui.TextUnformatted(s);
             }
 
 			MouseOverCanvasWindow &= !ImGui.IsWindowHovered();

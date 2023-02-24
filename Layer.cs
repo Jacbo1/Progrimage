@@ -25,11 +25,6 @@ namespace Progrimage
         // Public
         public PositionedImage<Argb32> Image = new();
         public PositionedImage<Argb32> CompositeResult = new();
-        public int2 Size
-        {
-            get => Image.Size;
-            set => Image.Size = value;
-        }
         public string Name;
         public TexPair ThumbnailTex;
         public Vector2 ThumbnailSize;
@@ -51,16 +46,46 @@ namespace Progrimage
         private Image<Rgb24> _thumbnail;
         private bool _shouldUpdateThumbnail = true;
         private PositionedImage<Argb32> _brushStroke = new();
-        #endregion
+		#endregion
 
-        public int2 Pos
+		#region Properties
+		public int2 Pos
         {
             get => Image.Pos;
             set => Image.Pos = value;
-        }
+		}
 
-        #region Constructor
-        public Layer(Instance myInstance, Image<Argb32>? src = null)
+		public int2 Size
+		{
+			get => Image.Size;
+			set => Image.Size = value;
+		}
+
+		public int X
+		{
+			get => Image.X;
+			set => Image.X = value;
+		}
+
+		public int Y
+		{
+			get => Image.Y;
+			set => Image.Y = value;
+		}
+
+		public int Width
+		{
+			get => Image.Width;
+		}
+
+		public int Height
+		{
+			get => Image.Height;
+		}
+		#endregion
+
+		#region Constructor
+		public Layer(Instance myInstance, Image<Argb32>? src = null)
         {
             _myID = _idCounter;
             _idCounter++;

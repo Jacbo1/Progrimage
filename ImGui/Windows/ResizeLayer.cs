@@ -28,8 +28,8 @@ namespace ProgrimageImGui.Windows
 
 			if (!_wasShowing)
 			{
-				_widthInput = layer.Image.Width.ToString();
-				_heightInput = layer.Image.Height.ToString();
+				_widthInput = layer.Width.ToString();
+				_heightInput = layer.Height.ToString();
 			}
 
 			const int TARGET_TEXT_WIDTH = 50;
@@ -62,13 +62,13 @@ namespace ProgrimageImGui.Windows
 			{
 				if (oldWidthString != _widthInput && width is not null)
 				{
-					height = (int)Math.Round((int)width / (double)layer.Image.Width * layer.Image.Height, MidpointRounding.AwayFromZero);
+					height = (int)Math.Round((int)width / (double)layer.Width * layer.Height, MidpointRounding.AwayFromZero);
 					_heightInput = ((int)height).ToString();
 				}
 
 				if (oldHeightString != _heightInput && height is not null)
 				{
-					width = (int)Math.Round((int)height / (double)layer.Image.Height * layer.Image.Width, MidpointRounding.AwayFromZero);
+					width = (int)Math.Round((int)height / (double)layer.Height * layer.Width, MidpointRounding.AwayFromZero);
 					_widthInput = ((int)width).ToString();
 				}
 			}
@@ -77,16 +77,18 @@ namespace ProgrimageImGui.Windows
 			if (width is not null && height is not null)
 				newSize = new int2((int)width, (int)height);
 
-			if (newSize is not null)
+			bool valid = newSize is not null;
+			if (valid)
 			{
 				int2 size = (int2)newSize;
-				ImGui.Text($"({layer.Image.Width}, {layer.Image.Height}) => ({size.x}, {size.y})");
+				ImGui.Text($"({layer.Width}, {layer.Height}) => ({size.x}, {size.y})");
 			}
 			else ImGui.Text("Cannot apply");
 
 			float windowWidth = ImGui.GetWindowWidth();
 			windowWidth -= MainWindow.Style.ItemSpacing.X;
 
+			ImGui.BeginDisabled(!valid);
 			if (ImGui.Button("Apply", new Vector2(windowWidth * 0.5f, itemHeight)) && newSize is not null)
 			{
 				UndoManager.AddUndo(new UndoImagePatch(layer, layer.Pos, layer.Size));
@@ -95,6 +97,7 @@ namespace ProgrimageImGui.Windows
 				layer.Changed();
 				Show = false;
 			}
+			ImGui.EndDisabled();
 
 			ImGui.SameLine();
 			if (ImGui.Button("Cancel", new Vector2(windowWidth * 0.5f, itemHeight)))
