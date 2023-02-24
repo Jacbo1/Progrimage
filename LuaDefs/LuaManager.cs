@@ -172,11 +172,11 @@ namespace Progrimage.LuaDefs
 				Program.ActiveInstance.Stroke.BrushStateChanged();
 			});
             //Lua["render.getLayers"] = () => Lua.DoString("return {" + string.Join(',', Program.ActiveInstance?.LayerManager.LuaLayers) + "}");
-            Lua["render.endStroke"] = (Action<bool>) (draw =>
+            Lua["render.endStroke"] = (Action<bool>) (erase =>
             {
                 if (Program.ActiveInstance.ActiveLayer == null) return;
-                if (draw) Program.ActiveInstance?.Stroke.Draw(Program.ActiveInstance.ActiveLayer.Image, true);
-                else Program.ActiveInstance?.Stroke.Erase(Program.ActiveInstance.ActiveLayer.Image);
+                if (erase) Program.ActiveInstance?.Stroke.Erase(Program.ActiveInstance.ActiveLayer.Image);
+				else Program.ActiveInstance?.Stroke.Draw(Program.ActiveInstance.ActiveLayer.Image, true);
             });
             Lua["render.setActiveLayer"] = (Action<LuaLayer>) (layer => Program.ActiveInstance.ActiveLayer = layer.Layer);
             Lua["render.beginStroke"] = (Action<LuaTable>) (pos => Program.ActiveInstance?.ActiveLayer?.BrushDown(ToDouble2(pos)));
