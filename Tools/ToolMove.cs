@@ -121,8 +121,7 @@ namespace Progrimage.Tools
 			// Move
 			if (MainWindow.MouseInCanvas) Util.SetMouseCursor(ImGuiMouseCursor.ResizeAll);
 			else Util.SetMouseCursor(ImGuiMouseCursor.Arrow);
-			if (Program.ActiveInstance.Selection is not null)
-                _movingSelection = true; // Move the selection
+			if (Program.ActiveInstance.Selection is not null) _movingSelection = true; // Move the selection
             else _movingSelection = false; // Move the entire layer
 		}
 
@@ -137,10 +136,11 @@ namespace Progrimage.Tools
             if (_moving && !_movingSelection && layer is not null)
             {
                 int2 newPos = layer.Pos;
+                int2 oldPos = _originalPos;
                 UndoManager.AddUndo(new UndoAction(
                     () =>
                     {
-                        layer.Pos = _originalPos;
+                        layer.Pos = oldPos;
                         Program.ActiveInstance.Changed = true;
                     },
                     () =>
@@ -149,7 +149,9 @@ namespace Progrimage.Tools
                         Program.ActiveInstance.Changed = true;
                     })
                 );
-            }
+                _originalPos = layer.Pos;
+
+			}
             Apply();
             Program.ActiveInstance.Selection?.GetResizeDir(ImGuiMouseCursor.ResizeAll);
         }
