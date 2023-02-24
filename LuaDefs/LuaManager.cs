@@ -172,6 +172,14 @@ namespace Progrimage.LuaDefs
 				Program.ActiveInstance.Stroke.BrushStateChanged();
 			});
             //Lua["render.getLayers"] = () => Lua.DoString("return {" + string.Join(',', Program.ActiveInstance?.LayerManager.LuaLayers) + "}");
+            Lua["render.setStrokeSize"] = (Action<int>)(brushSize =>
+            {
+				BrushState brushState = Program.ActiveInstance.Stroke.BrushState;
+				brushState.Size = brushSize;
+				Program.ActiveInstance.Stroke.BrushState = brushState;
+				Program.ActiveInstance.Stroke.BrushStateChanged();
+			});
+            Lua["render.getStrokeSize"] = () => Program.ActiveInstance.Stroke.Size;
             Lua["render.endStroke"] = (Action<bool>) (erase =>
             {
                 if (Program.ActiveInstance.ActiveLayer == null) return;
