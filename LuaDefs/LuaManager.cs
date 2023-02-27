@@ -197,6 +197,10 @@ namespace Progrimage.LuaDefs
             Lua["render.update"] = () => Program.ActiveInstance.Changed = true;
             InitLuaValues();
 			MainWindow.OnPreUpdate += PreUpdate!;
+
+            Lua.DoString("print(vec2(1,2))");
+            Lua.DoString("print(\"abc\" .. vec2(1,2))");
+            Lua.DoString("print(vec2(1,2) .. \"abc\")");
 		}
 
         #region Vector

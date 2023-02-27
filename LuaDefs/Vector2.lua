@@ -120,6 +120,10 @@ function vector2.__eq(a, b)
 	return getmetatable(b) == vector2 and a[1] == b[1] and a[2] == b[2]
 end
 
-function vector2.__concat(vec)
+function vector2.__concat(a, b)
+	return tostring(a) .. tostring(b)
+end
+
+function vector2.__tostring(vec)
 	return "<" .. vec[1] .. ", " .. vec[2] .. ">"
 end
