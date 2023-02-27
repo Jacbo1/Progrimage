@@ -18,7 +18,7 @@ namespace Progrimage.LuaDefs
 		protected string? FileName;
 		
 		// Private
-		private const int FILE_DELAY = 1500;
+		private const int FILE_DELAY = 500;
 		private FileSystemWatcher _watcher;
 		private System.Timers.Timer _fileTimer;
 		private bool _fileUpdating;

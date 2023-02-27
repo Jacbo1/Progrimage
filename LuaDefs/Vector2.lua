@@ -62,12 +62,12 @@ vector2 = {
 		)
 	end,
 
-	toVec3 = function(vec)
-		return vec3(vec[1], vec[2])
+	toVec3 = function(vec, z)
+		return vec3(vec[1], vec[2], z)
 	end,
 
-	toVec4 = function(vec)
-		return vec4(vec[1], vec[2])
+	toVec4 = function(vec, z, w)
+		return vec4(vec[1], vec[2], z, w)
 	end
 }
 vector2.__index = vector2

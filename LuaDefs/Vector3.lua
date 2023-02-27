@@ -163,8 +163,8 @@ vector3 = {
 		return vec2(vec[1], vec[2])
 	end,
 
-	toVec4 = function(vec)
-		return vec4(vec[1], vec[2], vec[3])
+	toVec4 = function(vec, w)
+		return vec4(vec[1], vec[2], vec[3], w)
 	end
 }
 vector3.__index = vector3
