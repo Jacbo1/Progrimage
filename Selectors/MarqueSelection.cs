@@ -177,8 +177,10 @@ namespace Progrimage.Selectors
 
         public override void DrawOutline(IImageProcessingContext image)
         {
-            var min = Math2.Max(1, Util.CanvasToRenderDouble(_min));
-            var max = Util.CanvasToRenderDouble(_max + 1);
+            double2 min = Util.CanvasToRenderDouble(_min);
+            if (_min == int2.Zero) min = min + 1;
+            double2 max = Util.CanvasToRenderDouble(_max + 1);
+            if (_max == Program.ActiveInstance.CanvasSize - 1) max = max - 1;
             new DrawingRect(Color.Red, min, max - min, 1).Draw(image);
         }
 
