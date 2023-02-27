@@ -52,11 +52,23 @@ namespace Progrimage.LuaDefs
 		{
 			get => image.height;
 			set => image.height = value;
-		}
-		#endregion
+        }
 
-		#region Constructors
-		public LuaLayer(Layer layer)
+        public int x
+        {
+            get => image.x;
+            set => image.x = value;
+        }
+
+        public int y
+        {
+            get => image.x;
+            set => image.y = value;
+        }
+        #endregion
+
+        #region Constructors
+        public LuaLayer(Layer layer)
 		{
 			Layer = layer;
 			image = new(layer);

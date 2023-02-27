@@ -73,6 +73,18 @@ namespace Progrimage.LuaDefs
 			get => Image.Height;
 			set => Image.Size = new int2(Image.Width, value);
 		}
+
+		public int x
+		{
+			get => Image.X;
+			set => Image.X = value;
+		}
+
+		public int y
+		{
+			get => Image.Y;
+			set => Image.Y = value;
+		}
 		#endregion
 
 		#region Public Methods
