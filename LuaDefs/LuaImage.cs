@@ -217,7 +217,26 @@ namespace Progrimage.LuaDefs
 
 		public void drawMask(LuaImage overlay) => Image.DrawMask(overlay.Image);
 
-		public void clear(Color color, int x, int y, int width, int height) => Image.Mutate(op => op.Clear(color, new Rectangle(x, y, width, height)));
+		public void tint(LuaTable color)
+		{
+			if (Image.Image is null) return;
+			int4 col = Math2.RoundToInt(LuaManager.ToColor(color));
+			Parallel.For(0, Image.Height, y =>
+			{
+                Span<Argb32> row = Image.Image.DangerousGetPixelRowMemory(y).Span;
+				for (int x = 0; x < row.Length; x++)
+				{
+                    ref var pixel = ref row[x];
+
+					pixel.R = (byte)Math.Clamp(pixel.R * col.x / byte.MaxValue, 0, 255);
+					pixel.G = (byte)Math.Clamp(pixel.G * col.y / byte.MaxValue, 0, 255);
+					pixel.B = (byte)Math.Clamp(pixel.B * col.z / byte.MaxValue, 0, 255);
+					pixel.A = (byte)Math.Clamp(pixel.A * col.w / byte.MaxValue, 0, 255);
+                }
+			});
+		}
+
+		private void clear(Color color, int x, int y, int width, int height) => Image.Mutate(op => op.Clear(color, new Rectangle(x, y, width, height)));
 		public void clear(LuaTable color, int x, int y, int width, int height) => clear(new Color(LuaManager.ToColor(color) / 255), x, y, width, height);
 		public void clear(LuaTable color, LuaTable pos, LuaTable size)
 		{
