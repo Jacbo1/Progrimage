@@ -203,10 +203,26 @@ function vector3.__div(a, b)
 	return vec3(a[1] / b[1], a[2] / b[2], a[3] / b[3])
 end
 
+function vector3.__mod(a, b)
+	if type(a) == "number" then return vec3(a % b[1], a % b[2], a % b[3]) end
+	if type(b) == "number" then return vec3(a[1] % b, a[2] % b, a[3] % b) end
+	return vec3(a[1] % b[1], a[2] % b[2], a[3] % b[3])
+end
+
+function vector3.__pow(a, b)
+	if type(a) == "number" then return vec3(a ^ b[1], a ^ b[2], a ^ b[3]) end
+	if type(b) == "number" then return vec3(a[1] ^ b, a[2] ^ b, a[3] ^ b) end
+	return vec3(a[1] ^ b[1], a[2] ^ b[2], a[3] ^ b[3])
+end
+
 function vector3.__unm(a)
 	return vec3(-a[1], -a[2], -a[3])
 end
 
 function vector3.__eq(a, b)
 	return getmetatable(b) == vector3 and a[1] == b[1] and a[2] == b[2] and a[3] == b[3]
+end
+
+function vector3.__concat(vec)
+	return "<" .. vec[1] .. ", " .. vec[2] .. ", " .. vec[3] .. ">"
 end

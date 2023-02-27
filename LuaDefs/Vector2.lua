@@ -100,10 +100,26 @@ function vector2.__div(a, b)
 	return vec2(a[1] / b[1], a[2] / b[2])
 end
 
+function vector2.__mod(a, b)
+	if type(a) == "number" then return vec2(a % b[1], a % b[2]) end
+	if type(b) == "number" then return vec2(a[1] % b, a[2] % b) end
+	return vec2(a[1] % b[1], a[2] % b[2])
+end
+
+function vector2.__pow(a, b)
+	if type(a) == "number" then return vec2(a ^ b[1], a ^ b[2]) end
+	if type(b) == "number" then return vec2(a[1] ^ b, a[2] ^ b) end
+	return vec2(a[1] ^ b[1], a[2] ^ b[2])
+end
+
 function vector2.__unm(a)
 	return vec2(-a[1], -a[2])
 end
 
 function vector2.__eq(a, b)
 	return getmetatable(b) == vector2 and a[1] == b[1] and a[2] == b[2]
+end
+
+function vector2.__concat(vec)
+	return "<" .. vec[1] .. ", " .. vec[2] .. ">"
 end

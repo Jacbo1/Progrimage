@@ -212,10 +212,26 @@ function vector4.__div(a, b)
 	return vec4(a[1] / b[1], a[2] / b[2], a[3] / b[3], a[4] / b[4])
 end
 
+function vector4.__mod(a, b)
+	if type(a) == "number" then return vec4(a % b[1], a % b[2], a % b[3], a % b[4]) end
+	if type(b) == "number" then return vec4(a[1] % b, a[2] % b, a[3] % b, a[4] % b) end
+	return vec4(a[1] % b[1], a[2] % b[2], a[3] % b[3], a[4] % b[4])
+end
+
+function vector4.__pow(a, b)
+	if type(a) == "number" then return vec4(a ^ b[1], a ^ b[2], a ^ b[3], a ^ b[4]) end
+	if type(b) == "number" then return vec4(a[1] ^ b, a[2] ^ b, a[3] ^ b, a[4] ^ b) end
+	return vec4(a[1] ^ b[1], a[2] ^ b[2], a[3] ^ b[3], a[4] ^ b[4])
+end
+
 function vector4.__unm(a)
 	return vec4(-a[1], -a[2], -a[3], -a[4])
 end
 
 function vector4.__eq(a, b)
 	return getmetatable(b) == vector4 and a[1] == b[1] and a[2] == b[2] and a[3] == b[3] and a[4] == b[4]
+end
+
+function vector3.__concat(vec)
+	return "<" .. vec[1] .. ", " .. vec[2] .. ", " .. vec[3] .. ">"
 end
