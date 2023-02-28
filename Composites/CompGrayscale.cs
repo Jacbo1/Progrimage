@@ -2,16 +2,11 @@
 using NewMath;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progrimage.Composites
 {
-	internal class CompGrayscale : ICompositeAction
+    internal class CompGrayscale : ICompositeAction
 	{
 		public Action? DisposalDelegate { get; private set; }
 		public Composite Composite { get; private set; }

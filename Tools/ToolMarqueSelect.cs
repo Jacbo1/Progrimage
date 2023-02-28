@@ -1,7 +1,6 @@
 ﻿using NewMath;
 using Progrimage.Utils;
 using Progrimage.Selectors;
-using static Progrimage.Utils.FilePicker;
 
 namespace Progrimage.Tools
 {

@@ -1,21 +1,15 @@
 ﻿using ImGuiNET;
 using NewMath;
-using Progrimage.CoroutineUtils;
 using Progrimage.DrawingShapes;
 using Progrimage.ImGuiComponents;
 using Progrimage.Undo;
 using Progrimage.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Progrimage.Tools
 {
-	public class ToolLine : ITool
+    public class ToolLine : ITool
 	{
 		#region Fields
 		// Public fields

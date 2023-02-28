@@ -2,9 +2,6 @@
 using NewMath;
 using Progrimage.LuaDefs;
 using Progrimage.Utils;
-using System;
-using System.Diagnostics;
-using System.Timers;
 using System.Xml;
 
 namespace Progrimage.Tools

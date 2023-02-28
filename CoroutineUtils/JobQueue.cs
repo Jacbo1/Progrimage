@@ -1,5 +1,4 @@
-﻿using NewMath;
-using System.Collections;
+﻿using System.Collections;
 
 namespace Progrimage.CoroutineUtils
 {

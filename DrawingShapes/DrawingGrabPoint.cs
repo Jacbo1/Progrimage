@@ -1,20 +1,12 @@
-﻿using ImGuiNET;
-using NewMath;
+﻿using NewMath;
 using Progrimage.Utils;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 
 namespace Progrimage.DrawingShapes
 {
-	internal struct DrawingGrabPoint : IShape
+    internal struct DrawingGrabPoint : IShape
 	{
 		public double2 Pos { get; set; }
 		public bool Hidden { get; set; }

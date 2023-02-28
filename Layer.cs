@@ -3,19 +3,12 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using Progrimage.Utils;
-using Rectangle = SixLabors.ImageSharp.Rectangle;
 using System.Numerics;
 using Progrimage.DrawingShapes;
-using Point = SixLabors.ImageSharp.Point;
 using Progrimage.Composites;
-using Progrimage.ImGuiComponents;
 using Progrimage.CoroutineUtils;
 using System.Collections;
-using Microsoft.Xna.Framework.Graphics;
-using static Progrimage.Utils.FilePicker;
-using SixLabors.ImageSharp.Advanced;
 using ImageSharpExtensions;
-using SixLabors.ImageSharp.Drawing.Processing;
 
 namespace Progrimage
 {
@@ -164,14 +157,6 @@ namespace Progrimage
 
         private IEnumerator ChangedEnum()
         {
-            //if (Image.Image is null)
-            //{
-            //    ProcessingComposites = false;
-            //    CompositeResult.Dispose();
-            //    _instance.Changed = true;
-            //    yield break;
-            //}
-
             ProcessingComposites = true;
             CompositeResult.Dispose();
             CompositeResult.Image = Image.Image?.Clone();

@@ -1,20 +1,14 @@
 ﻿using ImGuiNET;
 using NewMath;
-using Progrimage.CoroutineUtils;
 using Progrimage.DrawingShapes;
 using Progrimage.ImGuiComponents;
 using Progrimage.Undo;
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Processing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progrimage.Tools
 {
-	internal class ToolCubicCurve : ITool
+    internal class ToolCubicCurve : ITool
 	{
 		#region Fields
 		// Public fields

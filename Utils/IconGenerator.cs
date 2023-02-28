@@ -6,18 +6,12 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Drawing;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
-using Image = SixLabors.ImageSharp.Image;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.Fonts;
-using FontFamily = SixLabors.Fonts.FontFamily;
 using SystemFonts = SixLabors.Fonts.SystemFonts;
-using SixLabors.Fonts.Tables.AdvancedTypographic;
-using System.Collections.ObjectModel;
-using System.Windows.Forms.Design.Behavior;
 using SizeF = SixLabors.ImageSharp.SizeF;
 using PointF = SixLabors.ImageSharp.PointF;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Progrimage.Utils
 {

@@ -1,14 +1,8 @@
-﻿using Progrimage.Composites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Keys = Microsoft.Xna.Framework.Input.Keys;
+﻿using Keys = Microsoft.Xna.Framework.Input.Keys;
 
 namespace Progrimage.Utils
 {
-	public class TextInputHandler
+    public class TextInputHandler
 	{
 		public string Text = "";
 		public bool AcceptTextEntry;

@@ -2,15 +2,8 @@
 using NLua;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ImageSharpExtensions;
 using SixLabors.ImageSharp.Advanced;
-using KeraLua;
 using SixLabors.ImageSharp.Drawing.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using PointF = SixLabors.ImageSharp.PointF;
@@ -22,7 +15,7 @@ using SizeF = SixLabors.ImageSharp.SizeF;
 
 namespace Progrimage.LuaDefs
 {
-	public class LuaImage
+    public class LuaImage
 	{
 		#region Fields
 		internal PositionedImage<Argb32> Image;

@@ -1,6 +1,5 @@
 ﻿using ImGuiNET;
 using Progrimage.Utils;
-using SixLabors.ImageSharp;
 using System.Numerics;
 using Color = SixLabors.ImageSharp.Color;
 
@@ -141,15 +140,6 @@ namespace Progrimage.ImGuiComponents
 
             return changed;
         }
-
-        //public static void Draw(string paletteName, ref int4 color, string name = "", int id = 0)
-        //{
-        //    Vector4 col = new Vector4(color.x / 255f, color.y / 255f, color.z / 255f, color.z / 255f);
-        //    string s = col.ToString();
-        //    Draw(paletteName, ref col, name, id);
-        //    Console.WriteLine(s + " -> " + col.ToString());
-        //    color = Math2.RoundToInt(col * 255);
-        //}
         #endregion
     }
 }

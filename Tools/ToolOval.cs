@@ -4,7 +4,6 @@ using Color = SixLabors.ImageSharp.Color;
 using System.Numerics;
 using Progrimage.Utils;
 using Progrimage.DrawingShapes;
-using Progrimage.CoroutineUtils;
 using Progrimage.ImGuiComponents;
 using Progrimage.Undo;
 

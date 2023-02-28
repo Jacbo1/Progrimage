@@ -1,21 +1,11 @@
 ﻿using ImageSharpExtensions;
-using Microsoft.Xna.Framework.Graphics;
 using NewMath;
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using static Progrimage.Utils.FilePicker;
-//using Argb32 = SixLabors.ImageSharp.PixelFormats.Argb32;
 
 namespace Progrimage.Undo
 {
-	//public static class UndoImagePatch
-	//{
-	//	public static RedoImagePatch<Argb32> Create(Layer layer, int2 pos, int2 size) => new RedoImagePatch<Argb32>(layer, pos, size);
-	//}
-
-	public class UndoImagePatch: IRedoAction, IDisposable //where TPixel : unmanaged, IPixel<TPixel>
+    public class UndoImagePatch: IRedoAction, IDisposable //where TPixel : unmanaged, IPixel<TPixel>
 	{
 		private Layer _layer;
 		private PositionedImage<Argb32> _image;

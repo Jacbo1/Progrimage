@@ -1,11 +1,9 @@
 ﻿using ImageSharpExtensions;
 using NewMath;
 using Progrimage.CoroutineUtils;
-using Progrimage.Utils;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using System.Numerics;
 
 namespace Progrimage
@@ -19,7 +17,6 @@ namespace Progrimage
         private float[] _mask, _brushTexture, _unscaledBrushTexture, _normTexture, _unscaledNormTexture;
         private int2 _maskMinBound, _maskMaxBound, _targetBrushSize, _brushSize, _unscaledBrushSize, _maskSize, _unscaledNormSize;
         private double2 _lastPointDrawnPos;
-        //private float _normalizer;
         private float _normMult;
         private double _brushStep;
         private bool _wasSinglePoint = true, _wasPencil = false;
@@ -705,8 +702,6 @@ namespace Progrimage
         {
             if (_brushState.IsPencil)
             {
-                //int ix = (int)Math.Round(x, MidpointRounding.AwayFromZero);
-                //int iy = (int)Math.Round(y, MidpointRounding.AwayFromZero);
                 int ix = (int)x;
                 int iy = (int)y;
                 if (ix < 0 || iy < 0 || ix >= _brushSize.x || iy >= _brushSize.y) return 0;

@@ -1,13 +1,10 @@
-﻿using NewMath;
-using NLua;
-using NLua.Exceptions;
-using Progrimage.Utils;
+﻿using Progrimage.Utils;
 using System.Diagnostics;
 using System.Timers;
 
 namespace Progrimage.LuaDefs
 {
-	public abstract class LuaFileHandler : IDisposable
+    public abstract class LuaFileHandler : IDisposable
 	{
 		#region Fields
 		// Public

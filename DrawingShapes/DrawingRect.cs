@@ -6,8 +6,6 @@ using Rectangle = SixLabors.ImageSharp.Rectangle;
 using RectangleF = SixLabors.ImageSharp.RectangleF;
 using Size = SixLabors.ImageSharp.Size;
 using Progrimage.Utils;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace Progrimage.DrawingShapes
 {

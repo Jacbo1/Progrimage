@@ -1,4 +1,6 @@
-﻿namespace Progrimage
+﻿// Currently not used. Will be part of something in the future.
+
+namespace Progrimage
 {
     public struct KeyEvent
     {

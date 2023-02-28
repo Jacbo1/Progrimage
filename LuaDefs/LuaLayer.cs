@@ -1,14 +1,9 @@
 ﻿using NewMath;
 using NLua;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progrimage.LuaDefs
 {
-	public class LuaLayer
+    public class LuaLayer
 	{
 		internal LuaImage LuaImage;
 		internal Layer Layer;

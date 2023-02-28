@@ -1,30 +1,17 @@
 ﻿using ImageSharpExtensions;
-using ImGuiNET;
-using Microsoft.Xna.Framework.Graphics;
 using NewMath;
 using Progrimage.Composites;
-using Progrimage.CoroutineUtils;
 using Progrimage.DrawingShapes;
-using Progrimage.Effects;
 using Progrimage.LuaDefs;
 using Progrimage.Selectors;
 using Progrimage.Tools;
 using Progrimage.Utils;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
-using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static Progrimage.LuaDefs.LuaManager;
 using Color = SixLabors.ImageSharp.Color;
-using Rectangle = SixLabors.ImageSharp.Rectangle;
 
 namespace Progrimage
 {
@@ -51,19 +38,13 @@ namespace Progrimage
     {
         #region Fields
         // Public fields
-        //public BrushStroke BrushStroke = new(1);
         public LayerManager LayerManager;
         public string? LastSavePath, LastLoadPath;
-        //public LayerHandler LayerHandler;
-        ////public TextureFormat TextureFormat;
         public Dictionary<string, ITool> Tools = new();
         public int MaxBrushSize = 500;
         public BrushMode BrushMode = BrushMode.Brush;
-        //public bool FirstTick = true;
-        //public Selection? Selection = null;
         public List<BrushPath> BrushTextures = new()
         {
-            //new BrushPath<L8>(@"Assets\Textures\Brushes\troll.png"),
             new BrushPath<L16>(@"Assets\Textures\Brushes\brush_regular.png"),
 			new BrushPath<L16>(@"Assets\Textures\Brushes\brush_distance.png"),
 			new BrushPath<L8>(@"Assets\Textures\Brushes\brush_circle.png")
@@ -88,7 +69,6 @@ namespace Progrimage
             new ToolText(),
             new ToolCrop()
         };
-        public IEffect[] DefaultEffects = new IEffect[] { };
         public ToolCreateScript ToolCreateScript = new();
         public LuaLayer? ActiveLuaLayer { get; private set; }
         private Composite? _activeComposite;
@@ -224,7 +204,6 @@ namespace Progrimage
             EraserSettings = new BrushState(BrushTextures[0], 20, new Vector4(1, 1, 1, 1), false);
             CanvasSize = canvasSize;
             LayerManager = new LayerManager(this);
-            //MainWindow.MouseUp += (o, e) => JobQueue.Queue.Add(new CoroutineJob(BrushStroke.ClearMask));
             ActiveTool = DefaultTools[0];
         }
         #endregion
@@ -428,47 +407,7 @@ namespace Progrimage
             Selection = null;
             OverlayChanged = true;
         }
-        //public Instance(int2 canvasSize, TextureFormat textureFormat = TextureFormat.RGBA32)
-        //{
-        //    Program.ActiveInstance = this;
-        //    LayerHandler = new LayerHandler(this);
-        //    this.TextureFormat = textureFormat;
-        //    CanvasSize = canvasSize;
-        //    UpdateTools();
-        //    ActiveLayer = LayerHandler.CreateLayer();
 
-        //    //         string luaScript = @"
-        //    // local steps = 50
-        //    // brushDown(1.1, 0.5)
-        //    // for ang = 0, math.pi * 2 + math.pi / steps, math.pi * 2 / steps do
-        //    //     moveBrush(0.5 + 0.6 * math.cos(ang), 0.5 + 0.5 * math.sin(ang))
-        //    // end";
-        //    //         //luaScript = @"brushDown(0.5, 0.5)";
-        //    //         luaScript = @"
-        //    // brushDown(0, 0)
-        //    // moveBrush(1, 0)
-        //    // moveBrush(1, 1)
-        //    // moveBrush(0, 1)
-        //    // moveBrush(0, 0)";
-        //    //         var runner = new LuaLayerScript(luaScript);
-        //    //         runner.Run(LayerHandler.Layers[0]);
-        //}
-        //#endregion
-
-        //#region Public Static Methods
-        ////public void ClearSelection()
-        ////{
-        ////    if (Selection == null) return;
-
-        ////    ITool tool = ((Selection)Selection).Tool;
-        ////    if (tool is ToolMarqueSelect marque)
-        ////        marque.Selected = false;
-
-        ////    Selection = null;
-        ////}
-        //#endregion
-
-        //#region Public Methods
         public void GetZoomBounds(out double ratio, out double minZoom, out double maxZoom)
         {
             int2 maxSize = Math2.Max(MainWindow.CanvasMax - MainWindow.CanvasMin + 1, 1);
@@ -476,64 +415,6 @@ namespace Progrimage
             minZoom = Math.Min(1, ratio * 0.1f);
             maxZoom = Math.Max(ratio * 2, 10);
         }
-
-		////public void Update()
-		////{
-		////    // Handle moving canvas by holding middle mouse and dragging
-		////    if (Input.GetMouseButtonDown(2) && PromptsBlockingBrush == 0)
-		////    {
-		////        // Middle mouse pressed
-		////        _movingCanvas = Program.MouseInCanvas; // Pressed over canvas
-		////        _oldMousePos = Input.mousePosition;
-		////    }
-
-		////    if (_movingCanvas)
-		////    {
-		////        // Move canvas based on mouse position delta
-		////        Vector2 mousePos = Input.mousePosition;
-		////        if (mousePos != _oldMousePos)
-		////        {
-		////            Pos += mousePos - _oldMousePos;
-		////            _oldMousePos = mousePos;
-		////        }
-		////    }
-
-		////    if (!Input.GetMouseButton(2) || PromptsBlockingBrush != 0)
-		////        _movingCanvas = false; // Middle mouse released
-
-		////    // Handling zooming
-		////    float scrollDelta = Input.mouseScrollDelta.y;
-		////    if (scrollDelta != 0 && Program.MouseInCanvas)
-		////    {
-		////        // Mouse scrolled in canvas
-		////        GetZoomBounds(out _, out float minZoom, out float maxZoom);
-
-		////        _zoomLerp = Mathf.Clamp01(_zoomLerp + scrollDelta * 0.025f);
-
-		////        if (_zoomLerp >= 1)
-		////            _zoom = maxZoom;
-		////        else
-		////            _zoom = Mathf.Exp(Mathf.Lerp(Mathf.Log(minZoom), Mathf.Log(maxZoom), _zoomLerp));
-		////        Scene.LayerCanvas.transform.localScale = new Vector3(_zoom, _zoom, 1);
-		////    }
-		////}
-
-		//public void UpdateActive()
-		//{
-		//    LayerHandler?.UpdateDrawingActive();
-		//}
-
-		////public void SetTextureFormat(TextureFormat format)
-		////{
-		////    TextureFormat = format;
-		////}
-
-		////public void CreateLayer(Image tex)
-		////{
-		////    Layer layer = new Layer(this, tex);
-		////    LayerHandler.Layers.Add(layer);
-		////    ActiveLayer = layer;
-		////}
 		#endregion
 
 		#region Private Methods

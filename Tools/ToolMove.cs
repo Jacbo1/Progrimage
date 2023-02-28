@@ -1,6 +1,5 @@
 ﻿using ImGuiNET;
 using NewMath;
-using Progrimage.CoroutineUtils;
 using Progrimage.Selectors;
 using Progrimage.Undo;
 using Progrimage.Utils;

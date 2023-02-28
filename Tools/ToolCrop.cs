@@ -1,23 +1,15 @@
 ﻿using ImGuiNET;
 using NewMath;
-using Progrimage.CoroutineUtils;
 using Progrimage.DrawingShapes;
-using Progrimage.ImGuiComponents;
 using Progrimage.Selectors;
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Progrimage.Tools
 {
-	internal class ToolCrop : ITool
+    internal class ToolCrop : ITool
 	{
 		#region Fields
 		// Public fields

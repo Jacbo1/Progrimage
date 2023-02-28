@@ -222,7 +222,6 @@ namespace Progrimage.Composites
 
         private void WrapText()
         {
-            //RemovedCharIndexes.Clear();
             var textOptions = new TextOptions(Font);
             int maxWidth = MaxBound.x - MinBound.x + 1;
 
@@ -235,7 +234,6 @@ namespace Progrimage.Composites
 			float lineHeight = Font.FontMetrics.LineHeight * Font.Size / Font.FontMetrics.UnitsPerEm;
 			LetterBoxes.Clear();
             int lineIndex = 0;
-            //int charIndex = 0;
             bool lastLineHadLineBreak = false;
             WrappedText = "";
             while (lineIndex < lines.Count)
@@ -249,7 +247,6 @@ namespace Progrimage.Composites
                     LetterBoxes.Add(GenerateLetterRects(line.Text, lastLineHadLineBreak, lineHeight, textOptions));
                     lastLineHadLineBreak = line.EndsWithLineBreak;
                     lineIndex++;
-                    //charIndex += line.Text.Length;
                     continue;
                 }
 
@@ -292,7 +289,6 @@ namespace Progrimage.Composites
                     length--;
 
                     remainder = line.Text[length..];
-					//lines[lineIndex] = current;
 					WrappedText += current + "\n";
 					LetterBoxes.Add(GenerateLetterRects(current, lastLineHadLineBreak, lineHeight, textOptions));
 					lastLineHadLineBreak = false;
@@ -300,7 +296,6 @@ namespace Progrimage.Composites
 					if (lineIndex + 1 == lines.Count) lines.Add(new Line(remainder, line.EndsWithLineBreak));
                     else lines.Insert(lineIndex + 1, new Line(remainder, line.EndsWithLineBreak));
                     lineIndex++;
-                    //charIndex += current.Length;
                     continue;
                 }
 
@@ -322,55 +317,14 @@ namespace Progrimage.Composites
                 for (int j = i + 1; j < words.Count; j++)
                     remainder += separators[j - 1] + words[j];
 
-				//lines[lineIndex] = current;
 				WrappedText += current + "\n";
 				LetterBoxes.Add(GenerateLetterRects(current, lastLineHadLineBreak, lineHeight, textOptions));
 				lastLineHadLineBreak = true;
 				if (lineIndex + 1 == lines.Count) lines.Add(new Line(remainder, line.EndsWithLineBreak));
                 else lines.Insert(lineIndex + 1, new Line(remainder, line.EndsWithLineBreak));
                 lineIndex++;
-                //charIndex += current.Length;
-                //RemovedCharIndexes.Add(charIndex);
             }
             if (lastLineHadLineBreak) LetterBoxes.Add(GenerateLetterRects("", true, lineHeight, textOptions));
-
-			//WrappedText = string.Join('\n', lines);
-
-   //         // Find line breaks
-   //         LineBreakIndexes.Clear();
-   //         int lineBreak = WrappedText.IndexOf('\n');
-   //         int offset = 0;
-   //         while (lineBreak != -1)
-   //         {
-   //             LineBreakIndexes.Add(lineBreak + offset);
-   //             offset--;
-   //             lineBreak = WrappedText.IndexOf('\n', lineBreak + 1);
-   //         }
-
-   //         // Calculate letter boxes for clicking
-   //         LetterBoxes.Clear();
-   //         WrappedHeight = Math2.RoundToInt(lineHeight * lines.Count);
-   //         for (int j = 0; j < lines.Count; j++)
-   //         {
-   //             string line = lines[j];
-   //             int x = 0;
-   //             int y = Math2.RoundToInt(lineHeight * j);
-   //             int height = Math2.RoundToInt(lineHeight * (j + 1)) - y;
-   //             string current = "";
-   //             for (int i = 0; i < line.Length; i++)
-   //             {
-   //                 current += line[i];
-   //                 LetterRect rect = TextMeasurer.Measure(current, textOptions);
-   //                 rect.CharWidth = rect.Right - x;
-   //                 if (i + 1 == line.Length) rect.Width = maxWidth - x + 1; // Extend to right edge of textbox
-   //                 else rect.Width += rect.X - x; // Extend to not move the right edge after moving the left
-   //                 rect.X = x; // Touch last letter or min bound
-   //                 rect.Y = y; // Touch top of text
-   //                 rect.Height = height; // Extend for line height
-   //                 LetterBoxes.Add(rect);
-   //                 x += rect.Width;
-   //             }
-   //         }
         }
         #endregion
     }

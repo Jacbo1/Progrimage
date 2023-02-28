@@ -10,24 +10,15 @@ using ImageSharpExtensions;
 
 namespace Progrimage.Composites
 {
-    public class Composite : IUsesToolbar, IDisposable//, ICompositable
+    public class Composite : IUsesToolbar, IDisposable
     {
-        //public Image<Argb32>? Image { get; set; }
-        //public int2 Size { get; set; }
-        //public int2 Pos { get; set; }
         public string Name { get; set; }
         public TexPair Thumbnail;
         public Vector2 ThumbnailSize;
-        //public bool PreDraw;
         public Layer Layer;
         public ICompositeAction CompositeAction;
         public bool Processing { get; private set; }
         public bool Hidden;
-        
-        //internal bool RunOnce;
-
-        //private bool _ran;
-        //private int _counter;
 
         private bool _shouldUpdateThumbnail;
 

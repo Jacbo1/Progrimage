@@ -2,7 +2,6 @@
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.IO.Compression;
-using System.Security.Cryptography;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Progrimage

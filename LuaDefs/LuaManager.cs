@@ -1,22 +1,8 @@
-﻿using ImageSharpExtensions;
-using NewMath;
+﻿using NewMath;
 using NLua;
-using NLua.Exceptions;
 using Progrimage.CoroutineUtils;
-using Progrimage.Tools;
 using Progrimage.Utils;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Drawing;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using UnsafeRefStruct;
-using Color = SixLabors.ImageSharp.Color;
-using Point = SixLabors.ImageSharp.Point;
-using Rectangle = SixLabors.ImageSharp.Rectangle;
-using Timer = System.Timers.Timer;
 
 namespace Progrimage.LuaDefs
 {
@@ -185,7 +171,6 @@ namespace Progrimage.LuaDefs
 				Program.ActiveInstance.Stroke.BrushState = brushState;
 				Program.ActiveInstance.Stroke.BrushStateChanged();
 			});
-            //Lua["render.getLayers"] = () => Lua.DoString("return {" + string.Join(',', Program.ActiveInstance?.LayerManager.LuaLayers) + "}");
             Lua["render.setStrokeSize"] = (Action<int>)(brushSize =>
             {
 				BrushState brushState = Program.ActiveInstance.Stroke.BrushState;

@@ -2,11 +2,8 @@
 using NewMath;
 using Progrimage.CoroutineUtils;
 using Progrimage.DrawingShapes;
-using Progrimage.ImGuiComponents;
 using Progrimage.Undo;
 using Progrimage.Utils;
-using SixLabors.ImageSharp.PixelFormats;
-using Color = SixLabors.ImageSharp.Color;
 
 namespace Progrimage.Tools
 {

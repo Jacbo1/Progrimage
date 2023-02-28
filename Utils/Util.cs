@@ -18,10 +18,6 @@ using Rectangle = SixLabors.ImageSharp.Rectangle;
 using Size = SixLabors.ImageSharp.Size;
 using PointF = SixLabors.ImageSharp.PointF;
 using System.Drawing.Imaging;
-using System.Drawing;
-using static System.Net.Mime.MediaTypeNames;
-using SixLabors.Fonts;
-using System.Runtime.CompilerServices;
 using ImageSharpExtensions;
 
 namespace Progrimage.Utils

@@ -9,24 +9,7 @@ namespace Progrimage.DrawingShapes
         public List<IShape> Shapes;
         public bool AttachedToLayer, Hidden;
         public double2 Pos;
-        //private int2 _pos;
         internal Layer Layer;
-        #endregion
-
-        #region Properties
-        //public int2 Pos
-        //{
-        //    get => _pos;
-        //    set
-        //    {
-        //        // Move all Shapes
-        //        //int2 delta = value - _pos;
-        //        ShapeOrigin += value - _pos;
-        //        _pos = value;
-        //        //for (int i = 0; i < Shapes.Count; i++)
-        //        //    Shapes[i].Pos += delta;
-        //    }
-        //}
         #endregion
 
         #region Constructors
