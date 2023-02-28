@@ -35,8 +35,6 @@ The main feature of this image editor is the ability for users to easily create 
 * Other
   * Lua tools and composites are automatically rerun when the file is edited so you can edit them in real-time
   * Copy images directly out of the program to paste elsewhere without needing to save to a file. Note: Currently cannot preserve transparency
-  * Style editor
-  * Easily pan and zoom without switching tools or clearing steps
 * Other basic minor things not worth mentioning
   
 **Planned Features**
