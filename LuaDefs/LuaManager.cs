@@ -226,22 +226,22 @@ namespace Progrimage.LuaDefs
 
         public LuaTable CreateVector3(double3 n)
         {
-            return (LuaTable)_createVector2Func?.Call(n.x, n.y, n.z)?.First();
+            return (LuaTable)_createVector3Func?.Call(n.x, n.y, n.z)?.First();
 		}
 
         public LuaTable CreateVector3(double x, double y, double z)
         {
-            return (LuaTable)_createVector2Func?.Call(x, y, z)?.First();
+            return (LuaTable)_createVector3Func?.Call(x, y, z)?.First();
 		}
 
         public LuaTable CreateVector4(double4 n)
         {
-            return (LuaTable)_createVector2Func?.Call(n.x, n.y, n.z, n.w)?.First();
+            return (LuaTable)_createVector4Func?.Call(n.x, n.y, n.z, n.w)?.First();
 		}
 
         public LuaTable CreateVector4(double x, double y, double z, double w)
         {
-            return (LuaTable)_createVector2Func?.Call(x, y, z, w)?.First();
+            return (LuaTable)_createVector4Func?.Call(x, y, z, w)?.First();
 		}
 
         public static double4 ToColor(LuaTable color)
