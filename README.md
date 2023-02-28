@@ -1,5 +1,5 @@
 # Progrimage
-**A User-end scripting focused image editor**
+**A User-end scripting focused image editor**  
 **NOTE: This is a very unfinished early build. On the rare occassion it may crash but I am working on its stability and have been fixing crashes.**  
 Some (or a lot) of the code also needs refactoring to make it look better.  
   
