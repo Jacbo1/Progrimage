@@ -50,7 +50,7 @@ namespace Progrimage.Tools
             LuaManager.CallFunction("OnLayerSelect", layer);
         }
         public void OnLayerDeselect(Layer layer) => LuaManager.CallFunction("OnLayerDeselect", new LuaLayer(layer));
-        public void DrawQuickActionsToolbar() => LuaManager.CallFunction("DrawQuickActionsToolbar");
+        //public void DrawQuickActionsToolbar() => LuaManager.CallFunction("DrawQuickActionsToolbar");
         public void Update(float deltaTime) => LuaManager.CallFunction("Update", deltaTime / 1000.0);
         #endregion
 
