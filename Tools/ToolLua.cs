@@ -42,14 +42,14 @@ namespace Progrimage.Tools
         {
             if (LuaManager?.Lua is null) return;
             LuaManager.Lua["activeLayer"] = instance.ActiveLuaLayer;
-            LuaManager.CallFunction("OnSelect", instance);
+            LuaManager.CallFunction("OnSelect");
         }
         public void OnDeselect() => LuaManager.CallFunction("OnDeselect");
         public void OnLayerSelect(Layer layer)
         {
 			if (LuaManager?.Lua is null) return;
 			LuaManager.Lua["activeLayer"] = layer;
-            LuaManager.CallFunction("OnLayerSelect", layer);
+            LuaManager.CallFunction("OnLayerSelect", new LuaLayer(layer));
         }
         public void OnLayerDeselect(Layer layer) => LuaManager.CallFunction("OnLayerDeselect", new LuaLayer(layer));
         //public void DrawQuickActionsToolbar() => LuaManager.CallFunction("DrawQuickActionsToolbar");
