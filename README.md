@@ -1,5 +1,7 @@
 # Progrimage
 **A User-end scripting focused image editor**  
+**Requires [.NET 6.0](https://download.visualstudio.microsoft.com/download/pr/035efed3-6386-4e1d-bcbc-384a20ebf47e/abfbea2303e0ce9cb15d430314e5858f/windowsdesktop-runtime-6.0.14-win-x64.exe)**
+
 **NOTE: This is a very unfinished early build. On the rare occassion it may crash but I am working on its stability and have been fixing crashes.**  
 Some (or a lot) of the code also needs refactoring to make it look better.  
   
