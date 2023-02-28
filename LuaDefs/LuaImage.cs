@@ -18,6 +18,7 @@ using Rectangle = SixLabors.ImageSharp.Rectangle;
 using Progrimage.DrawingShapes;
 using RectangleF = SixLabors.ImageSharp.RectangleF;
 using SixLabors.ImageSharp.Drawing;
+using SizeF = SixLabors.ImageSharp.SizeF;
 
 namespace Progrimage.LuaDefs
 {
@@ -348,6 +349,13 @@ namespace Progrimage.LuaDefs
 				pointfs[i] = new PointF((float)point.x, (float)point.y);
 			}
 			Image.Mutate(op => op.FillPolygon(new Color(LuaManager.ToColor(color) / 255), pointfs));
+		}
+
+		public void drawArc(LuaTable color, LuaTable center, LuaTable radius, double thickness, double startAng, double angDelta)
+		{
+			double2 dcenter = LuaManager.ToDouble2(center);
+			double2 dradius = LuaManager.ToDouble2(radius);
+			Image.Mutate(op => op.Draw(LuaManager.ToColor(color).ToArgb32(), (float)thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)dcenter.x, (float)dcenter.y), new SizeF((float)dradius.x, (float)dradius.y), 0, (float)startAng, (float)angDelta))));
 		}
 		#endregion
 		#endregion
