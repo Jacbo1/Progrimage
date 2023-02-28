@@ -74,6 +74,9 @@ namespace Progrimage.LuaDefs
 					Process.Start(exePath, '"' + path + '"');
 					return;
 				}
+
+				exePath = @"notepad.exe";
+				Process.Start(exePath, '"' + path + '"');
 			}
 			catch { }
 		}
@@ -135,10 +138,6 @@ namespace Progrimage.LuaDefs
 				LuaManager.Lua!.DoFile(path);
 				LuaPostInit();
 			}
-			catch (LuaScriptException e)
-			{
-                LuaManager.Error = e.Message;
-            }
 			catch (Exception e)
 			{
 				LuaManager.Error = e.Message;

@@ -154,10 +154,6 @@ namespace Progrimage.LuaDefs
                 TryResumeCoroutine();
                 ProcessFuncCallQueue();
             }
-            catch (LuaScriptException e)
-            {
-                Error ??= e.ToString();
-            }
             catch (Exception e)
             {
                 Error ??= e.Message;
@@ -304,12 +300,6 @@ namespace Progrimage.LuaDefs
             return v;
         }
         #endregion
-        #endregion
-
-        #region Classes
-        
-
-        
         #endregion
     }
 }
