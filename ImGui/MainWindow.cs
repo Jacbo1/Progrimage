@@ -910,7 +910,7 @@ namespace Progrimage
 				ImGui.PopID();
 
 				// Draw composites
-				if (layer.Composites is not null && ImGui.TreeNode("Composites"))
+				if (layer.Composites is not null && ImGui.TreeNode("Composites" + i, "Composites"))
                 {
                     ImGui.Indent(halfThumbnailWidth);
 

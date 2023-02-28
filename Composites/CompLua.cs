@@ -29,7 +29,7 @@ namespace Progrimage.Composites
 				running = false;
 				Composite.Changed();
 			}, new LuaImage(result));
-			while (running) yield return true;
+			while (running && LuaManager.Error is null) yield return true;
 		}
 
 		public void Init(Composite composite)
