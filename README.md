@@ -51,8 +51,10 @@ The main feature of this image editor is the ability for users to easily create 
 * Create my own icons for the tools that currently have placeholders from Google images
 * Better Lua implementations
 * More Lua functionality
-* More that were not mentioned
-
+* More that were not mentioned  
+  
+You can find an executable in the [releases](https://github.com/Jacbo1/Progrimage/releases/latest).  
+  
 # Building
 **Requirements**
 * The dlls included in the release.
