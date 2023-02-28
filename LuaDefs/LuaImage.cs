@@ -130,7 +130,7 @@ namespace Progrimage.LuaDefs
 		public LuaTable getPixel(int x, int y)
 		{
 			if (Image.Image is null) return null;
-			var pixel = Image.Image![x - 1, y - 1];
+			var pixel = Image.Image![x, y];
 			return LuaManager.Current.CreateVector4(pixel.R, pixel.G, pixel.B, pixel.A);
 		}
 
@@ -143,7 +143,7 @@ namespace Progrimage.LuaDefs
 		public void setPixel(int x, int y, LuaTable pixel)
 		{
 			if (Image.Image is not null)
-				Image.Image[x - 1, y - 1] = LuaManager.ToColor(pixel).ToArgb32();
+				Image.Image[x, y] = LuaManager.ToColor(pixel).ToArgb32();
 		}
 
 		public void setPixel(LuaTable pos, LuaTable pixel)

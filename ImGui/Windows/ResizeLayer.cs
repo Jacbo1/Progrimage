@@ -16,7 +16,7 @@ namespace ProgrimageImGui.Windows
 
 		public static void TryShowResizeLayerWindow(ref bool mouseOverCanvasWindow)
 		{
-			if (Program.ActiveInstance.ActiveLayer is not Layer layer || layer.Image.Image is null) return; // No active layer
+			if (Program.ActiveInstance.ActiveLayer is not Layer layer) return; // No active layer
 			if (!Show)
 			{
 				_wasShowing = false;
@@ -93,7 +93,8 @@ namespace ProgrimageImGui.Windows
 			{
 				UndoManager.AddUndo(new UndoImagePatch(layer, layer.Pos, layer.Size));
 				int2 size = (int2)newSize;
-				layer.Image.Mutate(op => op.Resize(size.x, size.y));
+				if (layer.Image.Image is null) layer.Size = size;
+				else layer.Image.Mutate(op => op.Resize(size.x, size.y));
 				layer.Changed();
 				Show = false;
 			}
