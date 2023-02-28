@@ -13,8 +13,6 @@ namespace Progrimage.Composites
 		public int2 Pos { get; set; }
 
 		#region Constructors
-		//public CompLua() : base("Lua Composite", Defs.LUA_COMPOSITE_PATH) { }
-
 		public CompLua(string name) : base(name, Defs.LUA_COMPOSITE_PATH, name) { }
 
 		public CompLua(string path, string name) : base(name, Defs.LUA_COMPOSITE_PATH + path, name) { }

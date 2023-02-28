@@ -238,7 +238,7 @@ namespace Progrimage.LuaDefs
 		}
 
 		private void clear(Color color, int x, int y, int width, int height) => Image.Mutate(op => op.Clear(color, new Rectangle(x, y, width, height)));
-		public void clear(LuaTable color, int x, int y, int width, int height) => clear(new Color(LuaManager.ToColor(color) / 255), x, y, width, height);
+		public void clear(LuaTable color, int x, int y, int width, int height) => clear(LuaManager.ToColor(color).ToArgb32(), x, y, width, height);
 		public void clear(LuaTable color, LuaTable pos, LuaTable size)
 		{
 			int2 ipos = LuaManager.ToInt2(pos);
@@ -251,7 +251,7 @@ namespace Progrimage.LuaDefs
 		public void drawLine(LuaTable color, double thickness, double x1, double y1, double x2, double y2)
 		{
 			Image?.Mutate(op => op.DrawLines(
-				new Color(LuaManager.ToColor(color) / 255),
+				LuaManager.ToColor(color).ToArgb32(),
 				(float)thickness,
 				new PointF((float)x1, (float)y1),
 				new PointF((float)x2, (float)y2))
@@ -267,7 +267,7 @@ namespace Progrimage.LuaDefs
 
 		public void drawRect(LuaTable color, double thickness, double x, double y, double width, double height)
 		{
-			Image.Mutate(new DrawingRect(new Color(LuaManager.ToColor(color) / 255), new double2(x, y), new double2(width, height), thickness, false).Draw);
+			Image.Mutate(op => op.Draw(LuaManager.ToColor(color).ToArgb32(), (float)thickness, new RectangleF((float)x, (float)y, (float)width, (float)height)));
 		}
 
 		public void drawRect(LuaTable color, double thickness, LuaTable pos, LuaTable size)
@@ -279,7 +279,7 @@ namespace Progrimage.LuaDefs
 
 		public void fillRect(LuaTable color, double x, double y, double width, double height)
 		{
-			Image.Mutate(op => op.Fill(new Color(LuaManager.ToColor(color) / 255), new RectangleF((float)x, (float)y, (float)width, (float)height)));
+			Image.Mutate(op => op.Fill(LuaManager.ToColor(color).ToArgb32(), new RectangleF((float)x, (float)y, (float)width, (float)height)));
 		}
 
 		public void fillRect(LuaTable color, LuaTable pos, LuaTable size)
@@ -291,7 +291,7 @@ namespace Progrimage.LuaDefs
 
 		public void drawOval(LuaTable color, double thickness, double x, double y, double width, double height)
 		{
-			Image.Mutate(new DrawingOval(new Color(LuaManager.ToColor(color) / 255), new double2(x, y), new double2(width, height), thickness, false).Draw);
+			Image.Mutate(op => op.Draw(LuaManager.ToColor(color).ToArgb32(), (float)thickness, new EllipsePolygon((float)x, (float)y, (float)width, (float)height)));
 		}
 
 		public void drawOval(LuaTable color, double thickness, LuaTable pos, LuaTable size)
@@ -303,7 +303,7 @@ namespace Progrimage.LuaDefs
 
 		public void fillOval(LuaTable color, double x, double y, double width, double height)
 		{
-			Image.Mutate(op => op.Fill(new Color(LuaManager.ToColor(color) / 255), new EllipsePolygon((float)x, (float)y, (float)width, (float)height)));
+			Image.Mutate(op => op.Fill(LuaManager.ToColor(color).ToArgb32(), new EllipsePolygon((float)x, (float)y, (float)width, (float)height)));
 		}
 
 		public void fillOval(LuaTable color, LuaTable pos, LuaTable size)
@@ -315,12 +315,12 @@ namespace Progrimage.LuaDefs
 
 		public void drawQuadraticCurve(LuaTable color, double thickness, LuaTable p1, LuaTable p2, LuaTable p3)
 		{
-			Image.Mutate(new DrawingQuadraticCurve(new Color(LuaManager.ToColor(color) / 255), (float)thickness, LuaManager.ToDouble2(p1), LuaManager.ToDouble2(p2), LuaManager.ToDouble2(p3)).Draw);
+			Image.Mutate(new DrawingQuadraticCurve(LuaManager.ToColor(color).ToArgb32(), (float)thickness, LuaManager.ToDouble2(p1), LuaManager.ToDouble2(p2), LuaManager.ToDouble2(p3)).Draw);
 		}
 
 		public void drawCubicCurve(LuaTable color, double thickness, LuaTable p1, LuaTable p2, LuaTable p3, LuaTable p4)
 		{
-			Image.Mutate(new DrawingCubicCurve(new Color(LuaManager.ToColor(color) / 255), (float)thickness, LuaManager.ToDouble2(p1), LuaManager.ToDouble2(p2), LuaManager.ToDouble2(p3), LuaManager.ToDouble2(p4)).Draw);
+			Image.Mutate(new DrawingCubicCurve(LuaManager.ToColor(color).ToArgb32(), (float)thickness, LuaManager.ToDouble2(p1), LuaManager.ToDouble2(p2), LuaManager.ToDouble2(p3), LuaManager.ToDouble2(p4)).Draw);
 		}
 
 		public void drawPolygon(LuaTable color, double thickness, LuaTable points)
@@ -334,7 +334,7 @@ namespace Progrimage.LuaDefs
 				double2 point = LuaManager.ToDouble2((LuaTable)valEnum.Current);
 				pointfs[i] = new PointF((float)point.x, (float)point.y);
 			}
-			Image.Mutate(op => op.DrawPolygon(new Color(LuaManager.ToColor(color) / 255), (float)thickness, pointfs));
+			Image.Mutate(op => op.DrawPolygon(LuaManager.ToColor(color).ToArgb32(), (float)thickness, pointfs));
 		}
 
 		public void fillPolygon(LuaTable color, LuaTable points)
@@ -348,7 +348,7 @@ namespace Progrimage.LuaDefs
 				double2 point = LuaManager.ToDouble2((LuaTable)valEnum.Current);
 				pointfs[i] = new PointF((float)point.x, (float)point.y);
 			}
-			Image.Mutate(op => op.FillPolygon(new Color(LuaManager.ToColor(color) / 255), pointfs));
+			Image.Mutate(op => op.FillPolygon(LuaManager.ToColor(color).ToArgb32(), pointfs));
 		}
 
 		public void drawArc(LuaTable color, LuaTable center, LuaTable radius, double thickness, double startAng, double angDelta)
