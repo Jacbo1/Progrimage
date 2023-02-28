@@ -55,8 +55,7 @@ The main feature of this image editor is the ability for users to easily create 
 
 # Building
 **Requirements**
-* [My vector library](https://github.com/Jacbo1/Vector-Library)
-* [My ImageSharp Extensions](https://github.com/Jacbo1/ImageSharpExtensions/tree/master)
+* The dlls included in the release.
 * [ImageSharp](https://www.nuget.org/packages/SixLabors.ImageSharp/2.1.3)
 * [ImGui.NET](https://www.nuget.org/packages/ImGui.NET/1.89.1?_src=template)
 * [DesktopGL](https://www.nuget.org/packages/MonoGame.Framework.DesktopGL/3.8.1.303?_src=template)
