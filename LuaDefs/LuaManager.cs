@@ -161,6 +161,7 @@ namespace Progrimage.LuaDefs
             Lua["input.getMousePosCanvas"] = () => CreateVector2(MainWindow.MousePosCanvasDouble);
             Lua["input.getMousePosScreen"] = () => CreateVector2(MainWindow.MousePosScreen);
             Lua["input.isMouseDown"] = () => MainWindow.IsDragging;
+            Lua["input.isMouse2Down"] = () => MainWindow.IsDragging2;
             Lua["input.isMouseInCanvas"] = () => MainWindow.MouseInCanvas;
             Lua["render.getActiveLayer"] = () => Program.ActiveInstance?.ActiveLuaLayer;
             Lua["render.getStrokeColor"] = () => CreateVector4(Program.ActiveInstance.Stroke.BrushState.Color * 255);

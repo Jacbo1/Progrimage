@@ -15,6 +15,8 @@ namespace Progrimage
         public void OnMouseExitConvas(int2 mousePosScreen, int2 mousePosCanvas) { }
         public void OnLayerSelect(Layer layer) { }
         public void OnLayerDeselect(Layer layer) { }
+        public void OnMouseDown2Canvas() { }
+        public void OnMouse2Up() { }
         public void Update(float deltaTime) { }
     }
 }

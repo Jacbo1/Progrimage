@@ -37,7 +37,9 @@ namespace Progrimage
         {
             OnMouseDown,
             OnMouseDownCanvas,
+            OnMouse2DownCanvas,
             OnMouseUp,
+            OnMouse2Up,
             OnMouseMoveScreen,
             OnMouseMoveCanvas,
             OnMouseMoveCanvasDouble,
@@ -110,6 +112,7 @@ namespace Progrimage
         public static GraphicsDevice GraphicsDevice;
         public static EventHandler MouseUp, OnDraw, OnPreUpdate, FontPicked;
         public static bool IsMouseDown, MouseDownStartInCanvas, PostMouseDownStartInCanvas, MouseInCanvas, IsMouseDownCanvas, MouseDownCanvasChanged, IsDragging, IsWindowActive;
+        public static bool IsDragging2, IsMouse2Down, Mouse2DownStartInCanvas, Mouse2DownCanvasChanged, IsMouse2DownCanvas;
         public static bool MouseOverCanvasWindow;
 		public static int2 LayerThumbnailSize = Defs.LayerThumbnailSize;
         public static int2 MousePosCanvas, LastMousePosCanvas, MousePosScreen, LastMousePosScreen, CanvasMin, CanvasMax, CanvasOrigin;
@@ -357,6 +360,12 @@ namespace Progrimage
                             break;
                         case Events.OnMouseUp:
                             interactable.OnMouseUp(MousePosScreen, MousePosCanvas);
+                            break;
+                        case Events.OnMouse2DownCanvas:
+                            interactable.OnMouseDown2Canvas();
+                            break;
+                        case Events.OnMouse2Up:
+                            interactable.OnMouse2Up();
                             break;
                     }
                 }
@@ -707,14 +716,30 @@ namespace Progrimage
                 }
             }
 
+            // Right mouse down/up
+            bool rightMouseDown = ImGui.IsMouseDown(ImGuiMouseButton.Right) && (mouseInCanvas || IsDragging2);
+            bool rightMouseDownChanged = rightMouseDown != IsMouse2Down;
+            if (rightMouseDownChanged)
+            {
+                IsMouse2Down = rightMouseDown;
+                if (rightMouseDown)
+                {
+                    Mouse2DownStartInCanvas = mouseInCanvas;
+                    if (mouseInCanvas) eventHandlersTrigged.Enqueue(Events.OnMouse2DownCanvas);
+                }
+                else
+                {
+                    Mouse2DownStartInCanvas = false;
+                    eventHandlersTrigged.Enqueue(Events.OnMouse2Up);
+                }
+            }
+
 
             // Mouse move canvas
             if (IsWindowActive)
             {
-                if (MousePosCanvas != LastMousePosCanvas)
-                    eventHandlersTrigged.Enqueue(Events.OnMouseMoveCanvas);
-                if (MousePosCanvasDouble != LastMousePosCanvasDouble)
-                    eventHandlersTrigged.Enqueue(Events.OnMouseMoveCanvasDouble);
+                if (MousePosCanvas != LastMousePosCanvas) eventHandlersTrigged.Enqueue(Events.OnMouseMoveCanvas);
+                if (MousePosCanvasDouble != LastMousePosCanvasDouble) eventHandlersTrigged.Enqueue(Events.OnMouseMoveCanvasDouble);
             }
 
             bool b = MouseInCanvas && MouseDownStartInCanvas && IsMouseDown;
@@ -722,6 +747,12 @@ namespace Progrimage
             IsMouseDownCanvas = b;
 
             IsDragging = IsMouseDown && MouseDownStartInCanvas;
+
+            b = MouseInCanvas && Mouse2DownStartInCanvas && IsMouse2Down;
+            Mouse2DownCanvasChanged = b != IsMouse2DownCanvas;
+            IsMouse2DownCanvas = b;
+
+            IsDragging2 = IsMouse2Down && Mouse2DownStartInCanvas;
         }
 
         private void DrawCanvas()
