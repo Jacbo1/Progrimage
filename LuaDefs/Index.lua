@@ -1,10 +1,5 @@
 input = {}
 render = {}
-timer = {
-	shouldYield = function()
-		return os.clock() - timer.frameStartTimeClock > 0.0126666667
-	end
-}
 
 function math.round(x)
 	return math.floor(x + 0.5)

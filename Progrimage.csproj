@@ -151,6 +151,9 @@
     <None Update="LuaDefs\InternalFuncs.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="LuaDefs\Timer.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="LuaDefs\Vector2.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

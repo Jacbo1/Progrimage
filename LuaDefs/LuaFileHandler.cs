@@ -1,5 +1,6 @@
 ﻿using NewMath;
 using NLua;
+using NLua.Exceptions;
 using Progrimage.Utils;
 using System.Diagnostics;
 using System.Timers;
@@ -56,7 +57,7 @@ namespace Progrimage.LuaDefs
 		public static void OpenLuaEditor(string path)
 		{
 			path = Directory.GetCurrentDirectory() + '\\' + Defs.LUA_BASE_PATH + path;
-			if (!File.Exists(path)) File.Create(path);
+			if (!File.Exists(path)) File.WriteAllText(path, "");
 
 			try
 			{
@@ -111,8 +112,8 @@ namespace Progrimage.LuaDefs
 		private void FileTimerElapsed(object _, ElapsedEventArgs _2)
 		{
 			_fileUpdating = false;
-			InitLua();
-			_fileTimer.Dispose();
+            _fileTimer.Dispose();
+            InitLua();
 		}
 
 		private void InitLua()
@@ -131,13 +132,17 @@ namespace Progrimage.LuaDefs
 			{
 				LuaManager.InitLuaValues();
 				LuaPreInit();
-				LuaManager.Lua.DoFile(path);
+				LuaManager.Lua!.DoFile(path);
 				LuaPostInit();
 			}
+			catch (LuaScriptException e)
+			{
+                LuaManager.Error = e.Message;
+            }
 			catch (Exception e)
 			{
 				LuaManager.Error = e.Message;
-			}
+            }
 		}
 
 		protected virtual void LuaPreInit() { }

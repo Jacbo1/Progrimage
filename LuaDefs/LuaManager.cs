@@ -1,6 +1,7 @@
 ﻿using ImageSharpExtensions;
 using NewMath;
 using NLua;
+using NLua.Exceptions;
 using Progrimage.CoroutineUtils;
 using Progrimage.Tools;
 using Progrimage.Utils;
@@ -15,6 +16,7 @@ using UnsafeRefStruct;
 using Color = SixLabors.ImageSharp.Color;
 using Point = SixLabors.ImageSharp.Point;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
+using Timer = System.Timers.Timer;
 
 namespace Progrimage.LuaDefs
 {
@@ -42,7 +44,7 @@ namespace Progrimage.LuaDefs
         public static LuaManager Current;
 		public string? Error;
 		public Lua? Lua;
-        private LuaFunction _createVector2Func, _createVector3Func, _createVector4Func;
+        private LuaFunction _createVector2Func, _createVector3Func, _createVector4Func, _callTimersFunc;
         private LuaFunction? _currentCoroutine;
 		private Queue<FuncCallItem> _funcCallQueue = new();
 
@@ -56,12 +58,14 @@ namespace Progrimage.LuaDefs
         #region Public Methods
         public bool CallFunction(string funcName, params object[] args)
         {
+            if (Error is not null) return true;
             _funcCallQueue.Enqueue(new FuncCallItem(funcName, args));
             return !ProcessFuncCallQueue();
 		}
 
         public bool CallFunction(string funcName, Action callback, params object[] args)
         {
+            if (Error is not null) return true;
             _funcCallQueue.Enqueue(new FuncCallItem(funcName, callback, args));
             return !ProcessFuncCallQueue();
 		}
@@ -86,8 +90,7 @@ namespace Progrimage.LuaDefs
 			{
                 Error ??= e.Message;
 			}
-			if (_funcCallQueue.TryDequeue(out item))
-				if (item.Callback is not null) item.Callback();
+			if (_funcCallQueue.TryDequeue(out item)) item.Callback?.Invoke();
 			return false;
         }
 
@@ -115,7 +118,7 @@ namespace Progrimage.LuaDefs
                 {
                     Error ??= e.Message;
                 }
-                if (item.Callback is not null) item.Callback();
+                item.Callback?.Invoke();
 				_funcCallQueue.Dequeue();
 			}
 			return _currentCoroutine is null || Error is not null || !_funcCallQueue.Any();
@@ -141,12 +144,24 @@ namespace Progrimage.LuaDefs
         #region Private Methods
         private void PreUpdate(object _, EventArgs _2)
         {
-            if (Lua is null) return;
-            Lua["timer.frameTime"] = MainWindow.IO.DeltaTime;
-            Lua["timer.frameStartTime"] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond / 1000.0;
-            Lua.DoString("timer.frameStartTimeClock = os.clock()");
-            TryResumeCoroutine();
-            ProcessFuncCallQueue();
+            if (Error is not null || Lua is null) return;
+            try
+            {
+                Lua["timer.frameTime"] = MainWindow.IO.DeltaTime;
+                Lua["timer.frameStartTime"] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond / 1000.0;
+                Lua.DoString("timer.frameStartTimeClock = os.clock()");
+                _callTimersFunc.Call();
+                TryResumeCoroutine();
+                ProcessFuncCallQueue();
+            }
+            catch (LuaScriptException e)
+            {
+                Error ??= e.ToString();
+            }
+            catch (Exception e)
+            {
+                Error ??= e.Message;
+            }
         }
 
         private void Init()
@@ -155,6 +170,7 @@ namespace Progrimage.LuaDefs
 			Lua = new Lua();
             Current = this;
             Lua.DoFile(@"LuaDefs\Index.lua");
+            _callTimersFunc = (LuaFunction)Lua.DoFile(@"LuaDefs\Timer.lua")[0];
 			_createVector2Func = (LuaFunction)Lua["vec2"];
 			_createVector3Func = (LuaFunction)Lua["vec3"];
 			_createVector4Func = (LuaFunction)Lua["vec4"];
