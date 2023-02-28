@@ -12,40 +12,309 @@
 	</head>
 
     <body>
-        <h1>Progrimage Lua Documentation</h1>
-		<h1>THIS PAGE IS UNDER CONSTRUCTION</h1>
+        <h1><a href="https://github.com/Jacbo1/Progrimage">Progrimage</a> Lua Documentation</h1>
 
-        <h2>General info can be found on the <a href="https://github.com/Jacbo1/Progrimage/wiki/Editor">GitHub Wiki</a></h2>
-        
+        <h2>Examples can be found on <a href="https://github.com/Jacbo1/Progrimage/wiki/Lua-Examples">GitHub</a><br>
+        Regular Lua documentation can be found <a href="https://www.lua.org/manual/5.2/">here</a>.</h2>
+
+		<div class="group shrink">
+			<h3>Table of contents</h3>
+			<ul>
+				<li><a href="#additions">Additions to existing Lua tables</a></li>
+				<li><a href="#global">Global functions</a></li>
+				<li><a href="#input">input</a></li>
+				<li><a href="#LuaImage">LuaImage</a></li>
+				<li><a href="#LuaLayer">LuaLayer</a></li>
+				<li><a href="#render">render</a></li>
+				<li><a href="#timer">timer</a></li>
+				<li><a href="#vector2">vector2</a></li>
+				<li><a href="#vector3">vector3</a></li>
+				<li><a href="#vector4">vector4</a></li>
+				<li><a href="#tool_events">Lua Tool Events</a></li>
+				<li><a href="#composite_events">Lua Composite Events</a></li>
+			</ul>
+		</div>
+
+		<br>
+		<br>
+		<h2 class="type noul" id="additions">Additions to existing Lua tables</h2>
+		<div class="tab group">
+			<h3 class="code"><a class="type">number math</a>.round(<a class="type">number</a> n)</h3>
+			<p>Rounds the number to the nearest integer using <a class="typ">math.floor(n + 0.5)</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number math</a>.clamp(<a class="type">number</a> n, <a class="type">number</a> min, <a class="type">number</a> max)</h3>
+			<p>Clamps the number between min and max using <a class="typ">math.min(math.max(n, min), max)</a>.</p>
+		</div>
+		
+		<br>
 		<h2 class="type noul" id="global">global</h2>
 		<div class="tab group">
-			<h3 class="code"><a class="type" href="#vector2">vector2</a> vec2(<a class="type">number?</a> x, <a class="type">number?</a> y)</h3>
-			<p>Creates a <a class="type" href="#vector2">vector2</a>.</p>
-			<p>If called as <a class="type">vec2()</a>, returns <a class="type">vec2(0, 0)</a>.</p>
-			<p>If called as <a class="type">vec2(number n)</a>, returns <a class="type">vec2(n, n)</a>.</p>
-			<p>If called as <a class="type">vec2(number x, number y)</a>, returns <a class="type">vec2(x, y)</a>.</p>
+			<h3 class="code" id="vec2"><a class="type" href="#vector2">vector2</a> vec2(<a class="type">number?</a> x, <a class="type">number?</a> y)</h3>
+			<p>Creates a <a class="type" href="#vector2">vector2</a>.<br>
+			If called as <a class="type">vec2()</a>, returns <a class="type">vec2(0, 0)</a>.<br>
+			If called as <a class="type">vec2(number n)</a>, returns <a class="type">vec2(n, n)</a>.<br>
+			If called as <a class="type">vec2(number x, number y)</a>, returns <a class="type">vec2(x, y)</a>.</p>
 			<hr>
 
-			<h3 class="code"><a class="type" href="#vector3">vector3</a> vec3(<a class="type">number?</a> x, <a class="type">number?</a> y, <a class="type">number?</a> z)</h3>
-			<p>Creates a <a class="type" href="#vector3">vector3</a>.</p>
-			<p>If called as <a class="type">vec3()</a>, returns <a class="type">vec3(0, 0, 0)</a>.</p>
-			<p>If called as <a class="type">vec3(number n)</a>, returns <a class="type">vec3(n, n, n)</a>.</p>
-			<p>If called as <a class="type">vec3(number x, number y)</a>, returns <a class="type">vec3(x, y, 0)</a>.</p>
-			<p>If called as <a class="type">vec3(number x, number y, number z)</a>, returns <a class="type">vec3(x, y, z)</a>.</p>
+			<h3 class="code" id="vec3"><a class="type" href="#vector3">vector3</a> vec3(<a class="type">number?</a> x, <a class="type">number?</a> y, <a class="type">number?</a> z)</h3>
+			<p>Creates a <a class="type" href="#vector3">vector3</a>.<br>
+			If called as <a class="type">vec3()</a>, returns <a class="type">vec3(0, 0, 0)</a>.<br>
+			If called as <a class="type">vec3(number n)</a>, returns <a class="type">vec3(n, n, n)</a>.<br>
+			If called as <a class="type">vec3(number x, number y)</a>, returns <a class="type">vec3(x, y, 0)</a>.<br>
+			If called as <a class="type">vec3(number x, number y, number z)</a>, returns <a class="type">vec3(x, y, z)</a>.</p>
 			<hr>
 
-			<h3 class="code"><a class="type" href="#vector4">vector4</a> vec4(<a class="type">number?</a> x, <a class="type">number?</a> y, <a class="type">number?</a> z, <a class="type">number?</a> w)</h3>
-			<p>Creates a <a class="type" href="#vector4">vector4</a>.</p>
-			<p>If called as <a class="type">vec4()</a>, returns <a class="type">vec4(0, 0, 0, 0)</a>.</p>
-			<p>If called as <a class="type">vec4(number n)</a>, returns <a class="type">vec4(n, n, n, n)</a>.</p>
-			<p>If called as <a class="type">vec4(number x, number y)</a>, returns <a class="type">vec4(x, y, 0, 0)</a>.</p>
-			<p>If called as <a class="type">vec4(number x, number y, number z)</a>, returns <a class="type">vec4(x, y, z, 0)</a>.</p>
-			<p>If called as <a class="type">vec4(number x, number y, number w)</a>, returns <a class="type">vec4(x, y, z, w)</a>.</p>
+			<h3 class="code" id="vec4"><a class="type" href="#vector4">vector4</a> vec4(<a class="type">number?</a> x, <a class="type">number?</a> y, <a class="type">number?</a> z, <a class="type">number?</a> w)</h3>
+			<p>Creates a <a class="type" href="#vector4">vector4</a>.<br>
+			If called as <a class="type">vec4()</a>, returns <a class="type">vec4(0, 0, 0, 0)</a>.<br>
+			If called as <a class="type">vec4(number n)</a>, returns <a class="type">vec4(n, n, n, n)</a>.<br>
+			If called as <a class="type">vec4(number x, number y)</a>, returns <a class="type">vec4(x, y, 0, 0)</a>.<br>
+			If called as <a class="type">vec4(number x, number y, number z)</a>, returns <a class="type">vec4(x, y, z, 0)</a>.<br>
+			If called as <a class="type">vec4(number x, number y, number w)</a>, returns <a class="type">vec4(x, y, z, w)</a>.</p>
+		</div>
+
+		<br>
+		<h2 class="type noul" id="input">input</h2>
+		<div class="tab group">
+			<h3 class="code"><a class="type" href="#vector2">vector2</a><a class="type"> input</a>.getMousePosCanvas()</h3>
+			<p>Gets the mouse position in canvas coordinates.<br>This is slightly expensive because it calls a C# method.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector2">vector2</a><a class="type"> input</a>.getMousePosScreen()</h3>
+			<p>Gets the mouse position in screen coordinates.<br>This is slightly expensive because it calls a C# method.</p>
+			<hr>
+
+			<h3 class="code" id="input_isMouseDown"><a class="type">boolean input</a>.isMouseDown()</h3>
+			<p>Returns <a class="type">true</a> if the left mouse button is down as long as a normal tool should react. Returns <a class="type">false</a> if the mouse was pressed outside of the canvas, while over a menu, or while the window was unfocused.<br>This is slightly expensive because it calls a C# method.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">boolean input</a>.isMouse2Down()</h3>
+			<p>Returns <a class="type">true</a> if the right mouse button is down. Follows the same rules as <a class="type" href="#input_isMouseDown">input.isMouseDown()</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">boolean input</a>.isMouseInCanvas()</h3>
+			<p>Returns <a class="type">true</a> if mouse is within the canvas bounds and not blocked by another window or menu.<br>This is slightly expensive because it calls a C# method.</p>
+		</div>
+
+		<br>
+		<h2 class="type noul" id="LuaImage">LuaImage</h2>
+		<div class="tab group">
+			<p><b>Important</b>: make sure to call <a class="type" href="#LuaImage_dispose">LuaImage:dispose()</a> when done with an image to free up memory.</p>
+			<p>Note: <a class="type">LuaImages</a> cannot be used to as keys to tables due to them being wrapper objects to an internal class and may sometimes be recreated.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:clear(<a class="type" href="#vector3">vector3?</a><a class="type"> or </a><a class="type" href="#vector4">vector4?</a> color)</h3>
+			<p>Sets all pixels in the image to the given color. If no color is provided, it will use 0,0,0,0</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:clear(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> x, <a class="type">number</a> y, <a class="type">number</a> width, <a class="type">number</a> height) or<br>
+				<a class="type">LuaImage</a>:clear(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type" href="#vector2">vector2</a> pos, <a class="type" href="#vector2">vector2</a> size)</h3>
+			<p>Sets all pixels in the rectangle to the given color.</p>
+			<hr>
+
+			<h3 class="code" id="LuaImage_dispose"><a class="type">LuaImage</a>:dispose()</h3>
+			<p>Disposes of the image and frees up memory. Make sure to call this when done with an image.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">LuaImage</a>:drawArc(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type" href="#vector2">vector2</a> center, <a class="type" href="#vector2">vector2</a> radius, <a class="type">number</a> thickness, <a class="type">number</a> startAngle, <a class="type">number</a> angleDelta)</h3>
+			<p>Draws an arc on the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawLine(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type">number</a> x1, <a class="type">number</a> y1, <a class="type">number</a> x2, <a class="type">number</a> y2) or<br>
+				<a class="type">LuaImage</a>:drawLine(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type" href="#vector2">vector2</a> start, <a class="type" href="#vector2">vector2</a> stop)</h3>
+			<p>Draws a line on the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawMask(<a class="type">LuaImage</a> mask)</h3>
+			<p>Multiplies the alpha of this image with the alpha of the mask. E.g. if a pixel in the mask has an alpha of 0, the pixel in this image will then have an alpha of 0. If the mask has 255, then the pixel in this image will be unmodified.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawOval(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type">number</a> x, <a class="type">number</a> y, <a class="type">number</a> width, <a class="type">number</a> height) or<br>
+				<a class="type">LuaImage</a>:drawOval(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type" href="#vector2">vector2</a> pos, <a class="type" href="#vector2">vector2</a> size)</h3>
+			<p>Draws an outlined oval on the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawOver(<a class="type">LuaImage</a> overlay, <a class="type">bool?</a> expand)</h3>
+			<p>Draws the overlay image on top of this image. Pass true to expand the image when drawing if needed. Default to false.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawRect(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type">number</a> x, <a class="type">number</a> y, <a class="type">number</a> width, <a class="type">number</a> height) or<br>
+				<a class="type">LuaImage</a>:drawRect(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type" href="#vector2">vector2</a> pos, <a class="type" href="#vector2">vector2</a> size)</h3>
+			<p>Draws an outlined rectangle on the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawReplace(<a class="type">LuaImage</a> overlay, <a class="type">bool?</a> expand)</h3>
+			<p>Draws the overlay image on top of this image but replaces the pixels instend of blending them. Pass true to expand the image when drawing if needed. Default to false.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawCubicCurve(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type" href="#vector2">vector2</a> p1, <a class="type" href="#vector2">vector2</a> p2, <a class="type" href="#vector2">vector2</a> p3, <a class="type" href="#vector2">vector2</a> p4)</h3>
+			<p>Draws a cubic Bézier curve on the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawPolygon(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type">table</a> points)</h3>
+			<p>Draws an outlined polygon on the image. The table is a set of <a class="type" href="#vector2">vector2s</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawQuadraticCurve(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type" href="#vector2">vector2</a> p1, <a class="type" href="#vector2">vector2</a> p2, <a class="type" href="#vector2">vector2</a> p3)</h3>
+			<p>Draws a quadratic Bézier curve on the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:expandToContain(<a class="type">number</a> x, <a class="type">number</a> y, <a class="type">number</a> width, <a class="type">number</a> height) or<br>
+				<a class="type">LuaImage</a>:expandToContain(<a class="type" href="#vector2">vector2</a> pos, <a class="type" href="#vector2">vector2</a> size)</h3>
+			<p>If the given bounds are not fully encapsulated by the image, it will be repositioned and resized to contain it.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:fillOval(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> x, <a class="type">number</a> y, <a class="type">number</a> width, <a class="type">number</a> height) or<br>
+				<a class="type">LuaImage</a>:fillOval(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type" href="#vector2">vector2</a> pos, <a class="type" href="#vector2">vector2</a> size)</h3>
+			<p>Draws a filled oval on the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:fillPolygon(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">table</a> points)</h3>
+			<p>Draws a filled polygon on the image. The table is a set of <a class="type" href="#vector2">vector2s</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:fillRect(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> x, <a class="type">number</a> y, <a class="type">number</a> width, <a class="type">number</a> height) or<br>
+				<a class="type">LuaImage</a>:fillRect(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type" href="#vector2">vector2</a> pos, <a class="type" href="#vector2">vector2</a> size)</h3>
+			<p>Draws a filled rectangle on the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector4">vector4</a><a class="type"> LuaImage</a>:getPixel(<a class="type">number</a> x, <a class="type">number</a> y) or<br>
+				<a class="type" href="#vector4">vector4</a> <a class="type">LuaImage</a>:getPixel(<a class="type" href="#vector2">vector2</a> pos)</h3>
+			<p>Gets the color of a pixel as a <a class="type" href="#vector4">vector4</a>.<br>
+			This function is slightly expensive because it calls a C# method.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">table LuaImage</a>:getPixels()</h3>
+			<p>Get a table containing <a class="type" href="#vector4">vector4s</a> of the image's pixels.<br>
+				This function is expensive but may provide performance improvements if each pixel needs to be accessed or set multiple times.<br>
+				Indexed by <a class="type">tbl[x+1][y+1]</a>.
+			</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage LuaImage</a>:getSubimage(<a class="type">number</a> x, <a class="type">number</a> y, <a class="type">number</a> width, <a class="type">number</a> height) or<br>
+				<a class="type">LuaImage LuaImage</a>:getSubimage(<a class="type" href="#vector2">vector2</a> pos, <a class="type" href="#vector2">vector2</a> size)</h3>
+			<p>Gets a subimage at the position and size.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number LuaImage</a>.height</h3>
+			<p>Get or set the height of the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector2">vector2</a><a class="type"> LuaImage</a>.pos</h3>
+			<p>Get or set the position of the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:resize(<a class="type">number</a> width, <a class="type">number</a> height, <a class="type">string?</a> samplingMode) or<br>
+				<a class="type">LuaImage</a>:resize(<a class="type" href="#vector2">vector2</a> size, <a class="type">string?</a> samplingMode)</h3>
+			<p>Resizes the image. If the sampling mode is not provided, it will default to bicubic.<br>
+				Passing 0 for width or height (not both) will preserve the aspect ratio.<br>
+				Valid sampling modes are:
+			</p>
+			<ul>
+				<li><b>bicubic</b> - Commonly used algorithm that preserves sharpness better than triangle (bilinear) interpolation.</li>
+				<li><b>box</b> - When downscaling, the pixels will average and merge together. Similar to nearest neighbor when upscaling.</li>
+				<li><b>catmullrom</b> - Cubic filter that produces a reasonably sharp edge, but without the pronounced gradient change on large scale image enlargements that a Lagrange filter can produce.</li>
+				<li><b>hermite</b> - Smoothed triangular interpolation filter that rounds off strong edges while preserving flat color levels in the original image.</li>
+				<li><b>lanczos2</b> - Lanczos kernel sampler that implements smooth interpolation with a radius of 2 pixels. Gives sharper results than others when downsampling. All of this applies to the rest of the Lanczos sampling modes.</li>
+				<li><b>lanczos3</b> - Lanczos kernel algorithm with a radius of 3.</li>
+				<li><b>lanczos5</b> - Lanczos kernel algorithm with a radius of 5.</li>
+				<li><b>lanczos8</b> - Lanczos kernel algorithm with a radius of 8.</li>
+				<li><b>mitchell</b> - Mitchell-Netravali sampling mode. Yields a very good equilibrium between detail preservation (sharpness) and smoothness.</li>
+				<li><b>nearestneighbor</b> - Selects the closest pixel to the new pixel's position. Good for pixel art and scaling up without making the enlarged pixels blurry.</li>
+				<li><b>robidoux</b> - Very good equilibrium between detail preservation (sharpness) and smoothness.</li>
+				<li><b>robidouxsharp</b> - Sharpened version of robidoux sampling mode.</li>
+				<li><b>spline</b> - Cubic algorithm similar to Mitchell-Netravali but with smoother results.</li>
+				<li><b>triangle</b> - Bilinear sampling. Interpolates pixels linearly between 4 corner pixels.</li>
+				<li><b>welch</b> - High speed algorithm that gives very sharpened results.</li>
+			</ul>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:setPixel(<a class="type">number</a> x, <a class="type">number</a> y, <a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color) or<br>
+				<a class="type">LuaImage</a>:setPixel(<a class="type" href="#vector2">vector2</a> pos, <a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color)</h3>
+			<p>Sets the color of a pixel.<br>
+			This function is slightly expensive because it calls a C# method.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:setPixels(<a class="type">table</a> pixels)</h3>
+			<p>Sets the pixels of the image. The table must be either <a class="type" href="#vector3">vector3s</a> or <a class="type" href="#vector4">vector4s</a> and not contain any keys other than integer coordinates.<br>
+			This function is expensive but may provide performance improvements if each pixel needs to be accessed or set multiple times.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector2">vector2</a><a class="type"> LuaImage</a>.size</h3>
+			<p>Get or set the size of the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:tint(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color)</h3>
+			<p>Multiplies the pixels of this image by the color, including alpha. The color can be bigger than 255 to brighten the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number LuaImage</a>.width</h3>
+			<p>Get or set the width of the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number LuaImage</a>.x</h3>
+			<p>Get or set the x position of the image.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number LuaImage</a>.y</h3>
+			<p>Get or set the y position of the image.</p>
+		</div>
+
+		<br>
+		<h2 class="type noul" id="LuaLayer">LuaLayer</h2>
+		<div class="tab group">
+			<p><b>Important:</b> <a class="type" href="#LuaLayer_update">LuaLayer:update()</a> must be called to update the layer after modifying it. This also calls <a class="type" href="#render_update">render.update()</a>.</p>
+			<p><b>Important:</b> <a class="type" href="#LuaLayer_dispose">LuaLayer:dispose()</a> must be called when done with the layer to dispose of it and free up memory.</p>
+			<p>Note: <a class="type">LuaLayers</a> cannot be used to as keys to tables due to them being wrapper objects to an internal class and may sometimes be recreated.</p>
+			<hr>
+
+			<h3 class="code" id="LuaLayer_dispose"><a class="type">LuaLayer</a>:dispose()</h3>
+			<p>Disposes of the layer and its image, and frees up memory. Make sure to call this when done with the layer.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#LuaImage">LuaImage</a><a class="type"> LuaLayer</a>.image</h3>
+			<p>Get or set the layer's <a class="type" href="#LuaImage">LuaImage</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number LuaLayer</a>.height</h3>
+			<p>Get or set the height of the layer's <a class="type" href="#LuaImage">LuaImage</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector2">vector2</a><a class="type"> LuaLayer</a>.pos</h3>
+			<p>Get or set the position of the layer's <a class="type" href="#LuaImage">LuaImage</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaLayer</a>:setActive()</h3>
+			<p>Makes this the active layer.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector2">vector2</a><a class="type"> LuaLayer</a>.size</h3>
+			<p>Get or set the size of the layer's <a class="type" href="#LuaImage">LuaImage</a>.</p>
+			<hr>
+
+			<h3 class="code" id="LuaLayer_update"><a class="type">LuaLayer</a>:update()</h3>
+			<p>Updates the Layer's composites and tells the renderer to update. This must be called after changing anything with the layer. Automatically calls <a class="type" href="#render_update">render.update()</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number LuaLayer</a>.width</h3>
+			<p>Get or set the width of the layer's <a class="type" href="#LuaImage">LuaImage</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number LuaLayer</a>.x</h3>
+			<p>Get or set the x position of the layer's <a class="type" href="#LuaImage">LuaImage</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number LuaLayer</a>.y</h3>
+			<p>Get or set the y position of the layer's <a class="type" href="#LuaImage">LuaImage</a>.</p>
 		</div>
 
 		<br>
 		<h2 class="type noul" id="render">render</h2>
 		<div class="tab group">
+			<p><b>Important:</b> <a class="type" href="#render_update">render.update()</a> must be called to tell the renderer to update. This is automatically called by <a class="type" href="#LuaLayer_update">LuaLayer:update()</a>.</p>
+			<hr>
+
 			<h3 class="code"><a class="type">render</a>.beginStroke(<a class="type" href="#vector2">vector2</a> pos)</h3>
 			<p>Starts the stroke on the active layer.</p>
 			<hr>
@@ -98,10 +367,6 @@
 			<p>Gets the zoom of the rendered canvas.</p>
 			<hr>
 
-			<h3 class="code"><a class="type">boolean render</a>.isMouseDown()</h3>
-			<p>Returns <a class="type">true</a> if the left mouse button is down as long as a normal tool should react. Returns <a class="type">false</a> if the mouse was pressed outside of the canvas, while over a menu, or while the window was unfocused.</p>
-			<hr>
-
 			<h3 class="code"><a class="type">render</a>.setActiveLayer(<a class="type" href="#LuaLayer">LuaLayer</a> layer)</h3>
 			<p>Sets the active layer.</p>
 			<hr>
@@ -114,13 +379,21 @@
 			<p>Sets the stroke size.</p>
 			<hr>
 
-			<h3 class="code"><a class="type">render</a>.update()</h3>
-			<p>Tells the program to update the rendered image. This is automatically called by <a class="type" href="#LuaLayer">LuaLayer</a><a class="type">:update()</a></p>
+			<h3 class="code" id="render_update"><a class="type">render</a>.update()</h3>
+			<p>Tells the program to update the rendered image. This is automatically called by <a class="type" href="#LuaLayer_update">LuaLayer:update()</a></p>
 		</div>
 
 		<br>
 		<h2 class="type noul" id="timer">timer</h2>
 		<div class="tab group">
+			<h3 class="code"><a class="type">timer</a>.create(<a class="type">string</a> name, <a class="type">number</a> repetitions, <a class="type">number</a> interval, <a class="type">function</a> callback)</h3>
+			<p>Creates a timer that will run the callback on an interval.<br>
+				The value passed for <a class="type">repetitions</a> is how many times the callback will be run in total. Pass 0 to repeat infinitely.<br>
+				Will pass how much extra time over the target interval elapsed to the callback function.<br>
+				The timer will adjust after each run to account for the extra time.
+			</p>
+			<hr>
+
 			<h3 class="code"><a class="type">number timer</a>.frameTime</h3>
 			<p>The time the last frame took to process in seconds.</p>
 			<hr>
@@ -133,14 +406,341 @@
 			<p>The time the current frame began processing based on <a class="type">os.clock()</a> which has less precision than <a class="type" href="#timer_frameStartTime">timer.frameStartTime</a>.</p>
 			<hr>
 
+			<h3 class="code"><a class="type">timer</a>.remove(<a class="type">string</a> name)</h3>
+			<p>Deletes the timer.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">timer</a>.setCallback(<a class="type">string</a> name, <a class="type">function</a> callback)</h3>
+			<p>Sets the timer's callback.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">timer</a>.setInterval(<a class="type">string</a> name, <a class="type">number</a> interval)</h3>
+			<p>Sets the timer's interval.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">timer</a>.setRepetitions(<a class="type">string</a> name, <a class="type">number</a> repetitions)</h3>
+			<p>Sets the timer's repetition limit.</p>
+			<hr>
+
 			<h3 class="code"><a class="type">boolean timer</a>.shouldYield()</h3>
 			<p>Returns <a class="type">true</a> if the calling code should yield. This is determined by checking if the processing time has exceeded <a class="type">os.clock() - </a><a class="type" href="#timer_frameStartTimeClock">timer.frameStartTimeClock</a><a class="type"> > 0.0126666667</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">timer</a>.simple(<a class="type">number</a> delay, <a class="type">function</a> callback)</h3>
+			<p>Starts a timer that will run the call back of the specified amount of seconds. Will pass how much extra time over the target delay elapsed to the callback function.</p>
 		</div>
 
 		<br>
 		<h2 class="type noul" id="vector2">vector2</h2>
 		<div class="tab group">
+			<h3 class="code"><a class="type">vector2 vector2</a>:ceil()</h3>
+			<p>Rounds the <a class="type">vector2</a> up to integers.</p>
+			<hr>
 
+			<h3 class="code" id="vector2_distance"><a class="type">number vector2</a>:distance(<a class="type">vector2</a> vec)</h3>
+			<p>Gets the distance between 2 <a type="type">vector2s</a>.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">number vector2</a>:distanceSqr()</h3>
+			<p>Gets the squared distance between 2 <a type="type">vector2s</a>. This is faster to compute than <a class="type">vector2</a><a class="type" href="#vector2_distance">:distance(vector2)</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number vector2</a>:dot(<a class="type">vector2</a> vec)</h3>
+			<p>Gets the dot product between 2 <a class="type">vector2s</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector2 vector2</a>:floor()</h3>
+			<p>Rounds the <a class="type">vector2</a> down to integers.</p>
+			<hr>
+
+			<h3 class="code" id="vector2_length"><a class="type">number vector2</a>:length()</h3>
+			<p>Gets the length of the <a type="type">vector2</a>.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">number vector2</a>:lengthSqr()</h3>
+			<p>Gets the squared length of the <a type="type">vector2</a>. This is faster to compute than <a class="type">vector2</a><a class="type" href="#vector2_length">:length()</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector2 vector2</a>:max(<a class="type">vector2</a> vec)</h3>
+			<p>Returns a <a type="type">vector2</a> with the largest components of the 2 vectors.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">vector2 vector2</a>:min(<a class="type">vector2</a> vec)</h3>
+			<p>Returns a <a type="type">vector2</a> with the lowest components of the 2 vectors.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">vector2 vector2</a>:perpendicular()</h3>
+			<p>Gets a perpendicular <a class="type">vector2</a> pointing to the right.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">vector2 vector2</a>:round()</h3>
+			<p>Rounds the <a class="type">vector2</a> to the nearest integer values.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector3">vector3</a><a class="type"> vector2</a>:toVec3(<a class="type">number?</a> z)</h3>
+			<p>Calls <a class="type" href="#vec3">vec3(self[1], self[2], z)</a>.<br>
+			If z is not passed, acts like <a class="type" href="#vec3">vec3(self[1], self[2])</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector4">vector4</a><a class="type"> vector2</a>:toVec4(<a class="type">number?</a> z, <a class="type">number?</a> w)</h3>
+			<p>Calls <a class="type" href="#vec4">vec4(self[1], self[2], z, w)</a>.<br>
+			The parameters are optional.</p>
+			<hr>
+
+			<p><a class="type">Vector2</a> also supports addition, subtraction, multiplication, division, exponents, and modulos with <a class="type">numbers</a> and other <a class="type">vector2s</a>, as well as negation, concatenation, tostring(<a class="type">vector2</a>), and checking if 2 <a class="type">vector2s</a> are equal.</p>
+		</div>
+
+		<br>
+		<h2 class="type noul" id="vector3">vector3</h2>
+		<div class="tab group">
+			<p>Note: color is stored as RGB 0-255.<br>
+			Components are index numerically, e.g. x = vec[1]</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector3 vector3</a>:blendColor(<a class="type">vector3 or </a><a class="type" href="#vector4">vector4</a> over)</h3>
+			<p>Alpha blends the input color over itself.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector3 vector3</a>:ceil()</h3>
+			<p>Rounds the <a class="type">vector3</a> up to integers.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">vector3 vector3</a>:cross(<a class="type">vector3</a> vec)</h3>
+			<p>Gets the cross product of 2 <a class="type">vector3s</a>.</p>
+			<hr>
+
+			<h3 class="code" id="vector3_distance"><a class="type">number vector3</a>:distance(<a class="type">vector3</a> vec)</h3>
+			<p>Gets the distance between 2 <a type="type">vector3s</a>.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">number vector3</a>:distanceSqr()</h3>
+			<p>Gets the squared distance between 2 <a type="type">vector3s</a>. This is faster to compute than <a class="type">vector3</a><a class="type" href="#vector3_distance">:distance(vector3)</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number vector3</a>:dot(<a class="type">vector3</a> vec)</h3>
+			<p>Gets the dot product between 2 <a class="type">vector3s</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector3 vector3</a>:floor()</h3>
+			<p>Rounds the <a class="type">vector3</a> down to integers.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector3 vector3</a>:hslToRgb()</h3>
+			<p>Converts an HSL color to RGB.<br>
+				H = [0 => 360]<br>
+				S = [0 => 1]<br>
+				L = [0 => 1]
+			<hr>
+
+			<h3 class="code"><a class="type">vector3 vector3</a>:hsvToRgb()</h3>
+			<p>Converts an HSV color to RGB.<br>
+				H = [0 => 360]<br>
+				S = [0 => 1]<br>
+				V = [0 => 1]
+			<hr>
+
+			<h3 class="code" id="vector3_length"><a class="type">number vector3</a>:length()</h3>
+			<p>Gets the length of the <a type="type">vector3</a>.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">number vector3</a>:lengthSqr()</h3>
+			<p>Gets the squared length of the <a type="type">vector3</a>. This is faster to compute than <a class="type">vector3</a><a class="type" href="#vector3_length">:length()</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector3 vector3</a>:max(<a class="type">vector3</a> vec)</h3>
+			<p>Returns a <a type="type">vector3</a> with the largest components of the 2 vectors.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">vector3 vector3</a>:min(<a class="type">vector3</a> vec)</h3>
+			<p>Returns a <a type="type">vector3</a> with the lowest components of the 2 vectors.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">vector3 vector3</a>:round()</h3>
+			<p>Rounds the <a class="type">vector3</a> to the nearest integer values.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector3 vector3</a>:rgbToHsl()</h3>
+			<p>Converts an RGB color to HSL.<br>
+				H = [0 => 360]<br>
+				S = [0 => 1]<br>
+				L = [0 => 1]
+			<hr>
+
+			<h3 class="code"><a class="type">vector3 vector3</a>:rgbToHsv()</h3>
+			<p>Converts an RGB color to HSV.<br>
+				H = [0 => 360]<br>
+				S = [0 => 1]<br>
+				V = [0 => 1]
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector2">vector2</a><a class="type"> vector3</a>:toVec2()</h3>
+			<p>Calls <a class="type" href="#vec2">vec2(self[1], self[2])</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector4">vector4</a><a class="type"> vector3</a>:toVec4(<a class="type">number?</a> w)</h3>
+			<p>Calls <a class="type" href="#vec4">vec4(self[1], self[2], self[3], w)</a>.<br>
+			If w is not passed, acts like <a class="type" href="#vec4">vec4(self[1], self[2], self[4])</a>.</p>
+			<hr>
+
+			<p><a class="type">Vector3</a> also supports addition, subtraction, multiplication, division, exponents, and modulos with <a class="type">numbers</a> and other <a class="type">vector3s</a>, as well as negation, concatenation, tostring(<a class="type">vector3</a>), and checking if 2 <a class="type">vector3s</a> are equal.</p>
+		</div>
+
+		<br>
+		<h2 class="type noul" id="vector4">vector4</h2>
+		<div class="tab group">
+			<p>Note: color is stored as RGBA 0-255.<br>
+			Components are index numerically, e.g. x = vec[1]</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector4 vector4</a>:blendColor(<a class="type" href="#vector3">vector3</a><a class="type"> or vector4</a> over)</h3>
+			<p>Alpha blends the input color over itself.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector4 vector4</a>:ceil()</h3>
+			<p>Rounds the <a class="type">vector4</a> up to integers.</p>
+			<hr>
+
+			<h3 class="code" id="vector4_distance"><a class="type">number vector4</a>:distance(<a class="type">vector4</a> vec)</h3>
+			<p>Gets the distance between 2 <a type="type">vector4s</a>.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">number vector4</a>:distanceSqr()</h3>
+			<p>Gets the squared distance between 2 <a type="type">vector4s</a>. This is faster to compute than <a class="type">vector4</a><a class="type" href="#vector4_distance">:distance(vector4)</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">number vector4</a>:dot(<a class="type">vector4</a> vec)</h3>
+			<p>Gets the dot product between 2 <a class="type">vector4s</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector4 vector4</a>:floor()</h3>
+			<p>Rounds the <a class="type">vector4</a> down to integers.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector4 vector4</a>:hslToRgb()</h3>
+			<p>Converts an HSLA color to RGBA.<br>
+				H = [0 => 360]<br>
+				S = [0 => 1]<br>
+				L = [0 => 1]<br>
+				A = [0 => 255]
+			<hr>
+
+			<h3 class="code"><a class="type">vector4 vector4</a>:hsvToRgb()</h3>
+			<p>Converts an HSVA color to RGBA.<br>
+				H = [0 => 360]<br>
+				S = [0 => 1]<br>
+				V = [0 => 1]<br>
+				A = [0 => 255]
+			<hr>
+
+			<h3 class="code" id="vector4_length"><a class="type">number vector4</a>:length()</h3>
+			<p>Gets the length of the <a type="type">vector4</a>.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">number vector4</a>:lengthSqr()</h3>
+			<p>Gets the squared length of the <a type="type">vector4</a>. This is faster to compute than <a class="type">vector4</a><a class="type" href="#vector4_length">:length()</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector4 vector4</a>:max(<a class="type">vector4</a> vec)</h3>
+			<p>Returns a <a type="type">vector4</a> with the largest components of the 2 vectors.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">vector4 vector4</a>:min(<a class="type">vector4</a> vec)</h3>
+			<p>Returns a <a type="type">vector4</a> with the lowest components of the 2 vectors.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">vector4 vector4</a>:round()</h3>
+			<p>Rounds the <a class="type">vector4</a> to the nearest integer values.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector4 vector4</a>:rgbToHsl()</h3>
+			<p>Converts an RGBA color to HSLA.<br>
+				H = [0 => 360]<br>
+				S = [0 => 1]<br>
+				L = [0 => 1]<br>
+				A = [0 => 255]
+			</p>
+			<hr>
+
+			<h3 class="code"><a class="type">vector4 vector4</a>:rgbToHsv()</h3>
+			<p>Converts an RGBA color to HSVA.<br>
+				H = [0 => 360]<br>
+				S = [0 => 1]<br>
+				V = [0 => 1]<br>
+				A = [0 => 255]
+			</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector2">vector2</a><a class="type"> vector4</a>:toVec2()</h3>
+			<p>Calls <a class="type" href="#vec2">vec2(self[1], self[2])</a>.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#vector3">vector3</a><a class="type"> vector4</a>:toVec3()</h3>
+			<p>Calls <a class="type" href="#vec3">vec3(self[1], self[2], self[3])</a>.</p>
+			<hr>
+
+			<p><a class="type">Vector4</a> also supports addition, subtraction, multiplication, division, exponents, and modulos with <a class="type">numbers</a> and other <a class="type">vector4s</a>, as well as negation, concatenation, tostring(<a class="type">vector4</a>), and checking if 2 <a class="type">vector4s</a> are equal.</p>
+		</div>
+
+		<br>
+		<h2 class="type noul" id="tool_events">Lua Tool Events</h2>
+		<div class="tab group">
+			<h3 class="code">OnDeselect()</h3>
+			<p>Called when the tool is deselected.</p>
+			<hr>
+
+			<h3 class="code">OnLayerDeselect(<a class="type" href="#LuaLayer">LuaLayer</a> layer)</h3>
+			<p>Called when a layer is deselected.</p>
+			<hr>
+
+			<h3 class="code">OnLayerSelect(<a class="type" href="#LuaLayer">LuaLayer</a> layer)</h3>
+			<p>Called when a layer is selected.</p>
+			<hr>
+
+			<h3 class="code">OnMouseDown(<a class="type" href="#vector2">vector2</a> mousePos)</h3>
+			<p>Called when the user presses the left mouse button on the canvas. Passes the curor's canvas coordinates. Follows the same rules as <a class="type" href="#input_isMouseDown">input.isMouseDown()</a>.</p>
+			<hr>
+
+			<h3 class="code">OnMouse2Down(<a class="type" href="#vector2">vector2</a> mousePos)</h3>
+			<p>Called when the user presses the right mouse button on the canvas. Passes the curor's canvas coordinates. Follows the same rules as <a class="type" href="#input_isMouseDown">input.isMouseDown()</a>.</p>
+			<hr>
+
+			<h3 class="code">OnMouseEnterCanvas(<a class="type" href="#vector2">vector2</a> mousePos)</h3>
+			<p>Called when the user's cursor enters the canvas. Passes the curor's canvas coordinates.</p>
+			<hr>
+
+			<h3 class="code">OnMouseExitConvas(<a class="type" href="#vector2">vector2</a> mousePos)</h3>
+			<p>Called when the user's cursor exits the canvas. Passes the curor's canvas coordinates.</p>
+			<hr>
+
+			<h3 class="code">OnMouseUp(<a class="type" href="#vector2">vector2</a> mousePos)</h3>
+			<p>Called when the user releases the left mouse button. Passes the curor's canvas coordinates.</p>
+			<hr>
+
+			<h3 class="code">OnMouse2Up(<a class="type" href="#vector2">vector2</a> mousePos)</h3>
+			<p>Called when the user releases the right mouse button. Passes the curor's canvas coordinates.</p>
+			<hr>
+
+			<h3 class="code">OnMouseMoveCanvas(<a class="type" href="#vector2">vector2</a> mousePos)</h3>
+			<p>Called when the cursor's canvas position changes. Passes the curor's canvas coordinates.</p>
+			<hr>
+
+			<h3 class="code">OnMouseMoveScreen(<a class="type" href="#vector2">vector2</a> mousePos)</h3>
+			<p>Called when the user moves their mouse and passes the cursor's screen coordinates.</p>
+			<hr>
+
+			<h3 class="code">OnSelect()</h3>
+			<p>Called when the tool is selected.</p>
+			<hr>
+
+			<h3 class="code">Update()</h3>
+			<p>Called every frame after all other events.</p>
+		</div>
+
+		<br>
+		<h2 class="type noul" id="composite_events">Lua Composite Events</h2>
+		<div class="tab group">
+			<h3 class="code">Run(<a class="type" href="#LuaImage">LuaImage</a> image)</h3>
+			<p>Called when the composite is run.</p>
 		</div>
     </body>
 </html>
