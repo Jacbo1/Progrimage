@@ -1,5 +1,7 @@
 # Progrimage
-**A User-end scripting focused image editor**
+**A User-end scripting focused image editor**  
+**Requires [.NET 6.0](https://dotnet.microsoft.com/en-us/download)**
+
 **NOTE: This is a very unfinished early build. On the rare occassion it may crash but I am working on its stability and have been fixing crashes.**  
 Some (or a lot) of the code also needs refactoring to make it look better.  
   
@@ -35,8 +37,6 @@ The main feature of this image editor is the ability for users to easily create 
 * Other
   * Lua tools and composites are automatically rerun when the file is edited so you can edit them in real-time
   * Copy images directly out of the program to paste elsewhere without needing to save to a file. Note: Currently cannot preserve transparency
-  * Style editor
-  * Easily pan and zoom without switching tools or clearing steps
 * Other basic minor things not worth mentioning
   
 **Planned Features**
@@ -53,12 +53,15 @@ The main feature of this image editor is the ability for users to easily create 
 * Create my own icons for the tools that currently have placeholders from Google images
 * Better Lua implementations
 * More Lua functionality
-* More that were not mentioned
-
+* More that were not mentioned  
+  
+You can find an executable in the [releases](https://github.com/Jacbo1/Progrimage/releases/latest).  
+  
+Known issue: sometimes everything will be black except for icons and text. I don't know what causes this but for me it happens when I start the program while on battery power. I think it's an issue with DesktopGL or ImGui.NET but I don't know if I can fix it.  
+  
 # Building
 **Requirements**
-* [My vector library](https://github.com/Jacbo1/Vector-Library)
-* [My ImageSharp Extensions](https://github.com/Jacbo1/ImageSharpExtensions/tree/master)
+* The dlls included in the release.
 * [ImageSharp](https://www.nuget.org/packages/SixLabors.ImageSharp/2.1.3)
 * [ImGui.NET](https://www.nuget.org/packages/ImGui.NET/1.89.1?_src=template)
 * [DesktopGL](https://www.nuget.org/packages/MonoGame.Framework.DesktopGL/3.8.1.303?_src=template)
