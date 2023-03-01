@@ -57,6 +57,8 @@ The main feature of this image editor is the ability for users to easily create 
   
 You can find an executable in the [releases](https://github.com/Jacbo1/Progrimage/releases/latest).  
   
+Known issue: sometimes everything will be black except for icons and text. I don't know what causes this but for me it happens when I start the program while on battery power. I think it's an issue with DesktopGL or *possibly* ImGui.NET but I don't know if I can fix it.  
+  
 # Building
 **Requirements**
 * The dlls included in the release.
