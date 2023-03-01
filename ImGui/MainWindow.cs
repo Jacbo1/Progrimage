@@ -162,7 +162,7 @@ namespace Progrimage
             _graphics.PreferredBackBufferWidth = 1024;
             _graphics.PreferredBackBufferHeight = 768;
             _graphics.PreferMultiSampling = true;
-            _graphics.SynchronizeWithVerticalRetrace = false;
+            _graphics.SynchronizeWithVerticalRetrace = true;
             _graphics.GraphicsProfile = GraphicsProfile.HiDef;
             Window.AllowUserResizing = true;
             Window.AllowAltF4 = true;
@@ -488,12 +488,12 @@ namespace Progrimage
                         LuaCompositePath.PopulateFromRoot(Defs.LUA_BASE_PATH + Defs.LUA_COMPOSITE_PATH, ref _luaComposites);
                     }
 
+                    ImGui.Separator();
+                    if (ImGui.MenuItem("Create new Lua composite"))
+                        CreateLuaCompPopup.Open();
+
                     if (_scannedLuaComposites && _luaComposites.Count != 0)
                     {
-                        ImGui.Separator();
-                        if (ImGui.MenuItem("Create new Lua composite"))
-                            CreateLuaCompPopup.Open();
-
                         ImGui.Separator();
                         for (int i = 0; i < _luaComposites.Count; i++)
                             _luaComposites[i].CreateMenus(layer);
