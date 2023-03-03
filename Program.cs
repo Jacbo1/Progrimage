@@ -5,7 +5,7 @@
         public static float Scale = 1;
         public static Instance ActiveInstance;
         public static bool IsCtrlPressed, IsShiftPressed, IsAltPressed;
-        public const bool DEV_MODE = true;
+        public const bool DEV_MODE = false;
 
 		[STAThread]
         static void Main(string[] args)
