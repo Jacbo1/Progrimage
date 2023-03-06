@@ -40,6 +40,7 @@ The main feature of this image editor is the ability for users to easily create 
 * Other basic minor things not worth mentioning
   
 **Planned Features**
+* Changeable brush textures
 * Allow multiple theme files
 * Save and load projects
 * User-created Lua scripts to generate new layers
