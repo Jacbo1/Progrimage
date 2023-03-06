@@ -312,7 +312,7 @@
 		<br>
 		<h2 class="type noul" id="render">render</h2>
 		<div class="tab group">
-			<p><b>Important:</b> <a class="type" href="#render_update">render.update()</a> must be called to tell the renderer to update. This is automatically called by <a class="type" href="#LuaLayer_update">LuaLayer:update()</a>.</p>
+			<p><b>Important:</b> <a class="type" href="#render_update">render.update()</a> must be called to tell the renderer to update. This is automatically called by <a class="type" href="#LuaLayer_update">LuaLayer:update()</a> and <a class="type" href="#composite_run">Lua Composite's Run(LuaImage)</a>.</p>
 			<hr>
 
 			<h3 class="code"><a class="type">render</a>.beginStroke(<a class="type" href="#vector2">vector2</a> pos)</h3>
@@ -380,7 +380,7 @@
 			<hr>
 
 			<h3 class="code" id="render_update"><a class="type">render</a>.update()</h3>
-			<p>Tells the program to update the rendered image. This is automatically called by <a class="type" href="#LuaLayer_update">LuaLayer:update()</a></p>
+			<p>Tells the program to update the rendered image. This is automatically called by <a class="type" href="#LuaLayer_update">LuaLayer:update()</a> and <a class="type" href="#composite_run">Lua Composite's Run(LuaImage)</a>.</p>
 		</div>
 
 		<br>
@@ -739,8 +739,8 @@
 		<br>
 		<h2 class="type noul" id="composite_events">Lua Composite Events</h2>
 		<div class="tab group">
-			<h3 class="code">Run(<a class="type" href="#LuaImage">LuaImage</a> image)</h3>
-			<p>Called when the composite is run.</p>
+			<h3 class="code" id="composite_run">Run(<a class="type" href="#LuaImage">LuaImage</a> image)</h3>
+			<p>Called when the composite is run. Automatically calls <a class="type" href="#render_update">render.update()</a>.</p>
 		</div>
     </body>
 </html>
