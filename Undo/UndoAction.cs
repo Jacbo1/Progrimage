@@ -1,9 +1,9 @@
 ﻿namespace Progrimage.Undo
 {
-	public class UndoAction : IRedoAction
+	public class UndoAction : IUndoAction
 	{
 		private Action _undoAction, _redoAction;
-		public long MemorySize { get; private set; }
+		public long MemorySize { get; set; }
 
 		public UndoAction(Action undoAction, Action redoAction)
 		{

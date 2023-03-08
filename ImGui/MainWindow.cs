@@ -25,6 +25,7 @@ using Rectangle = SixLabors.ImageSharp.Rectangle;
 using ProgrimageImGui;
 using System.Buffers;
 using Progrimage.LuaDefs;
+using SixLabors.ImageSharp.Formats.Png;
 
 namespace Progrimage
 {
@@ -286,6 +287,7 @@ namespace Progrimage
 
         protected virtual void ImGuiLayout()
         {
+
             int2 oldCanvasMin = CanvasMin;
             int2 oldCanvasMax = CanvasMax;
             CanvasMax.y = Height - 1;
@@ -391,10 +393,7 @@ namespace Progrimage
             return new TexPair(new Texture2D(GraphicsDevice, width, height, false, format));
         }
 
-        public static TexPair CreateTexture(int2 size, SurfaceFormat format = SurfaceFormat.ColorSRgb)
-        {
-            return new TexPair(new Texture2D(GraphicsDevice, size.x, size.y, false, format));
-        }
+        public static TexPair CreateTexture(int2 size, SurfaceFormat format = SurfaceFormat.ColorSRgb) => CreateTexture(size.x, size.y, format);
 
         #region Private Methods
         private void DrawMenuBar()
@@ -1165,7 +1164,7 @@ namespace Progrimage
             switch (Path.GetExtension(path).ToLower())
             {
                 case ".png":
-                    image.SaveAsPngAsync(path);
+                    image.SaveAsPngAsync(path, new PngEncoder() { CompressionLevel = PngCompressionLevel.BestCompression });
                     break;
                 case ".jpg":
                 case ".jpeg":

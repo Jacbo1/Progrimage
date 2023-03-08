@@ -317,39 +317,43 @@ namespace Progrimage.Utils
             img.SaveAsPng(OutputDir + "quadratic_curve.png", new PngEncoder() { ColorType = PngColorType.GrayscaleWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression });
         }
 
-        public static void MakeCubicCurveIcon()
-        {
-            using var img = new Image<La16>(size.x, size.y);
-            img.Mutate(i =>
-            {
-				float thickness = size.min * 0.1f;
-				i.Clear(new Color(new Argb32(0, 0, 0, 0)));
+public static void MakeCubicCurveIcon()
+{
+    using var img = new Image<La16>(size.x, size.y);
+    img.Mutate(i =>
+    {
+        float thickness = size.min * 0.1f;
+        i.Clear(new Color(new Argb32(0, 0, 0, 0)));
 
-                double2 padding = thickness;
-                double left = padding.x;
-                double right = size.x - padding.x - 1;
-                double2 a = padding;
-                double2 b = new(right, (size.y - 1) / 3.0);
-                double2 c = new(left, (size.y - 1) * 2 / 3.0);
-                double2 d = new(right, size.y - 1 - padding.y);
-                double dashLength = a.Distance(b) / 10;
-                double gapLength = dashLength;
+        double2 padding = thickness;
+        double left = padding.x;
+        double right = size.x - padding.x - 1;
+        double2 a = padding;
+        double2 b = new(right, (size.y - 1) / 3.0);
+        double2 c = new(left, (size.y - 1) * 2 / 3.0);
+        double2 d = new(right, size.y - 1 - padding.y);
+        double dashLength = a.Distance(b) / 10;
+        double gapLength = dashLength;
 
-				i.Draw(new Color(new Rgb24(169, 169, 169)), thickness, new PathBuilder().AddCubicBezier(a.ToPointF(), b.ToPointF(), c.ToPointF(), d.ToPointF()).Build());
+        i.Draw(new Color(new Rgb24(169, 169, 169)), thickness, new PathBuilder().AddCubicBezier(a.ToPointF(), b.ToPointF(), c.ToPointF(), d.ToPointF()).Build());
 
-                float lineThickness = thickness * 0.5f;
-				DrawDashedLine(i, Color.White, a, b, dashLength, gapLength, lineThickness);
-                DrawDashedLine(i, Color.White, b, c, dashLength, gapLength, lineThickness);
-                DrawDashedLine(i, Color.White, c, d, dashLength, gapLength, lineThickness);
+        float lineThickness = thickness * 0.5f;
+        DrawDashedLine(i, Color.White, a, b, dashLength, gapLength, lineThickness);
+        DrawDashedLine(i, Color.White, b, c, dashLength, gapLength, lineThickness);
+        DrawDashedLine(i, Color.White, c, d, dashLength, gapLength, lineThickness);
 
-                float radius = thickness * 0.75f;
-                i.Fill(Color.White, new EllipsePolygon(a.ToPointF(), radius));
-                i.Fill(Color.White, new EllipsePolygon(b.ToPointF(), radius));
-                i.Fill(Color.White, new EllipsePolygon(c.ToPointF(), radius));
-                i.Fill(Color.White, new EllipsePolygon(d.ToPointF(), radius));
-            });
-            img.SaveAsPng(OutputDir + "cubic_curve.png", new PngEncoder() { ColorType = PngColorType.GrayscaleWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression });
-        }
+        float radius = thickness * 0.75f;
+        i.Fill(Color.White, new EllipsePolygon(a.ToPointF(), radius));
+        i.Fill(Color.White, new EllipsePolygon(b.ToPointF(), radius));
+        i.Fill(Color.White, new EllipsePolygon(c.ToPointF(), radius));
+        i.Fill(Color.White, new EllipsePolygon(d.ToPointF(), radius));
+    });
+    img.SaveAsPng(OutputDir + "cubic_curve.png", new PngEncoder()
+    {
+        ColorType = PngColorType.GrayscaleWithAlpha,
+        CompressionLevel = PngCompressionLevel.BestCompression 
+    });
+}
 
         private static void DrawDashedLine(IImageProcessingContext context, Color color, double2 start, double2 stop, double dashLength, double gapLength, float thickness/*, double offset = 0*/)
         {

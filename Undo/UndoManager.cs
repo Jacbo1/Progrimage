@@ -3,7 +3,7 @@
     public static class UndoManager
     {
         public static long UndoHistoryMaxMemory = 100l * 1024l * 1024l;
-        private static List<IRedoAction> _undoHistory = new();
+        private static List<IUndoAction> _undoHistory = new();
         private static int _undoIndex;
 
         private static void ClearHistory()
@@ -12,7 +12,7 @@
             _undoIndex = 0;
         }
 
-        public static void AddUndo(IRedoAction action)
+        public static void AddUndo(IUndoAction action)
         {
 			DropRedos(_undoIndex);
 			_undoIndex++;

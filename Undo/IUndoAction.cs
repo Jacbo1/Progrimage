@@ -1,6 +1,6 @@
 ﻿namespace Progrimage.Undo
 {
-	public interface IRedoAction : IDisposable
+	public interface IUndoAction : IDisposable
 	{
 		public void Undo();
 		public void Redo();

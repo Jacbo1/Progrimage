@@ -5,7 +5,7 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace Progrimage.Undo
 {
-    public class UndoImagePatch: IRedoAction, IDisposable //where TPixel : unmanaged, IPixel<TPixel>
+    public class UndoImagePatch: IUndoAction, IDisposable //where TPixel : unmanaged, IPixel<TPixel>
 	{
 		private Layer _layer;
 		private PositionedImage<Argb32> _image;

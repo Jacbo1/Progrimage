@@ -80,7 +80,7 @@ namespace Progrimage
                 CullMode = CullMode.None,
                 DepthBias = 0,
                 FillMode = FillMode.Solid,
-                MultiSampleAntiAlias = false,
+                MultiSampleAntiAlias = true,
                 ScissorTestEnable = true,
                 SlopeScaleDepthBias = 0,
             };

@@ -59,7 +59,6 @@ namespace Progrimage
 				minValues[i] = float.MaxValue;
 			double cornerAng = _imageSize.GetAngle();
 			double2 halfSize = _imageSize * 0.5;
-			//for (int angStep = 0; angStep < _angleSteps; angStep++)
 			int stepsCompleted = 0;
 			Parallel.For(0, _angleSteps, angStep =>
 			{
@@ -103,30 +102,12 @@ namespace Progrimage
 				}
 			});
 
-			//byte[] bytes = new byte[8 + 4 * minValues.Length];
-			//Array.Copy(BitConverter.GetBytes(_imageSize.x), 0, bytes, 0, 4);
-			//Array.Copy(BitConverter.GetBytes(_imageSize.y), 0, bytes, 0, 4);
-			//for (int i = 0; i < minValues.Length; i++)
-			//	Array.Copy(BitConverter.GetBytes(_pixels[i] / minValues[i]), 0, bytes, 0, 4);
-			//using FileStream stream = File.Open(@"Assets\Textures\Brushes\" + _fileName + ".norm", FileMode.Create);
-			//using var zipStream = new GZipStream(stream, CompressionLevel.SmallestSize);
-			//zipStream.Write(bytes);
-			//zipStream.Flush();
-			//stream.Flush();
-
-			//byte[] bytes = new byte[8 + 4 * minValues.Length];
 			using FileStream stream = File.Open(@"Assets\Textures\Brushes\" + _fileName + ".norm", FileMode.Create);
-			//Array.Copy(BitConverter.GetBytes(_imageSize.x), 0, bytes, 0, 4);
-			//Array.Copy(BitConverter.GetBytes(_imageSize.y), 0, bytes, 0, 4);
-			//for (int i = 0; i < minValues.Length; i++)
-			//	Array.Copy(BitConverter.GetBytes(_pixels[i] / minValues[i]), 0, bytes, 0, 4);
-			//using var memStream = new MemoryStream();
 			using var zipStream = new GZipStream(stream, CompressionLevel.SmallestSize);
 			zipStream.Write(BitConverter.GetBytes(_imageSize.x), 0, 4);
 			zipStream.Write(BitConverter.GetBytes(_imageSize.y), 0, 4);
 			for (int i = 0; i < minValues.Length; i++)
 			{
-				//Console.Write((minValues[i] == 0 || minValues[i] == float.MaxValue) ? 1f : _pixels[i] / minValues[i]);
 				zipStream.Write(BitConverter.GetBytes((minValues[i] == 0 || minValues[i] == float.MaxValue) ? 1f : _pixels[i] / minValues[i]), 0, 4);
 			}
 			stream.Flush();
