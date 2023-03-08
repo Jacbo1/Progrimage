@@ -2,7 +2,7 @@
 **A User-end scripting focused image editor**  
 **Requires [.NET 6.0](https://dotnet.microsoft.com/en-us/download)**
 
-**NOTE: This is a very unfinished early build. On the rare occassion it may crash but I am working on its stability and have been fixing crashes.**  
+**NOTE: This is a very early unfinished build. On the rare occassion it may crash but I am working on its stability and have been fixing crashes.**  
 Some (or a lot) of the code also needs refactoring to make it look better.  
   
 The main feature of this image editor is the ability for users to easily create their own Lua scripts. These currently are in the form of user-created tools and and composites. Composites are procedural, non-destructive image filters/effects.  
@@ -40,6 +40,7 @@ The main feature of this image editor is the ability for users to easily create 
 * Other basic minor things not worth mentioning
   
 **Planned Features**
+* Changeable brush textures
 * Allow multiple theme files
 * Save and load projects
 * User-created Lua scripts to generate new layers
