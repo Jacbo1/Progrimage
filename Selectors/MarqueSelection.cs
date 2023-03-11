@@ -184,8 +184,8 @@ namespace Progrimage.Selectors
 
         public override Image<Argb32> GetImageFromRender()
         {
-            using Image<Argb32> src = Program.ActiveInstance.RenderToImage();
-            return src.GetSubimage(_min, _max - _min + 1);
+            using PositionedImage<Argb32> src = Program.ActiveInstance.LayerManager.Merge();
+            return src.Image!.GetSubimage(_min, _max - _min + 1);
         }
         #endregion
 
