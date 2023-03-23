@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NewMath;
 using Progrimage.Utils;
-using Progrimage.Windows;
 using IS = SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Num = System.Numerics;
@@ -254,7 +253,7 @@ namespace Progrimage
                 }
                 _launchFiles = null;
             }
-		}
+        }
 
         protected override void LoadContent()
         {

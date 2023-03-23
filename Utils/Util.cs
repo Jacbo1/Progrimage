@@ -30,6 +30,11 @@ namespace Progrimage.Utils
         private static ImGuiMouseCursor _currentCusor = ImGuiMouseCursor.Arrow;
         private static ImageCodecInfo? _codecInfo;
 
+        public static long Time
+        {
+            get => DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+        }
+
         /// <summary>
         /// Converts a screen position to a canvas position
         /// </summary>

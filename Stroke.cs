@@ -89,10 +89,11 @@ namespace Progrimage
             if (_queuedJobs <= 0) return; // No jobs
 
             JobQueue.UnlimitedTime = true;
+            JobQueue.Work();
             while (_queuedJobs > 0)
             {
-                JobQueue.Work();
                 Thread.Sleep(1);
+                JobQueue.Work();
             }
 			JobQueue.UnlimitedTime = false;
 		}

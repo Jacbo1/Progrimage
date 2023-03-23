@@ -67,7 +67,7 @@ namespace Progrimage.LuaDefs
             FuncCallItem item;
 			try
             {
-				Lua["timer.calltime"] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond / 1000.0;
+				Lua["timer.calltime"] = Util.Time / 1000.0;
 				object[] result = _currentCoroutine.Call();
                 if (result.Length == 0 || result[0] is not bool || !(bool)result[0]) return true;
                 _currentCoroutine = null;
@@ -93,7 +93,7 @@ namespace Progrimage.LuaDefs
                 {
                     if (Lua[item.FuncName] as LuaFunction is not null)
                     {
-                        Lua["timer.calltime"] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond / 1000.0;
+                        Lua["timer.calltime"] = Util.Time / 1000.0;
 						_currentCoroutine = (LuaFunction)Lua.DoString("return coroutine.wrap(function(...) " + item.FuncName + "(...) return true end)").First();
                         object[] result = _currentCoroutine.Call(item.Args);
                         if (result.Length == 0 || result[0] is not bool || !(bool)result[0]) return true;
@@ -113,7 +113,7 @@ namespace Progrimage.LuaDefs
         public void InitLuaValues()
         {
             Lua!["timer.deltaTime"] = MainWindow.IO.DeltaTime;
-			double curtime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond / 1000.0;
+			double curtime = Util.Time / 1000.0;
 			Lua["timer.frameTime"] = curtime;
 			Lua["timer.calltime"] = curtime;
 			Lua.DoString("timer.clockFrameTime = os.clock()");
@@ -134,7 +134,7 @@ namespace Progrimage.LuaDefs
             try
             {
                 Lua["timer.frameTime"] = MainWindow.IO.DeltaTime;
-                Lua["timer.frameStartTime"] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond / 1000.0;
+                Lua["timer.frameStartTime"] = Util.Time / 1000.0;
                 Lua.DoString("timer.frameStartTimeClock = os.clock()");
                 _callTimersFunc.Call();
                 TryResumeCoroutine();

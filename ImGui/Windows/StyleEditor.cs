@@ -1,10 +1,11 @@
 ﻿using ImGuiNET;
+using Progrimage;
 using Progrimage.ImGuiComponents;
 using Progrimage.Utils;
 using System.Numerics;
 using System.Xml;
 
-namespace Progrimage.Windows
+namespace ProgrimageImGui.Windows
 {
     public static class StyleEditor
     {
@@ -59,7 +60,7 @@ namespace Progrimage.Windows
         public static void Init()
         {
             _items.Clear();
-            
+
             // Populate _items
             for (int i = 0; i < (int)CustomColor.COUNT; i++)
                 _items.Add(new ComparableImGuiCol(ColorManager.CustomColorNames[i], (CustomColor)i));

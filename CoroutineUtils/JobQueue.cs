@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Progrimage.Utils;
+using System.Collections;
 
 namespace Progrimage.CoroutineUtils
 {
@@ -8,17 +9,17 @@ namespace Progrimage.CoroutineUtils
         public static int MaxProcessingTime = 1000 / 60 - 4;
 		public static bool UnlimitedTime = false;
 
-        private static long _processingStartTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+        private static long _processingStartTime = Util.Time;
         private static long _nextYieldTime = _processingStartTime + MaxProcessingTime;
 
         public static bool ShouldYield
         {
-            get => !UnlimitedTime && DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond >= _nextYieldTime;
+            get => !UnlimitedTime && Util.Time >= _nextYieldTime;
         }
 
         public static void UpdateTime()
         {
-            _processingStartTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            _processingStartTime = Util.Time;
             _nextYieldTime = _processingStartTime + MaxProcessingTime;
         }
 
@@ -62,24 +63,28 @@ namespace Progrimage.CoroutineUtils
                         Queue[0] = job;
                         if (job.Work.MoveNext()) return;
                         else Queue.RemoveAt(0);
+                        continue;
                     }
-                    else if (job.JobIdentifier!.HasRun)
+                    
+                    if (job.JobIdentifier!.HasRun)
                     {
                         // Multiple jobs of this kind queued but this is the first after a successful run
                         job.JobIdentifier!.HasRun = false;
                         job.FirstDuplicateRun?.Invoke();
                         Queue.RemoveAt(0);
+                        continue;
                     }
-                    else Queue.RemoveAt(0); // Ignore this job because there are multiple
+
+                    // Ignore this job because there are multiple
+                    Queue.RemoveAt(0);
+                    continue;
                 }
-                else
-                {
-                    // Job is not unique
-                    job.IsStarted = true;
-                    Queue[0] = job;
-                    if (job.Work.MoveNext()) return;
-                    else Queue.RemoveAt(0);
-                }
+
+                // Job is not unique
+                job.IsStarted = true;
+                Queue[0] = job;
+                if (job.Work.MoveNext()) return;
+                else Queue.RemoveAt(0);
             }
         }
 
