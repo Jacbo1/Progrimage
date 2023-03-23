@@ -1,8 +1,8 @@
 # Progrimage
 **A User-end scripting focused image editor**  
-**Requires [.NET 6.0](https://dotnet.microsoft.com/en-us/download)**
+**Requires [.NET 6.0](https://dotnet.microsoft.com/en-us/download) to run**
 
-**NOTE: This is a very early unfinished build. On the rare occassion it may crash but I am working on its stability and have been fixing crashes.**  
+**NOTE: This is a very early unfinished build. On the rare occassion it may crash but I am working on its stability and have been fixing crashes. Sometimes the entire interface will only be black except for text and icons. This is suspected to be an issue with ImGui.NET or DesktopGL. Tests were done and the proper colors are being sent to ImGui.NET but are displayed as black. If the canvas is not black on startup, the program is still usable and theme colors can seemingly be reselected and saved without issue.**  
 Some (or a lot) of the code also needs refactoring to make it look better.  
   
 The main feature of this image editor is the ability for users to easily create their own Lua scripts. These currently are in the form of user-created tools and and composites. Composites are procedural, non-destructive image filters/effects.  
