@@ -165,8 +165,9 @@ namespace Progrimage.Tools
 			_curve.Pos -= layer.Pos;
 			layer.Image.Image.Mutate(_curve.Draw);
 			_curve.Pos = curPos;
+			layer.Changed();
 
-			_curveReady = false;
+            _curveReady = false;
 			_pointOverlay!.Hidden = true;
 			_curveOverlay!.Hidden = true;
 			Program.ActiveInstance.Changed = true;

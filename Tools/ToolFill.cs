@@ -131,9 +131,9 @@ namespace Progrimage.Tools
 				source.Mutate(op => op.Fill(options, _color, new Rectangle(0, 0, sampleImage.Width, sampleImage.Height)));
 
 				if (sourceIsNew) Program.ActiveInstance.CreateLayer(source);
-				Program.ActiveInstance.Changed = true;
 
-				yield break;
+                layer?.Changed();
+                yield break;
 			}
 			else
 			{
