@@ -31,7 +31,7 @@ namespace Progrimage.Tools
 		#region Constructor
 		public ToolCubicCurve()
 		{
-			Icon = new(@"Assets\Textures\Tools\cubic_curve.png", Defs.TOOL_ICON_SIZE);
+			Icon = new(@"Assets\Textures\Tools\cubic_curve.png", Defs.TOOL_ICON_SIZE, true);
 		}
 		#endregion
 

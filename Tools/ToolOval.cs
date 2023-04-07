@@ -31,7 +31,7 @@ namespace Progrimage.Tools
         #region Constructor
         public ToolOval()
         {
-            Icon = new(@"Assets\Textures\Tools\oval.png", Defs.TOOL_ICON_SIZE);
+            Icon = new(@"Assets\Textures\Tools\oval.png", Defs.TOOL_ICON_SIZE, true);
         }
         #endregion
 

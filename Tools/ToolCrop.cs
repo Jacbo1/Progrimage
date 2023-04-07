@@ -29,7 +29,7 @@ namespace Progrimage.Tools
 		#region Constructor
 		public ToolCrop()
 		{
-			Icon = new(@"Assets\Textures\Tools\crop.png", Defs.TOOL_ICON_SIZE);
+			Icon = new(@"Assets\Textures\Tools\crop.png", Defs.TOOL_ICON_SIZE, true);
 		}
 		#endregion
 

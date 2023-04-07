@@ -1,17 +1,9 @@
 ﻿using ImGuiNET;
-using NewMath;
 using Progrimage;
-using Progrimage.Utils;
-using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProgrimageImGui
 {
-	public struct Popup
+    public struct Popup
 	{
 		public bool IsOpen { get; private set; }
 		private bool _suppressNextOpen = false;

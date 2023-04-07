@@ -17,7 +17,7 @@ namespace Progrimage.Tools
         #region Constructor
         public ToolCreateScript()
         {
-            Icon = new(@"Assets\Textures\Tools\script.png", Defs.TOOL_ICON_SIZE);
+            Icon = new(@"Assets\Textures\Tools\script.png", Defs.TOOL_ICON_SIZE, true);
         }
         #endregion
 

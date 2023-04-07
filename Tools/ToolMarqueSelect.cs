@@ -24,7 +24,7 @@ namespace Progrimage.Tools
         #region Constructor
         public ToolMarqueSelect()
         {
-            Icon = new(@"Assets\Textures\Tools\marque_select.png", Defs.TOOL_ICON_SIZE);
+            Icon = new(@"Assets\Textures\Tools\marque_select.png", Defs.TOOL_ICON_SIZE, true);
         }
         #endregion
 

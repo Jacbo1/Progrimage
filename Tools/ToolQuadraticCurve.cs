@@ -37,7 +37,7 @@ namespace Progrimage.Tools
 		#region Constructor
 		public ToolQuadraticCurve()
 		{
-			Icon = new(@"Assets\Textures\Tools\quadratic_curve.png", Defs.TOOL_ICON_SIZE);
+			Icon = new(@"Assets\Textures\Tools\quadratic_curve.png", Defs.TOOL_ICON_SIZE, true);
 		}
 		#endregion
 

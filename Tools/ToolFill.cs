@@ -33,7 +33,7 @@ namespace Progrimage.Tools
 		#region Constructor
 		public ToolFill()
 		{
-			Icon = new(@"Assets\Textures\Tools\fill.png", Defs.TOOL_ICON_SIZE);
+			Icon = new(@"Assets\Textures\Tools\fill.png", Defs.TOOL_ICON_SIZE, true);
 		}
 		#endregion
 

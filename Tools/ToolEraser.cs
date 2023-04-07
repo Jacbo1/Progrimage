@@ -22,7 +22,7 @@ namespace Progrimage.Tools
         #region Constructor
         public ToolEraser()
         {
-            Icon = new(@"Assets\Textures\Tools\eraser.png", Defs.TOOL_ICON_SIZE);
+            Icon = new(@"Assets\Textures\Tools\eraser.png", Defs.TOOL_ICON_SIZE, true);
         }
 		#endregion
 

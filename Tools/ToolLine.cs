@@ -30,7 +30,7 @@ namespace Progrimage.Tools
 		#region Constructor
 		public ToolLine()
 		{
-			Icon = new(@"Assets\Textures\Tools\line.png", Defs.TOOL_ICON_SIZE);
+			Icon = new(@"Assets\Textures\Tools\line.png", Defs.TOOL_ICON_SIZE, true);
 		}
 		#endregion
 

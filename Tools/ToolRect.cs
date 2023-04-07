@@ -31,7 +31,7 @@ namespace Progrimage.Tools
         #region Constructor
         public ToolRect()
         {
-            Icon = new(@"Assets\Textures\Tools\rect.png", Defs.TOOL_ICON_SIZE);
+            Icon = new(@"Assets\Textures\Tools\rect.png", Defs.TOOL_ICON_SIZE, true);
         }
         #endregion
 

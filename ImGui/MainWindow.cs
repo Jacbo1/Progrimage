@@ -111,7 +111,7 @@ namespace Progrimage
         public static ImGuiRenderer ImGuiRenderer;
         public static GraphicsDevice GraphicsDevice;
         public static EventHandler MouseUp, OnDraw, OnPreUpdate, FontPicked;
-        public static bool IsMouseDown, MouseDownStartInCanvas, PostMouseDownStartInCanvas, MouseInCanvas, IsMouseDownCanvas, MouseDownCanvasChanged, IsDragging, IsWindowActive;
+        public static bool IsMouseDown, MouseDownStartInCanvas, PostMouseDownStartInCanvas, MouseInCanvas, IsMouseDownCanvas, MouseDownCanvasChanged, IsDragging;
         public static bool IsDragging2, IsMouse2Down, Mouse2DownStartInCanvas, Mouse2DownCanvasChanged, IsMouse2DownCanvas;
         public static bool MouseOverCanvasWindow;
 		public static int2 LayerThumbnailSize = Defs.LayerThumbnailSize;
@@ -155,8 +155,6 @@ namespace Progrimage
 
         public MainWindow()
         {
-            Activated += (o, e) => IsWindowActive = true;
-            Deactivated += (o, e) => IsWindowActive = false;
             Window.FileDrop += Window_FileDrop;
             _graphics = new GraphicsDeviceManager(this);
             _graphics.PreferredBackBufferWidth = 1024;
@@ -216,10 +214,10 @@ namespace Progrimage
 
             IO = ImGui.GetIO();
 
-            VisibleIcon = new(@"Assets\Textures\Icons\visible.png", Defs.LayerButtonSize);
-            NotVisibleIcon = new(@"Assets\Textures\Icons\not_visible.png", Defs.LayerButtonSize);
-            DeleteIcon = new(@"Assets\Textures\Icons\delete.png", Defs.LayerButtonSize);
-            AddIcon = new(@"Assets\Textures\Icons\add.png", Defs.LayerButtonSize);
+            VisibleIcon = new(@"Assets\Textures\Icons\visible.png", Defs.LayerButtonSize, true);
+            NotVisibleIcon = new(@"Assets\Textures\Icons\not_visible.png", Defs.LayerButtonSize, true);
+            DeleteIcon = new(@"Assets\Textures\Icons\delete.png", Defs.LayerButtonSize, true);
+            AddIcon = new(@"Assets\Textures\Icons\add.png", Defs.LayerButtonSize, true);
 
             Program.ActiveInstance = new Instance(new int2(512, 512));
             Program.ActiveInstance.CreateLayer();
@@ -286,7 +284,6 @@ namespace Progrimage
 
         protected virtual void ImGuiLayout()
         {
-
             int2 oldCanvasMin = CanvasMin;
             int2 oldCanvasMax = CanvasMax;
             CanvasMax.y = Height - 1;
@@ -323,7 +320,7 @@ namespace Progrimage
             if (show_style_editor) StyleEditor.Draw(ref show_style_editor);
 
             // Event handlers
-            if (MousePosScreen != LastMousePosScreen && IsWindowActive)
+            if (MousePosScreen != LastMousePosScreen && IsActive)
                 eventHandlersTrigged.Enqueue(Events.OnMouseMoveScreen);
 
             // Run methods on active tool
@@ -659,7 +656,7 @@ namespace Progrimage
 
         private void HandleEvents(Queue<Events> eventHandlersTrigged)
         {
-            bool mouseInCanvas = MouseOverCanvasWindow && MousePosScreen >= CanvasMin && MousePosScreen <= CanvasMax && IsWindowActive;
+            bool mouseInCanvas = MouseOverCanvasWindow && MousePosScreen >= CanvasMin && MousePosScreen <= CanvasMax && IsActive;
             Instance instance = Program.ActiveInstance;
             if (mouseInCanvas)
             {
@@ -734,7 +731,7 @@ namespace Progrimage
 
 
             // Mouse move canvas
-            if (IsWindowActive)
+            if (IsActive)
             {
                 if (MousePosCanvas != LastMousePosCanvas) eventHandlersTrigged.Enqueue(Events.OnMouseMoveCanvas);
                 if (MousePosCanvasDouble != LastMousePosCanvasDouble) eventHandlersTrigged.Enqueue(Events.OnMouseMoveCanvasDouble);
@@ -1071,9 +1068,9 @@ namespace Progrimage
             ChildBg = childBg;
 		}
 
-		private static void DrawFontPicker()
+		private void DrawFontPicker()
 		{
-			int2 mousePos = IsWindowActive ? (MousePosScreen - (int2)ImGui.GetWindowPos()) : -1;
+			int2 mousePos = IsActive ? (MousePosScreen - (int2)ImGui.GetWindowPos()) : -1;
 
 			// Draw
 			int2 selectorSize = new int2(300, Height / 2);

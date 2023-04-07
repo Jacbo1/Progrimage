@@ -70,7 +70,7 @@ namespace Progrimage.Utils
             _ptr = IntPtr.Zero;
         }
 
-        public TexPair(string path, bool convertToSRGB = false)
+        public TexPair(string path, bool hasAlpha = false)
         {
             if (!File.Exists(path))
             {
@@ -80,7 +80,7 @@ namespace Progrimage.Utils
                 return;
 			}
 
-            if (convertToSRGB)
+            if (hasAlpha)
             {
                 using var img = Image.Load<Argb32>(path);
                 Texture = new Texture2D(MainWindow.GraphicsDevice, img.Width, img.Height, false, SurfaceFormat.Color);
@@ -90,7 +90,7 @@ namespace Progrimage.Utils
             _ptr = MainWindow.ImGuiRenderer.BindTexture(Texture);
         }
 
-        public TexPair(string path, int2 size)
+        public TexPair(string path, int2 size, bool hasAlpha = false)
         {
             if (!File.Exists(path))
             {
@@ -100,9 +100,12 @@ namespace Progrimage.Utils
                 return;
             }
 
-            using var img = Util.HighQualityDownscale(Image.Load<Argb32>(path), size, true);
+            Image<Argb32> img = Image.Load<Argb32>(path);
+            ImageSharpExtensions.ISEUtils.HighQualityDownscale(ref img, size, true);
             Texture = new Texture2D(MainWindow.GraphicsDevice, img.Width, img.Height, false, SurfaceFormat.Color);
-            Util.DrawImageToTexture2D(Texture, img);
+            if (hasAlpha) Util.DrawImageToTexture2D(Texture, img);
+            else Util.DrawImageToTexture2DAsRGB24(Texture, img);
+            img.Dispose();
             _ptr = MainWindow.ImGuiRenderer.BindTexture(Texture);
         }
 

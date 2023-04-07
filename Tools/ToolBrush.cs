@@ -23,7 +23,7 @@ namespace Progrimage.Tools
         #region Constructor
         public ToolBrush()
         {
-            Icon = new(@"Assets\Textures\Tools\brush.png", Defs.TOOL_ICON_SIZE);
+            Icon = new(@"Assets\Textures\Tools\brush.png", Defs.TOOL_ICON_SIZE, true);
         }
         #endregion
 
