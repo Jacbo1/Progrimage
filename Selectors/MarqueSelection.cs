@@ -150,11 +150,12 @@ namespace Progrimage.Selectors
 
             Rectangle region = new Rectangle(_min.x, _min.y, _max.x - _min.x + 1, _max.y - _min.y + 1);
             Rectangle bounds = new Rectangle(layer.Pos.x, layer.Pos.y, layer.Size.x, layer.Size.y);
-            region = Util.Clamp(region, bounds);
-            region.Offset(-layer.Pos.x, -layer.Pos.y);
 
             if (!region.IntersectsWith(bounds))
                 return; // Layer does not overlap with selection
+
+            region = Util.Clamp(region, bounds);
+            region.Offset(-layer.Pos.x, -layer.Pos.y);
 
             // Draw the Layer selection to _image
             layer.Image.Mutate(i => i.Clear(Color.Transparent, region));
