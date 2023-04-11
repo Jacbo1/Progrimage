@@ -18,6 +18,7 @@ using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
 using Font = SixLabors.Fonts.Font;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SystemFonts = SixLabors.Fonts.SystemFonts;
 
 namespace Progrimage
@@ -55,8 +56,9 @@ namespace Progrimage
 
         // Input
         private int _scrollWheelValue;
-
-        private int[] _keys;
+        private int _horizontalScrollWheelValue;
+        private readonly float WHEEL_DELTA = 120;
+        private Keys[] _allKeys = Enum.GetValues<Keys>();
 
         public bool[] KeysDown;
         private bool _leftCtrlPressed, _rightCtrlPressed;
@@ -71,7 +73,6 @@ namespace Progrimage
             ImGui.SetCurrentContext(context);
 
             _game = game ?? throw new ArgumentNullException(nameof(game));
-            //_game.GraphicsDevice.PresentationParameters.BackBufferFormat = SurfaceFormat.Rg32;
             _graphicsDevice = game.GraphicsDevice;
 
             _loadedTextures = new Dictionary<IntPtr, Texture2D>();
@@ -81,9 +82,9 @@ namespace Progrimage
                 CullMode = CullMode.None,
                 DepthBias = 0,
                 FillMode = FillMode.Solid,
-                MultiSampleAntiAlias = true,
+                MultiSampleAntiAlias = false,
                 ScissorTestEnable = true,
-                SlopeScaleDepthBias = 0,
+                SlopeScaleDepthBias = 0
             };
 
             SetupInput();
@@ -171,29 +172,6 @@ namespace Progrimage
         protected virtual void SetupInput()
         {
             var io = ImGui.GetIO();
-
-            _keys = new int[] {
-                io.KeyMap[(int)ImGuiKey.Tab] = (int)Keys.Tab,
-                io.KeyMap[(int)ImGuiKey.LeftArrow] = (int)Keys.Left,
-                io.KeyMap[(int)ImGuiKey.RightArrow] = (int)Keys.Right,
-                io.KeyMap[(int)ImGuiKey.UpArrow] = (int)Keys.Up,
-                io.KeyMap[(int)ImGuiKey.DownArrow] = (int)Keys.Down,
-                io.KeyMap[(int)ImGuiKey.PageUp] = (int)Keys.PageUp,
-                io.KeyMap[(int)ImGuiKey.PageDown] = (int)Keys.PageDown,
-                io.KeyMap[(int)ImGuiKey.Home] = (int)Keys.Home,
-                io.KeyMap[(int)ImGuiKey.End] = (int)Keys.End,
-                io.KeyMap[(int)ImGuiKey.Delete] = (int)Keys.Delete,
-                io.KeyMap[(int)ImGuiKey.Backspace] = (int)Keys.Back,
-                io.KeyMap[(int)ImGuiKey.Enter] = (int)Keys.Enter,
-                io.KeyMap[(int)ImGuiKey.Escape] = (int)Keys.Escape,
-                io.KeyMap[(int)ImGuiKey.Space] = (int)Keys.Space,
-                io.KeyMap[(int)ImGuiKey.A] = (int)Keys.A,
-                io.KeyMap[(int)ImGuiKey.C] = (int)Keys.C,
-                io.KeyMap[(int)ImGuiKey.V] = (int)Keys.V,
-                io.KeyMap[(int)ImGuiKey.X] = (int)Keys.X,
-                io.KeyMap[(int)ImGuiKey.Y] = (int)Keys.Y,
-                io.KeyMap[(int)ImGuiKey.Z] = (int)Keys.Z
-            };
 
             _game.Window.KeyDown += (o, e) =>
             {
@@ -423,31 +401,96 @@ namespace Progrimage
         /// </summary>
         protected virtual void UpdateInput()
         {
+            if (!_game.IsActive) return;
+
             var io = ImGui.GetIO();
 
             var mouse = Mouse.GetState();
             var keyboard = Keyboard.GetState();
+            io.AddMousePosEvent(mouse.X, mouse.Y);
+            io.AddMouseButtonEvent(0, mouse.LeftButton == ButtonState.Pressed);
+            io.AddMouseButtonEvent(1, mouse.RightButton == ButtonState.Pressed);
+            io.AddMouseButtonEvent(2, mouse.MiddleButton == ButtonState.Pressed);
+            io.AddMouseButtonEvent(3, mouse.XButton1 == ButtonState.Pressed);
+            io.AddMouseButtonEvent(4, mouse.XButton2 == ButtonState.Pressed);
 
-            for (int i = 0; i < _keys.Length; i++)
-                io.KeysDown[_keys[i]] = keyboard.IsKeyDown((Keys)_keys[i]);
+            io.AddMouseWheelEvent(
+                (mouse.HorizontalScrollWheelValue - _horizontalScrollWheelValue) / WHEEL_DELTA,
+                (mouse.ScrollWheelValue - _scrollWheelValue) / WHEEL_DELTA);
+            _scrollWheelValue = mouse.ScrollWheelValue;
+            _horizontalScrollWheelValue = mouse.HorizontalScrollWheelValue;
 
-            io.KeyShift = keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift);
-            io.KeyCtrl = keyboard.IsKeyDown(Keys.LeftControl) || keyboard.IsKeyDown(Keys.RightControl);
-            io.KeyAlt = keyboard.IsKeyDown(Keys.LeftAlt) || keyboard.IsKeyDown(Keys.RightAlt);
-            io.KeySuper = keyboard.IsKeyDown(Keys.LeftWindows) || keyboard.IsKeyDown(Keys.RightWindows);
+            foreach (var key in _allKeys)
+            {
+                if (TryMapKeys(key, out ImGuiKey imguikey))
+                {
+                    io.AddKeyEvent(imguikey, keyboard.IsKeyDown(key));
+                }
+            }
 
             io.DisplaySize = new System.Numerics.Vector2(_graphicsDevice.PresentationParameters.BackBufferWidth, _graphicsDevice.PresentationParameters.BackBufferHeight);
             io.DisplayFramebufferScale = new System.Numerics.Vector2(1f, 1f);
+        }
 
-            io.MousePos = new System.Numerics.Vector2(mouse.X, mouse.Y);
+        private bool TryMapKeys(Keys key, out ImGuiKey imguikey)
+        {
+            //Special case not handed in the switch...
+            //If the actual key we put in is "None", return none and true. 
+            //otherwise, return none and false.
+            if (key == Keys.None)
+            {
+                imguikey = ImGuiKey.None;
+                return true;
+            }
 
-            io.MouseDown[0] = mouse.LeftButton == ButtonState.Pressed;
-            io.MouseDown[1] = mouse.RightButton == ButtonState.Pressed;
-            io.MouseDown[2] = mouse.MiddleButton == ButtonState.Pressed;
+            imguikey = key switch
+            {
+                Keys.Back => ImGuiKey.Backspace,
+                Keys.Tab => ImGuiKey.Tab,
+                Keys.Enter => ImGuiKey.Enter,
+                Keys.CapsLock => ImGuiKey.CapsLock,
+                Keys.Escape => ImGuiKey.Escape,
+                Keys.Space => ImGuiKey.Space,
+                Keys.PageUp => ImGuiKey.PageUp,
+                Keys.PageDown => ImGuiKey.PageDown,
+                Keys.End => ImGuiKey.End,
+                Keys.Home => ImGuiKey.Home,
+                Keys.Left => ImGuiKey.LeftArrow,
+                Keys.Right => ImGuiKey.RightArrow,
+                Keys.Up => ImGuiKey.UpArrow,
+                Keys.Down => ImGuiKey.DownArrow,
+                Keys.PrintScreen => ImGuiKey.PrintScreen,
+                Keys.Insert => ImGuiKey.Insert,
+                Keys.Delete => ImGuiKey.Delete,
+                >= Keys.D0 and <= Keys.D9 => ImGuiKey._0 + (key - Keys.D0),
+                >= Keys.A and <= Keys.Z => ImGuiKey.A + (key - Keys.A),
+                >= Keys.NumPad0 and <= Keys.NumPad9 => ImGuiKey.Keypad0 + (key - Keys.NumPad0),
+                Keys.Multiply => ImGuiKey.KeypadMultiply,
+                Keys.Add => ImGuiKey.KeypadAdd,
+                Keys.Subtract => ImGuiKey.KeypadSubtract,
+                Keys.Decimal => ImGuiKey.KeypadDecimal,
+                Keys.Divide => ImGuiKey.KeypadDivide,
+                >= Keys.F1 and <= Keys.F12 => ImGuiKey.F1 + (key - Keys.F1),
+                Keys.NumLock => ImGuiKey.NumLock,
+                Keys.Scroll => ImGuiKey.ScrollLock,
+                Keys.LeftShift or Keys.RightShift => ImGuiKey.ModShift,
+                Keys.LeftControl or Keys.RightControl => ImGuiKey.ModCtrl,
+                Keys.LeftAlt or Keys.RightAlt => ImGuiKey.ModAlt,
+                Keys.OemSemicolon => ImGuiKey.Semicolon,
+                Keys.OemPlus => ImGuiKey.Equal,
+                Keys.OemComma => ImGuiKey.Comma,
+                Keys.OemMinus => ImGuiKey.Minus,
+                Keys.OemPeriod => ImGuiKey.Period,
+                Keys.OemQuestion => ImGuiKey.Slash,
+                Keys.OemTilde => ImGuiKey.GraveAccent,
+                Keys.OemOpenBrackets => ImGuiKey.LeftBracket,
+                Keys.OemCloseBrackets => ImGuiKey.RightBracket,
+                Keys.OemPipe => ImGuiKey.Backslash,
+                Keys.OemQuotes => ImGuiKey.Apostrophe,
+                _ => ImGuiKey.None,
+            };
 
-            var scrollDelta = mouse.ScrollWheelValue - _scrollWheelValue;
-            io.MouseWheel = scrollDelta > 0 ? 1 : scrollDelta < 0 ? -1 : 0;
-            _scrollWheelValue = mouse.ScrollWheelValue;
+            return imguikey != ImGuiKey.None;
         }
 
         #endregion Setup & Update
@@ -485,7 +528,10 @@ namespace Progrimage
 
         private unsafe void UpdateBuffers(ImDrawDataPtr drawData)
         {
-            if (drawData.TotalVtxCount == 0) return;
+            if (drawData.TotalVtxCount == 0)
+            {
+                return;
+            }
 
             // Expand buffers if we need more room
             if (drawData.TotalVtxCount > _vertexBufferSize)
@@ -546,12 +592,17 @@ namespace Progrimage
                 {
                     ImDrawCmdPtr drawCmd = cmdList.CmdBuffer[cmdi];
 
-                    if (drawCmd.ElemCount == 0) continue;
+                    if (drawCmd.ElemCount == 0)
+                    {
+                        continue;
+                    }
 
                     if (!_loadedTextures.ContainsKey(drawCmd.TextureId))
+                    {
                         throw new InvalidOperationException($"Could not find a texture with id '{drawCmd.TextureId}', please check your bindings");
+                    }
 
-                    _graphicsDevice.ScissorRectangle = new Microsoft.Xna.Framework.Rectangle(
+                    _graphicsDevice.ScissorRectangle = new Rectangle(
                         (int)drawCmd.ClipRect.X,
                         (int)drawCmd.ClipRect.Y,
                         (int)(drawCmd.ClipRect.Z - drawCmd.ClipRect.X),
