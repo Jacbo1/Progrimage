@@ -29,6 +29,7 @@ namespace Progrimage
     {
         public static List<TextInput> TextInput = new();
         public static Font FontToCheckValidChars = SystemFonts.CreateFont("Arial", 1);
+        private Image<Argb32>? _copiedImage;
 
 		private Game _game;
 
@@ -55,7 +56,6 @@ namespace Progrimage
         // Input
         private int _scrollWheelValue;
 
-        //private List<int> _keys = new List<int>();
         private int[] _keys;
 
         public bool[] KeysDown;
@@ -172,27 +172,6 @@ namespace Progrimage
         {
             var io = ImGui.GetIO();
 
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.Tab] = (int)Keys.Tab);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.LeftArrow] = (int)Keys.Left);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.RightArrow] = (int)Keys.Right);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.UpArrow] = (int)Keys.Up);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.DownArrow] = (int)Keys.Down);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.PageUp] = (int)Keys.PageUp);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.PageDown] = (int)Keys.PageDown);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.Home] = (int)Keys.Home);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.End] = (int)Keys.End);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.Delete] = (int)Keys.Delete);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.Backspace] = (int)Keys.Back);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.Enter] = (int)Keys.Enter);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.Escape] = (int)Keys.Escape);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.Space] = (int)Keys.Space);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.A] = (int)Keys.A);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.C] = (int)Keys.C);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.V] = (int)Keys.V);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.X] = (int)Keys.X);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.Y] = (int)Keys.Y);
-            //_keys.Add(io.KeyMap[(int)ImGuiKey.Z] = (int)Keys.Z);
-
             _keys = new int[] {
                 io.KeyMap[(int)ImGuiKey.Tab] = (int)Keys.Tab,
                 io.KeyMap[(int)ImGuiKey.LeftArrow] = (int)Keys.Left,
@@ -289,20 +268,22 @@ namespace Progrimage
                             return;
                         }
                         if (Program.ActiveInstance?.Selection is not ISelector selection) break;
+
                         // Copy selection to clipboard
-                        using (var src = Program.ActiveInstance.Selection.GetImageFromRender())
+                        _copiedImage?.Dispose();
+                        _copiedImage = Program.ActiveInstance.Selection.GetImageFromRender();
+                        using (DirectBitmap bitmap = new DirectBitmap(_copiedImage.Width, _copiedImage.Height))
                         {
-                            using DirectBitmap bitmap = new DirectBitmap(src.Width, src.Height);
-                            for (int y = 0; y < src.Height; y++)
+                            for (int y = 0; y < _copiedImage.Height; y++)
                             {
-                                var row = src.DangerousGetPixelRowMemory(y).Span;
+                                Span<Argb32> row = _copiedImage.DangerousGetPixelRowMemory(y).Span;
                                 for (int x = 0; x < row.Length; x++)
                                 {
-                                    var pixel = row[x];
+                                    Argb32 pixel = row[x];
                                     bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(pixel.R, pixel.G, pixel.B));
                                 }
+                                Util.SetClipboardImage(bitmap.Bitmap);
                             }
-                            Util.SetClipboardImage(bitmap.Bitmap);
                         }
                         break;
                     case Keys.V:
@@ -315,21 +296,56 @@ namespace Progrimage
                         }
                         if (!Clipboard.ContainsImage()) return;
                         // Paste image in
-                        using (var src = (Bitmap)Clipboard.GetImage())
+                        using (Bitmap src = (Bitmap)Clipboard.GetImage())
                         {
-                            var img = new Image<Argb32>(src.Width, src.Height);
+                            Image<Argb32> img = new Image<Argb32>(src.Width, src.Height);
+
                             for (int y = 0; y < src.Height; y++)
                             {
-                                var row = img.DangerousGetPixelRowMemory(y).Span;
+                                Span<Argb32> row = img.DangerousGetPixelRowMemory(y).Span;
                                 for (int x = 0; x < row.Length; x++)
                                 {
-                                    var srcPixel = src.GetPixel(x, y);
+                                    System.Drawing.Color srcPixel = src.GetPixel(x, y);
                                     row[x].A = 255;
                                     row[x].R = srcPixel.R;
                                     row[x].G = srcPixel.G;
                                     row[x].B = srcPixel.B;
                                 }
                             }
+
+                            // Check if the pasted image is the same as the copied image and set its alpha because bitmaps cannot store alpha
+                            // Bitmaps are very slow so do this after
+                            if (_copiedImage is not null && _copiedImage.Width == img.Width && _copiedImage.Height == img.Height)
+                            {
+                                bool domesticCopy = true;
+                                Parallel.For(0, img.Height, y =>
+                                {
+                                    Span<Argb32> imgSpan = img.DangerousGetPixelRowMemory(y).Span;
+                                    Span<Argb32> copiedSpan = _copiedImage.DangerousGetPixelRowMemory(y).Span;
+                                    for (int x = 0; x < img.Width; x++)
+                                    {
+                                        if (!domesticCopy) return;
+                                        Argb32 imgPixel = imgSpan[x];
+                                        Argb32 copiedPixel = copiedSpan[x];
+                                        domesticCopy &= imgPixel.R == copiedPixel.R & imgPixel.G == copiedPixel.G & imgPixel.B == copiedPixel.B;
+                                    }
+                                });
+
+                                if (domesticCopy)
+                                {
+                                    // Set alpha
+                                    Parallel.For(0, img.Height, y =>
+                                    {
+                                        Span<Argb32> imgSpan = img.DangerousGetPixelRowMemory(y).Span;
+                                        Span<Argb32> copiedSpan = _copiedImage.DangerousGetPixelRowMemory(y).Span;
+                                        for (int x = 0; x < img.Width; x++)
+                                        {
+                                            imgSpan[x].A = copiedSpan[x].A;
+                                        }
+                                    });
+                                }
+                            }
+
                             Program.ActiveInstance.CreateLayer(img);
                         }
                         break;
