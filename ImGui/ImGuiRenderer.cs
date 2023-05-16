@@ -252,7 +252,7 @@ namespace Progrimage
                         _copiedImage = Program.ActiveInstance.Selection.GetImageFromRender();
                         using (DirectBitmap bitmap = new DirectBitmap(_copiedImage.Width, _copiedImage.Height))
                         {
-                            for (int y = 0; y < _copiedImage.Height; y++)
+                            Parallel.For(0, _copiedImage.Height, y =>
                             {
                                 Span<Argb32> row = _copiedImage.DangerousGetPixelRowMemory(y).Span;
                                 for (int x = 0; x < row.Length; x++)
@@ -260,8 +260,8 @@ namespace Progrimage
                                     Argb32 pixel = row[x];
                                     bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(pixel.R, pixel.G, pixel.B));
                                 }
-                                Util.SetClipboardImage(bitmap.Bitmap);
-                            }
+                            });
+                            Util.SetClipboardImage(bitmap.Bitmap);
                         }
                         break;
                     case Keys.V:
