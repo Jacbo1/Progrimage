@@ -306,12 +306,35 @@ namespace Progrimage
                             return;
                         }
 
-                        if (!Clipboard.ContainsImage()) return;
+                        if (Clipboard.ContainsImage())
+                        {
+                            // Paste image in
+                            IDataObject data = Clipboard.GetDataObject();
+                            string[] formats = data.GetFormats();
+                            Image<Argb32> img;
+                            if (formats.Contains("PNG")) img = Image.Load<Argb32>((MemoryStream)data.GetData("PNG", true));
+                            else if (formats.Contains("Bitmap")) img = Image.Load<Argb32>((MemoryStream)data.GetData("Bitmap", true));
+                            else
+                            {
+                                using Bitmap src = (Bitmap)Clipboard.GetImage();
+                                img = new Image<Argb32>(src.Width, src.Height);
 
-                        // Paste image in
-                        Image<Argb32> img = Image.Load<Argb32>((MemoryStream)Clipboard.GetDataObject().GetData("PNG", true));
+                                for (int y = 0; y < src.Height; y++)
+                                {
+                                    Span<Argb32> row = img.DangerousGetPixelRowMemory(y).Span;
+                                    for (int x = 0; x < row.Length; x++)
+                                    {
+                                        System.Drawing.Color srcPixel = src.GetPixel(x, y);
+                                        row[x].A = 255;
+                                        row[x].R = srcPixel.R;
+                                        row[x].G = srcPixel.G;
+                                        row[x].B = srcPixel.B;
+                                    }
+                                }
+                            }
 
-                        Program.ActiveInstance.CreateLayer(img);
+                            Program.ActiveInstance.CreateLayer(img);
+                        }
                         break;
                 }
             };
