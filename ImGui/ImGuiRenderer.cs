@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
 using Font = SixLabors.Fonts.Font;
+using Image = SixLabors.ImageSharp.Image;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SystemFonts = SixLabors.Fonts.SystemFonts;
@@ -196,13 +197,13 @@ namespace Progrimage
                         if (ColorPicker.IsOpen)
                         {
                             ColorPicker.SuppressNextOpen();
-							ImGui.CloseCurrentPopup();
-							break;
+                            ImGui.CloseCurrentPopup();
+                            break;
                         }
-                        
+
                         if (MainWindow.FontPickerPopup.IsOpen)
                         {
-							MainWindow.FontPickerPopup.SuppressNextOpen();
+                            MainWindow.FontPickerPopup.SuppressNextOpen();
                             ImGui.CloseCurrentPopup();
                             break;
                         }
@@ -215,23 +216,23 @@ namespace Progrimage
 
                         Program.ActiveInstance.ClearSelection();
                         Program.ActiveInstance.ActiveTool.EscapePressed();
-						break;
-					case Keys.Enter:
-						Program.ActiveInstance.ActiveTool.EnterPressed();
-						break;
-					case Keys.A:
+                        break;
+                    case Keys.Enter:
+                        Program.ActiveInstance.ActiveTool.EnterPressed();
+                        break;
+                    case Keys.A:
                         if (Program.ActiveInstance.ActiveTool is ToolText t && t.CompText is not null) break;
                         if (Program.IsCtrlPressed)
                         {
                             Program.ActiveInstance.ClearSelection();
                             var marqueTool = Program.ActiveInstance.GetTool<ToolMarqueSelect>();
-							bool oldDragging = MainWindow.IsDragging;
-							MainWindow.IsDragging = true;
-							marqueTool!.OnMouseDownCanvas(0);
+                            bool oldDragging = MainWindow.IsDragging;
+                            MainWindow.IsDragging = true;
+                            marqueTool!.OnMouseDownCanvas(0);
                             marqueTool.OnMouseMoveCanvas(Program.ActiveInstance.CanvasSize - 1);
                             marqueTool.OnMouseUp(0, 0);
                             MainWindow.IsDragging = oldDragging;
-						}
+                        }
                         else if (Program.ActiveInstance.ActiveLayer is Layer layer && layer.Size != int2.Zero)
                         {
                             Program.ActiveInstance.ClearSelection();
@@ -243,14 +244,14 @@ namespace Progrimage
                             marqueTool.OnMouseUp(0, 0);
                             MainWindow.IsDragging = oldDragging;
                         }
-						break;
-					case Keys.Z:
+                        break;
+                    case Keys.Z:
                         if (Program.IsCtrlPressed) UndoManager.Undo();
-						break;
-					case Keys.Y:
+                        break;
+                    case Keys.Y:
                         if (Program.IsCtrlPressed) UndoManager.Redo();
-						break;
-					case Keys.C:
+                        break;
+                    case Keys.C:
                         if (!Program.IsCtrlPressed) return;
                         if (Program.ActiveInstance.ActiveTool is ToolText)
                         {
@@ -285,60 +286,45 @@ namespace Progrimage
                             TextInput.Add(new TextInput(Clipboard.GetText()));
                             return;
                         }
+
                         if (!Clipboard.ContainsImage()) return;
+
                         // Paste image in
-                        using (Bitmap src = (Bitmap)Clipboard.GetImage())
+                        Image<Argb32> img = Image.Load<Argb32>((MemoryStream)Clipboard.GetDataObject().GetData("PNG", true));
+
+                        // Check if the pasted image is the same as the copied image and set its alpha because bitmaps cannot store alpha
+                        if (_copiedImage is not null && _copiedImage.Width == img.Width && _copiedImage.Height == img.Height)
                         {
-                            Image<Argb32> img = new Image<Argb32>(src.Width, src.Height);
-
-                            for (int y = 0; y < src.Height; y++)
+                            bool domesticCopy = true;
+                            Parallel.For(0, img.Height, y =>
                             {
-                                Span<Argb32> row = img.DangerousGetPixelRowMemory(y).Span;
-                                for (int x = 0; x < row.Length; x++)
+                                Span<Argb32> imgSpan = img.DangerousGetPixelRowMemory(y).Span;
+                                Span<Argb32> copiedSpan = _copiedImage.DangerousGetPixelRowMemory(y).Span;
+                                for (int x = 0; x < img.Width; x++)
                                 {
-                                    System.Drawing.Color srcPixel = src.GetPixel(x, y);
-                                    row[x].A = 255;
-                                    row[x].R = srcPixel.R;
-                                    row[x].G = srcPixel.G;
-                                    row[x].B = srcPixel.B;
+                                    if (!domesticCopy) return;
+                                    Argb32 imgPixel = imgSpan[x];
+                                    Argb32 copiedPixel = copiedSpan[x];
+                                    domesticCopy &= imgPixel.R == copiedPixel.R & imgPixel.G == copiedPixel.G & imgPixel.B == copiedPixel.B;
                                 }
-                            }
+                            });
 
-                            // Check if the pasted image is the same as the copied image and set its alpha because bitmaps cannot store alpha
-                            // Bitmaps are very slow so do this after
-                            if (_copiedImage is not null && _copiedImage.Width == img.Width && _copiedImage.Height == img.Height)
+                            if (domesticCopy)
                             {
-                                bool domesticCopy = true;
+                                // Set alpha
                                 Parallel.For(0, img.Height, y =>
                                 {
                                     Span<Argb32> imgSpan = img.DangerousGetPixelRowMemory(y).Span;
                                     Span<Argb32> copiedSpan = _copiedImage.DangerousGetPixelRowMemory(y).Span;
                                     for (int x = 0; x < img.Width; x++)
                                     {
-                                        if (!domesticCopy) return;
-                                        Argb32 imgPixel = imgSpan[x];
-                                        Argb32 copiedPixel = copiedSpan[x];
-                                        domesticCopy &= imgPixel.R == copiedPixel.R & imgPixel.G == copiedPixel.G & imgPixel.B == copiedPixel.B;
+                                        imgSpan[x].A = copiedSpan[x].A;
                                     }
                                 });
-
-                                if (domesticCopy)
-                                {
-                                    // Set alpha
-                                    Parallel.For(0, img.Height, y =>
-                                    {
-                                        Span<Argb32> imgSpan = img.DangerousGetPixelRowMemory(y).Span;
-                                        Span<Argb32> copiedSpan = _copiedImage.DangerousGetPixelRowMemory(y).Span;
-                                        for (int x = 0; x < img.Width; x++)
-                                        {
-                                            imgSpan[x].A = copiedSpan[x].A;
-                                        }
-                                    });
-                                }
                             }
-
-                            Program.ActiveInstance.CreateLayer(img);
                         }
+
+                        Program.ActiveInstance.CreateLayer(img);
                         break;
                 }
             };

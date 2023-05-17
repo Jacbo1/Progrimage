@@ -3,9 +3,6 @@ using NewMath;
 using Progrimage.Selectors;
 using Progrimage.Undo;
 using Progrimage.Utils;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 
 namespace Progrimage.Tools
 {
@@ -20,6 +17,8 @@ namespace Progrimage.Tools
         private Image<Argb32>? _sourceImage;
         private ResizeDir _resizeDir;
         private int2 _resizeStartMin, _resizeStartMax, _originalPos;
+        //private List<UndoAction> _undos = new();
+        //private bool _changed;
         #endregion
 
         #region Properties
@@ -37,6 +36,8 @@ namespace Progrimage.Tools
         #region ITool Methods
         public void OnDeselect()
         {
+            //UndoManager.RemoveUndos(_undos.ToArray());
+            //_undos.Clear();
             if (Program.ActiveInstance.Selection is not null)
             {
                 Program.ActiveInstance.Selection.DrawImage();
@@ -52,6 +53,7 @@ namespace Progrimage.Tools
 
         public void OnSelect(Instance instance)
         {
+            //_undos.Clear();
             if (instance.Selection is not null)
             {
                 _sourceImage = instance.Selection.Image.Clone();
@@ -89,6 +91,7 @@ namespace Progrimage.Tools
 
         public void OnMouseDownCanvas(int2 pos)
         {
+            //_changed = false;
             if (Program.ActiveInstance.ActiveLayer is null || _moving || !MainWindow.IsDragging) return;
 			_originalPos = Program.ActiveInstance.ActiveLayer.Pos;
 
@@ -131,6 +134,37 @@ namespace Progrimage.Tools
 
         public void OnMouseUp(int2 _, int2 _2)
         {
+            //if (_changed)
+            //{
+            //    _changed = false;
+            //    if (_resizing && Program.ActiveInstance.Selection is not null)
+            //    {
+            //        ISelector selection = Program.ActiveInstance.Selection!;
+            //        int2 newMin = selection.Min;
+            //        int2 newMax = selection.Max;
+            //        bool newFlipH = _resizeFlipH;
+            //        bool newFlipV = _resizeFlipV;
+
+            //        Image<Argb32> copy = selection.Image.Clone();
+            //        UndoAction undoAction = _undos[_undos.Count - 1];
+            //        undoAction.RedoDelegate = () =>
+            //        {
+            //            selection.Image = copy;
+            //            _resizeFlipH = newFlipH;
+            //            _resizeFlipV = newFlipV;
+            //            selection.Min = newMin;
+            //            selection.Max = newMax;
+            //            Program.ActiveInstance.Changed = true;
+            //        };
+            //        undoAction.Disposed += (o, e) =>
+            //        {
+            //            if (selection.Image != copy) copy.Dispose();
+            //        };
+
+            //        UndoManager.AddUndo(undoAction);
+            //    }
+            //}
+
 			Layer? layer = Program.ActiveInstance.ActiveLayer;
             if (_moving && !_movingSelection && layer is not null)
             {
@@ -175,6 +209,12 @@ namespace Progrimage.Tools
             if (Program.ActiveInstance.Selection is null) return; // No selection
 
             ISelector selection = Program.ActiveInstance.Selection!;
+
+            int2 oldMin = selection.Min;
+            int2 oldMax = selection.Max;
+            bool oldFlipH = _resizeFlipH;
+            bool oldFlipV = _resizeFlipV;
+
             selection.DrawImageInOverlay = true;
             switch (_resizeDir)
             {
@@ -234,6 +274,27 @@ namespace Progrimage.Tools
 
             int2 size = selection.Max - selection.Min + 1;
             Image<Argb32> img = _sourceImage!.Clone();
+
+            //if (!_changed)
+            //{
+            //    _changed = true;
+            //    Image<Argb32> copy = img.Clone();
+            //    UndoAction undo = new UndoAction(() =>
+            //    {
+            //        selection.Image = copy;
+            //        _resizeFlipH = oldFlipH;
+            //        _resizeFlipV = oldFlipV;
+            //        selection.Min = oldMin;
+            //        selection.Max = oldMax;
+            //        Program.ActiveInstance.Changed = true;
+            //    }, () => { });
+            //    undo.Disposed += (o, e) =>
+            //    {
+            //        if (selection.Image != copy) copy.Dispose();
+            //    };
+            //    _undos.Add(undo);
+            //}
+
             img.Mutate(i =>
             {
                 i.Resize(size.x, size.y, KnownResamplers.Triangle);

@@ -38,5 +38,22 @@
             _undoHistory[_undoIndex].Redo();
 			_undoIndex++;
 		}
+
+        public static void RemoveUndo(IUndoAction action)
+        {
+            action.Dispose();
+            int index = _undoHistory.IndexOf(action);
+            if (index == -1) return;
+            _undoHistory.RemoveAt(index);
+            if (index <= _undoIndex) _undoIndex--;
+        }
+
+        public static void RemoveUndos(IUndoAction[] actions)
+        {
+            for (int i = 0; i < actions.Length; i++)
+            {
+                RemoveUndo(actions[i]);
+            }
+        }
     }
 }

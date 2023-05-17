@@ -1,21 +1,25 @@
-﻿namespace Progrimage.Undo
+﻿using System.Diagnostics.Tracing;
+
+namespace Progrimage.Undo
 {
 	public class UndoAction : IUndoAction
 	{
-		private Action _undoAction, _redoAction;
+		public Action UndoDelegate, RedoDelegate;
+		public EventHandler Disposed;
+
 		public long MemorySize { get; set; }
 
 		public UndoAction(Action undoAction, Action redoAction)
 		{
 			MemorySize = sizeof(long) + 50;
-			_undoAction = undoAction;
-			_redoAction = redoAction;
+			UndoDelegate = undoAction;
+			RedoDelegate = redoAction;
 		}
 
-		public void Undo() => _undoAction();
+		public void Undo() => UndoDelegate();
 
-		public void Redo() => _redoAction();
+		public void Redo() => RedoDelegate();
 
-		public void Dispose() { }
+		public void Dispose() => Disposed?.Invoke(this, EventArgs.Empty);
 	}
 }
