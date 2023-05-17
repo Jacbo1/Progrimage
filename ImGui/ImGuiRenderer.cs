@@ -13,6 +13,8 @@ using ProgrimageImGui;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Runtime.InteropServices;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
@@ -264,6 +266,22 @@ namespace Progrimage
                         // Copy selection to clipboard
                         _copiedImage?.Dispose();
                         _copiedImage = Program.ActiveInstance.Selection.GetImageFromRender();
+                        DataObject dataObject = new DataObject();
+
+                        MemoryStream pngStream = new MemoryStream();
+                        _copiedImage.SaveAsPng(pngStream, new PngEncoder()
+                        {
+                            CompressionLevel = PngCompressionLevel.BestCompression
+                        });
+                        dataObject.SetData("PNG", pngStream);
+
+                        MemoryStream bmpStream = new MemoryStream();
+                        _copiedImage.SaveAsBmp(bmpStream, new BmpEncoder()
+                        {
+                            SupportTransparency = true
+                        });
+                        dataObject.SetData("Bitmap", bmpStream);
+
                         using (DirectBitmap bitmap = new DirectBitmap(_copiedImage.Width, _copiedImage.Height))
                         {
                             Parallel.For(0, _copiedImage.Height, y =>
@@ -275,8 +293,9 @@ namespace Progrimage
                                     bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(pixel.R, pixel.G, pixel.B));
                                 }
                             });
-                            Util.SetClipboardImage(bitmap.Bitmap);
+                            dataObject.SetData(DataFormats.Bitmap, bitmap.Bitmap);
                         }
+                        Clipboard.SetDataObject(dataObject);
                         break;
                     case Keys.V:
                         if (!Program.IsCtrlPressed) return;
@@ -287,6 +306,8 @@ namespace Progrimage
                             return;
                         }
 
+                        foreach (string format in Clipboard.GetDataObject().GetFormats())
+                        Console.WriteLine(format);
                         if (!Clipboard.ContainsImage()) return;
 
                         // Paste image in
