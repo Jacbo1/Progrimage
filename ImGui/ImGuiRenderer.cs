@@ -34,7 +34,6 @@ namespace Progrimage
     {
         public static List<TextInput> TextInput = new();
         public static Font FontToCheckValidChars = SystemFonts.CreateFont("Arial", 1);
-        private Image<Argb32>? _copiedImage;
 
 		private Game _game;
 
@@ -264,38 +263,39 @@ namespace Progrimage
                         if (Program.ActiveInstance?.Selection is not ISelector selection) break;
 
                         // Copy selection to clipboard
-                        _copiedImage?.Dispose();
-                        _copiedImage = Program.ActiveInstance.Selection.GetImageFromRender();
-                        DataObject dataObject = new DataObject();
-
-                        MemoryStream pngStream = new MemoryStream();
-                        _copiedImage.SaveAsPng(pngStream, new PngEncoder()
+                        using (Image<Argb32> copiedImage = Program.ActiveInstance.Selection.GetImageFromRender())
                         {
-                            CompressionLevel = PngCompressionLevel.BestCompression
-                        });
-                        dataObject.SetData("PNG", pngStream);
+                            DataObject dataObject = new DataObject();
 
-                        MemoryStream bmpStream = new MemoryStream();
-                        _copiedImage.SaveAsBmp(bmpStream, new BmpEncoder()
-                        {
-                            SupportTransparency = true
-                        });
-                        dataObject.SetData("Bitmap", bmpStream);
-
-                        using (DirectBitmap bitmap = new DirectBitmap(_copiedImage.Width, _copiedImage.Height))
-                        {
-                            Parallel.For(0, _copiedImage.Height, y =>
+                            using MemoryStream pngStream = new MemoryStream();
+                            copiedImage.SaveAsPng(pngStream, new PngEncoder()
                             {
-                                Span<Argb32> row = _copiedImage.DangerousGetPixelRowMemory(y).Span;
-                                for (int x = 0; x < row.Length; x++)
-                                {
-                                    Argb32 pixel = row[x];
-                                    bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(pixel.R, pixel.G, pixel.B));
-                                }
+                                CompressionLevel = PngCompressionLevel.BestCompression
                             });
-                            dataObject.SetData(DataFormats.Bitmap, bitmap.Bitmap);
+                            dataObject.SetData("PNG", pngStream);
+
+                            using MemoryStream bmpStream = new MemoryStream();
+                            copiedImage.SaveAsBmp(bmpStream, new BmpEncoder()
+                            {
+                                SupportTransparency = true
+                            });
+                            dataObject.SetData("Bitmap", bmpStream);
+
+                            using (DirectBitmap bitmap = new DirectBitmap(copiedImage.Width, copiedImage.Height))
+                            {
+                                Parallel.For(0, copiedImage.Height, y =>
+                                {
+                                    Span<Argb32> row = copiedImage.DangerousGetPixelRowMemory(y).Span;
+                                    for (int x = 0; x < row.Length; x++)
+                                    {
+                                        Argb32 pixel = row[x];
+                                        bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(pixel.R, pixel.G, pixel.B));
+                                    }
+                                });
+                                dataObject.SetData(DataFormats.Bitmap, bitmap.Bitmap);
+                            }
+                            Clipboard.SetDataObject(dataObject, true);
                         }
-                        Clipboard.SetDataObject(dataObject);
                         break;
                     case Keys.V:
                         if (!Program.IsCtrlPressed) return;
@@ -306,44 +306,10 @@ namespace Progrimage
                             return;
                         }
 
-                        foreach (string format in Clipboard.GetDataObject().GetFormats())
-                        Console.WriteLine(format);
                         if (!Clipboard.ContainsImage()) return;
 
                         // Paste image in
                         Image<Argb32> img = Image.Load<Argb32>((MemoryStream)Clipboard.GetDataObject().GetData("PNG", true));
-
-                        // Check if the pasted image is the same as the copied image and set its alpha because bitmaps cannot store alpha
-                        if (_copiedImage is not null && _copiedImage.Width == img.Width && _copiedImage.Height == img.Height)
-                        {
-                            bool domesticCopy = true;
-                            Parallel.For(0, img.Height, y =>
-                            {
-                                Span<Argb32> imgSpan = img.DangerousGetPixelRowMemory(y).Span;
-                                Span<Argb32> copiedSpan = _copiedImage.DangerousGetPixelRowMemory(y).Span;
-                                for (int x = 0; x < img.Width; x++)
-                                {
-                                    if (!domesticCopy) return;
-                                    Argb32 imgPixel = imgSpan[x];
-                                    Argb32 copiedPixel = copiedSpan[x];
-                                    domesticCopy &= imgPixel.R == copiedPixel.R & imgPixel.G == copiedPixel.G & imgPixel.B == copiedPixel.B;
-                                }
-                            });
-
-                            if (domesticCopy)
-                            {
-                                // Set alpha
-                                Parallel.For(0, img.Height, y =>
-                                {
-                                    Span<Argb32> imgSpan = img.DangerousGetPixelRowMemory(y).Span;
-                                    Span<Argb32> copiedSpan = _copiedImage.DangerousGetPixelRowMemory(y).Span;
-                                    for (int x = 0; x < img.Width; x++)
-                                    {
-                                        imgSpan[x].A = copiedSpan[x].A;
-                                    }
-                                });
-                            }
-                        }
 
                         Program.ActiveInstance.CreateLayer(img);
                         break;
