@@ -251,8 +251,7 @@ namespace Progrimage
 
         public Layer CreateLayer(Image<Argb32> img)
         {
-			if (LayerManager.Layers.Count == 0)
-				CanvasSize = new int2(img.Width, img.Height);
+			if (LayerManager.Layers.Count == 0) CanvasSize = new int2(img.Width, img.Height);
 			else if (LayerManager.Layers.Count == 1 && LayerManager.Layers[0].Image.Image is null)
             {
                 LayerManager.Layers[0].Dispose();

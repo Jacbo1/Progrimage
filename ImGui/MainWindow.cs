@@ -122,6 +122,7 @@ namespace Progrimage
         public static Vector2 ToolIconSize = new(Defs.TOOL_ICON_SIZE, Defs.TOOL_ICON_SIZE);
         public static string SelectedFont = "Arial";
         public static Popup FontPickerPopup, CreateLuaCompPopup;
+        public static MainWindow Self;
 
 		// Private static
 		private static double _uiScale = 1;
@@ -155,7 +156,14 @@ namespace Progrimage
 
         public MainWindow()
         {
-            Window.FileDrop += Window_FileDrop;
+            Self = this;
+            Window.FileDrop += (o, e) =>
+            {
+                foreach (string file in e.Files)
+                {
+                    FileDrop(file);
+                }
+            };
             _graphics = new GraphicsDeviceManager(this);
             _graphics.PreferredBackBufferWidth = 1024;
             _graphics.PreferredBackBufferHeight = 768;
@@ -186,17 +194,20 @@ namespace Progrimage
 			Run();
 		}
 
-		private void Window_FileDrop(object? sender, FileDropEventArgs e)
-		{
-			foreach (string file in e.Files)
+        public void FileDrop(string file)
+        {
+            try
             {
-                try
+                LayerManager manager = Program.ActiveInstance.LayerManager;
+                if (manager.Layers.Count == 0 || (manager.Layers.Count == 1 && manager.Layers[0].Image.Image is null))
                 {
-                    Program.ActiveInstance.CreateLayer(Image.Load<Argb32>(file));
+                    // Set save path to this file
+                    Util.SetLastSavePath(file);
                 }
-                catch { }
+                Program.ActiveInstance.CreateLayer(Image.Load<Argb32>(file));
             }
-		}
+            catch { }
+        }
 
         protected override void Initialize()
         {
@@ -243,11 +254,7 @@ namespace Progrimage
             {
                 foreach (string file in _launchFiles)
                 {
-                    try
-                    {
-                        Program.ActiveInstance.CreateLayer(Image.Load<Argb32>(file));
-                    }
-                    catch { }
+                    FileDrop(file);
                 }
                 _launchFiles = null;
             }
@@ -405,15 +412,7 @@ namespace Progrimage
                 if (ImGui.MenuItem("Save As...", saveable))
                 {
                     // Save as
-                    SaveFileDialog picker = new SaveFileDialog();
-                    if (Util.GetSavePath() is string s)
-                        picker.InitialDirectory = s;
-                    picker.Title = "Save As...";
-                    picker.Filter = Defs.FILE_FILTER_FULL;
-                    picker.AddExtension = true;
-                    picker.OverwritePrompt = true;
-                    if (picker.ShowDialog() == DialogResult.OK)
-                        Save(picker.FileName);
+                    SaveAs();
                 }
 
                 if (ImGui.MenuItem("Load", Program.DEV_MODE)) // This currently shows the ImGui demo window. No way to save or load projects currently
@@ -1174,6 +1173,19 @@ namespace Progrimage
                     break;
             }
             Util.SetLastSavePath(path);
+        }
+
+        public void SaveAs()
+        {
+            SaveFileDialog picker = new SaveFileDialog();
+            if (Util.GetSavePath() is string s)
+                picker.InitialDirectory = s;
+            picker.Title = "Save As...";
+            picker.Filter = Defs.FILE_FILTER_FULL;
+            picker.AddExtension = true;
+            picker.OverwritePrompt = true;
+            if (picker.ShowDialog() == DialogResult.OK)
+                Save(picker.FileName);
         }
         #endregion
     }

@@ -260,7 +260,7 @@ namespace Progrimage
                             TextInput.Add(new TextInput(true));
                             return;
                         }
-                        if (Program.ActiveInstance?.Selection is not ISelector selection) break;
+                        if (Program.ActiveInstance?.Selection is not ISelector selection) return;
 
                         // Copy selection to clipboard
                         using (Image<Argb32> copiedImage = Program.ActiveInstance.Selection.GetImageFromRender())
@@ -340,9 +340,23 @@ namespace Progrimage
                         {
                             foreach (string file in Clipboard.GetFileDropList())
                             {
-                                Program.ActiveInstance.CreateLayer(Image.Load<Argb32>(file));
+                                MainWindow.Self.FileDrop(file);
                             }
                         }
+                        break;
+                    case Keys.S:
+                        if (!Program.IsCtrlPressed) return;
+                        // Save
+                        string? path = Util.GetSavePath();
+                        if (path is null)
+                        {
+                            // Save as
+                            MainWindow.Self.SaveAs();
+                            return;
+                        }
+
+                        // Save
+                        MainWindow.Self.Save(path);
                         break;
                 }
             };
