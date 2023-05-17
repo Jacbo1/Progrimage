@@ -3,6 +3,7 @@ using ImGuiNET;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using NewMath;
 using Progrimage.ImGuiComponents;
 using Progrimage.Selectors;
 using Progrimage.Tools;
@@ -219,6 +220,7 @@ namespace Progrimage
 						Program.ActiveInstance.ActiveTool.EnterPressed();
 						break;
 					case Keys.A:
+                        if (Program.ActiveInstance.ActiveTool is ToolText t && t.CompText is not null) break;
                         if (Program.IsCtrlPressed)
                         {
                             Program.ActiveInstance.ClearSelection();
@@ -230,6 +232,17 @@ namespace Progrimage
                             marqueTool.OnMouseUp(0, 0);
                             MainWindow.IsDragging = oldDragging;
 						}
+                        else if (Program.ActiveInstance.ActiveLayer is Layer layer && layer.Size != int2.Zero)
+                        {
+                            Program.ActiveInstance.ClearSelection();
+                            var marqueTool = Program.ActiveInstance.GetTool<ToolMarqueSelect>();
+                            bool oldDragging = MainWindow.IsDragging;
+                            MainWindow.IsDragging = true;
+                            marqueTool!.OnMouseDownCanvas(layer.Pos);
+                            marqueTool.OnMouseMoveCanvas(layer.Pos + layer.Size - 1);
+                            marqueTool.OnMouseUp(0, 0);
+                            MainWindow.IsDragging = oldDragging;
+                        }
 						break;
 					case Keys.Z:
                         if (Program.IsCtrlPressed) UndoManager.Undo();

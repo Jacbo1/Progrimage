@@ -116,7 +116,8 @@ namespace Progrimage.Tools
         public void OnDeselect()
         {
 			MainWindow.FontPicked -= FontPicked;
-		}
+            CompText = null;
+        }
 
         public void OnLayerDeselect(Layer _)
         {
