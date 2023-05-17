@@ -335,6 +335,14 @@ namespace Progrimage
 
                             Program.ActiveInstance.CreateLayer(img);
                         }
+
+                        if (Clipboard.ContainsFileDropList())
+                        {
+                            foreach (string file in Clipboard.GetFileDropList())
+                            {
+                                Program.ActiveInstance.CreateLayer(Image.Load<Argb32>(file));
+                            }
+                        }
                         break;
                 }
             };
