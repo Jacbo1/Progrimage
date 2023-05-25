@@ -313,7 +313,6 @@ namespace Progrimage
                             string[] formats = data.GetFormats();
                             Image<Argb32> img;
                             if (formats.Contains("PNG")) img = Image.Load<Argb32>((MemoryStream)data.GetData("PNG", true));
-                            else if (formats.Contains("Bitmap")) img = Image.Load<Argb32>((MemoryStream)data.GetData("Bitmap", true));
                             else
                             {
                                 using Bitmap src = (Bitmap)Clipboard.GetImage();
