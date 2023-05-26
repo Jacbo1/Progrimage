@@ -312,13 +312,16 @@ namespace Progrimage
                             IDataObject data = Clipboard.GetDataObject();
                             string[] formats = data.GetFormats();
                             Image<Argb32> img;
-                            if (formats.Contains("PNG")) img = Image.Load<Argb32>((MemoryStream)data.GetData("PNG", true));
+                            if (formats.Contains("PNG")) img = Image.Load<Argb32>((MemoryStream)data.GetData("PNG"));
                             else
                             {
-                                using Bitmap src = (Bitmap)Clipboard.GetImage();
+                                // Have to clone the image for some reason or else it will get a memory access violation at some point
+                                Bitmap temp = (Bitmap)Clipboard.GetImage();
+                                using LockedBitmap src = new LockedBitmap((Bitmap)temp.Clone());
+                                temp.Dispose();
                                 img = new Image<Argb32>(src.Width, src.Height);
 
-                                for (int y = 0; y < src.Height; y++)
+                                Parallel.For(0, src.Height, y =>
                                 {
                                     Span<Argb32> row = img.DangerousGetPixelRowMemory(y).Span;
                                     for (int x = 0; x < row.Length; x++)
@@ -329,7 +332,7 @@ namespace Progrimage
                                         row[x].G = srcPixel.G;
                                         row[x].B = srcPixel.B;
                                     }
-                                }
+                                });
                             }
 
                             Program.ActiveInstance.CreateLayer(img);
