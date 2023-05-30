@@ -10,7 +10,6 @@ namespace Progrimage.Composites
 {
     internal class CompTint : ICompositeAction
     {
-        private float _strength = 1;
         private Vector4 _color = Vector4.One;
         public Action? DisposalDelegate { get; private set; }
         public Composite Composite { get; private set; }
@@ -26,7 +25,6 @@ namespace Progrimage.Composites
         public IEnumerator Run(PositionedImage<Argb32> result)
         {
             if (result.Image is null) yield break;
-            Vector4 premult = _color * _strength * _color.W;
 
             Parallel.For(0, result.Image.Height, y =>
             {
@@ -34,9 +32,9 @@ namespace Progrimage.Composites
                 for (int x = 0; x < result.Image.Width; x++)
                 {
                     ref Argb32 pixel = ref row[x];
-                    pixel.R = (byte)Math.Round(row[x].R * premult.X, MidpointRounding.AwayFromZero);
-                    pixel.G = (byte)Math.Round(row[x].G * premult.Y, MidpointRounding.AwayFromZero);
-                    pixel.B = (byte)Math.Round(row[x].B * premult.Z, MidpointRounding.AwayFromZero);
+                    pixel.R = (byte)Math.Round(row[x].R * (1 - _color.W + _color.X * _color.W), MidpointRounding.AwayFromZero);
+                    pixel.G = (byte)Math.Round(row[x].G * (1 - _color.W + _color.Y * _color.W), MidpointRounding.AwayFromZero);
+                    pixel.B = (byte)Math.Round(row[x].B * (1 - _color.W + _color.Z * _color.W), MidpointRounding.AwayFromZero);
                 }
             });
 
@@ -49,11 +47,6 @@ namespace Progrimage.Composites
             if (ColorPicker.Draw("CompTint", ref _color, "Tint Color", ID.COMPOSITE_COLOR_PICKER))
                 ((ICompositeAction)this).Rerun();
             ImGui.PopID();
-            ImGui.SameLine();
-
-            ImGui.SetNextItemWidth(100);
-            if (ImGui.SliderFloat("Strength", ref _strength, 0, 1))
-                ((ICompositeAction)this).Rerun();
         }
         #endregion
     }
