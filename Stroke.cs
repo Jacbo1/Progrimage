@@ -290,25 +290,16 @@ namespace Progrimage
             if (_brushSize != size) _brushTexture = new float[size * size];
             _targetBrushSize = _brushSize = size;
 
-            if (size == 2)
-            {
-                _brushTexture[0] = 1;
-                _brushTexture[1] = 1;
-                _brushTexture[2] = 1;
-                _brushTexture[3] = 1;
-                return;
-            }
-
-            int radius = size - 1;
-            int radiusSqr = radius * radius;
+            int center = size - 1;
+            int radiusSqr = size * size;
             for (int y = 0; y < size; y++)
             {
                 int yw = y * size;
-                int y_ = y * 2 - radius;
                 for (int x = 0; x < size; x++)
                 {
-                    int x_ = x * 2 - radius;
-                    _brushTexture[x + yw] = (x_ * x_ + y_ * y_) <= radiusSqr ? 1 : 0;
+                    int x1 = x * 2 - center;
+                    int y1 = y * 2 - center;
+                    _brushTexture[x + yw] = (x1 * x1 + y1 * y1 <= radiusSqr) ? 1 : 0;
                 }
             }
         }
