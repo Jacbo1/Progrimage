@@ -470,6 +470,7 @@ namespace Progrimage
                     if (ImGui.MenuItem("HSV")) layer.AddComposite(new Composite(layer, new CompHSV()));
                     if (ImGui.MenuItem("HSL")) layer.AddComposite(new Composite(layer, new CompHSL()));
                     if (ImGui.MenuItem("Tint")) layer.AddComposite(new Composite(layer, new CompTint()));
+                    if (ImGui.MenuItem("Color Mask")) layer.AddComposite(new Composite(layer, new CompColorMask()));
                     if (ImGui.MenuItem("Contrast")) layer.AddComposite(new Composite(layer, new CompContrast()));
                     if (ImGui.MenuItem("Invert")) layer.AddComposite(new Composite(layer, new CompInvert()));
                     if (ImGui.MenuItem("Grayscale")) layer.AddComposite(new Composite(layer, new CompGrayscale()));
