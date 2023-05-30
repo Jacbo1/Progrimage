@@ -1,4 +1,5 @@
 ﻿using CalculatorLibrary;
+using ImageSharpExtensions;
 using ImGuiNET;
 using NewMath;
 using Progrimage;
@@ -98,7 +99,17 @@ namespace ProgrimageImGui.Windows
 				{
 					Layer layer = layers[i];
 					int2 layerSize = Math2.RoundToInt(layer.Size * scale);
-					layer.Image.Mutate(op => op.Resize(layerSize.x, layerSize.y));
+					if (layerSize <= layer.Size)
+					{
+						// High quality proprietary downscale
+						if (layer.Image.Image is not null)
+							ISEUtils.HighQualityDownscale(ref layer.Image.Image, layerSize);
+					}
+					else
+					{
+						// Default scaling
+						layer.Image.Mutate(op => op.Resize(layerSize.x, layerSize.y));
+					}
 					layer.Pos = Math2.RoundToInt(layer.Pos * scale);
 					layer.Changed();
 				}

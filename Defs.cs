@@ -6,7 +6,8 @@ namespace Progrimage
     {
         public const int PALETTE_START = 0;
         public const int TOOL_COLOR_PICKER = 40;
-        public const int THEME_COLOR_START = 41;
+        public const int COMPOSITE_COLOR_PICKER = 41;
+        public const int THEME_COLOR_START = 42;
         //public const int LAYER_START = THEME_COLOR_START + (int)ImGuiNET.ImGuiCol.COUNT + (int)CustomColor.COUNT;
     }
 
