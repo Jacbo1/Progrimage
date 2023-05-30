@@ -4,7 +4,9 @@ using Progrimage.CoroutineUtils;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
 using System.Numerics;
+using System.Windows.Forms;
 
 namespace Progrimage
 {
@@ -137,30 +139,49 @@ namespace Progrimage
             brushColor.X *= 255;
             brushColor.Y *= 255;
             brushColor.Z *= 255;
+            Rgb24 solidColor = new Rgb24(
+                (byte)Math.Round(brushColor.X, MidpointRounding.AwayFromZero),
+                (byte)Math.Round(brushColor.Y, MidpointRounding.AwayFromZero),
+                (byte)Math.Round(brushColor.Z, MidpointRounding.AwayFromZero)
+            );
             float brushAlpha = _brushState.Color.W;
+
+            // Multithreading this outer loop causes weird glitches in the result
             for (int y = 0; y < overlapSize.y; y++)
             {
-                Span<Argb32> row = image.Image.DangerousGetPixelRowMemory(y + imageOffset.y).Span;
+                Span<Argb32> row = image.Image!.DangerousGetPixelRowMemory(y + imageOffset.y).Span;
                 int yw = (y + strokeOffset.y) * _maskSize.x;
 
                 for (int x = 0; x < overlapSize.x; x++)
                 {
                     brushColor.W = Math.Min(_mask[x + strokeOffset.x + yw] * brushAlpha, 1);
 
-                    ref var pixel = ref row[x + imageOffset.x];
+                    ref Argb32 pixel = ref row[x + imageOffset.x];
 
                     if (brushColor.W == 0) continue; // Second color is invisible
 
-                    float aAlpha = pixel.A / 255f;
-                    float alpha1 = 1 - brushColor.W;
-                    float denom = brushColor.W + aAlpha * alpha1;
-                    if (denom == 0) return;
-                    float alphaMult = aAlpha * alpha1;
+                    if (pixel.A == 0)
+                    {
+                        // Layer pixel is fully transparent
+                        pixel.R = solidColor.R;
+                        pixel.G = solidColor.G;
+                        pixel.B = solidColor.B;
+                        pixel.A = (byte)Math.Round(255 * brushColor.W, MidpointRounding.AwayFromZero);
+                    }
+                    else
+                    {
+                        // Layer pixel is semi-transparent or opaque
+                        float aAlpha = pixel.A / 255f;
+                        float alpha1 = 1 - brushColor.W;
+                        float denom = brushColor.W + aAlpha * alpha1;
+                        if (denom == 0) return;
+                        float alphaMult = aAlpha * alpha1;
 
-                    pixel.R = (byte)Math.Round((brushColor.X * brushColor.W + pixel.R * alphaMult) / denom, MidpointRounding.AwayFromZero);
-                    pixel.G = (byte)Math.Round((brushColor.Y * brushColor.W + pixel.G * alphaMult) / denom, MidpointRounding.AwayFromZero);
-                    pixel.B = (byte)Math.Round((brushColor.Z * brushColor.W + pixel.B * alphaMult) / denom, MidpointRounding.AwayFromZero);
-                    pixel.A = (byte)Math.Round(255 * brushColor.W + pixel.A * alpha1, MidpointRounding.AwayFromZero);
+                        pixel.R = (byte)Math.Round((brushColor.X * brushColor.W + pixel.R * alphaMult) / denom, MidpointRounding.AwayFromZero);
+                        pixel.G = (byte)Math.Round((brushColor.Y * brushColor.W + pixel.G * alphaMult) / denom, MidpointRounding.AwayFromZero);
+                        pixel.B = (byte)Math.Round((brushColor.Z * brushColor.W + pixel.B * alphaMult) / denom, MidpointRounding.AwayFromZero);
+                        pixel.A = (byte)Math.Round(255 * brushColor.W + pixel.A * alpha1, MidpointRounding.AwayFromZero);
+                    }
                 }
             }
         }
