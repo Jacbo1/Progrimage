@@ -172,6 +172,13 @@ namespace Progrimage.LuaDefs
 
 		public void resize(int width, int height, string sampler)
 		{
+			if (sampler == "boxp")
+			{
+				if (Image.Image is null) return;
+				ISEUtils.HighQualityDownscale(ref Image.Image, new int2(width, height));
+				return;
+			}
+
 			Image.Mutate(op => op.Resize(width, height, sampler switch
 			{
 				"bicubic" => KnownResamplers.Bicubic,
