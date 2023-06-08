@@ -281,7 +281,7 @@ namespace Progrimage
                             });
                             dataObject.SetData("Bitmap", bmpStream);
 
-                            using (DirectBitmap bitmap = new DirectBitmap(copiedImage.Width, copiedImage.Height))
+                            using (LockedBitmap bitmap = new LockedBitmap(copiedImage.Width, copiedImage.Height))
                             {
                                 Parallel.For(0, copiedImage.Height, y =>
                                 {
