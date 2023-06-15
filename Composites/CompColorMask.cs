@@ -48,11 +48,11 @@ namespace Progrimage.Composites
 
         public void DrawQuickActionsToolbar(PositionedImage<Argb32> result)
         {
+            ImGui.SameLine();
             ImGui.PushID(ID.COMPOSITE_COLOR_PICKER);
             if (ColorPicker.Draw("CompColorMask", ref _color, "Color Mask", ID.COMPOSITE_COLOR_PICKER))
                 ((ICompositeAction)this).Rerun();
             ImGui.PopID();
-            ImGui.SameLine();
         }
         #endregion
     }

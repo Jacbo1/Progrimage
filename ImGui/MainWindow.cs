@@ -232,12 +232,12 @@ namespace Progrimage
                 {
                     // Load image normally
                     Program.ActiveInstance.CreateLayer(Image.Load<Argb32>(file));
-                }
 
-                if (setSavePath)
-                {
-                    // Set save path to this file
-                    Util.SetLastSavePath(file);
+                    if (setSavePath)
+                    {
+                        // Set save path to this file
+                        Util.SetLastSavePath(file);
+                    }
                 }
             }
             catch { }
@@ -510,6 +510,7 @@ namespace Progrimage
                     if (ImGui.MenuItem("Grayscale")) layer.AddComposite(new Composite(layer, new CompGrayscale()));
                     if (ImGui.MenuItem("Remove Alpha")) layer.AddComposite(new Composite(layer, new CompRemoveAlpha()));
                     if (ImGui.MenuItem("Multiply Alpha")) layer.AddComposite(new Composite(layer, new CompAlphaMult()));
+                    if (ImGui.MenuItem("Crustify")) layer.AddComposite(new Composite(layer, new CompCrustify()));
 
                     if (!_scannedLuaComposites && Directory.Exists(Defs.LUA_BASE_PATH + Defs.LUA_COMPOSITE_PATH))
                     {
