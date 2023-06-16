@@ -28,6 +28,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using LockedBitmapLibrary;
 using System.Drawing.Imaging;
 using SixLabors.ImageSharp.Advanced;
+using ImageSharpExtensions;
 
 namespace Progrimage
 {
@@ -484,6 +485,44 @@ namespace Progrimage
                 if (ImGui.MenuItem("Resize Canvas")) ResizeCanvas.Show = true;
                 if (ImGui.MenuItem("Resize Image")) ResizeImage.Show = true;
                 if (ImGui.MenuItem("Resize Layer")) ResizeLayer.Show = true;
+                if (ImGui.MenuItem("Rotate Right 90 Degrees", Program.ActiveInstance?.ActiveLayer?.Image?.Image is not null))
+                {
+                    Layer layer = Program.ActiveInstance!.ActiveLayer!;
+                    layer.Image.Image = layer.Image.Image!.GetRotatedCW();
+                    layer.Changed();
+                    if (Program.ActiveInstance.LayerManager.Layers.Count == 1)
+                    {
+                        Program.ActiveInstance.CanvasSize = new int2(Program.ActiveInstance.CanvasSize.y, Program.ActiveInstance.CanvasSize.x);
+                    }
+                }
+                if (ImGui.MenuItem("Rotate Left 90 Degrees", Program.ActiveInstance?.ActiveLayer?.Image?.Image is not null))
+                {
+                    Layer layer = Program.ActiveInstance!.ActiveLayer!;
+                    layer.Image.Image = layer.Image.Image!.GetRotatedCCW();
+                    layer.Changed();
+                    if (Program.ActiveInstance.LayerManager.Layers.Count == 1)
+                    {
+                        Program.ActiveInstance.CanvasSize = new int2(Program.ActiveInstance.CanvasSize.y, Program.ActiveInstance.CanvasSize.x);
+                    }
+                }
+                if (ImGui.MenuItem("Rotate 180 Degrees", Program.ActiveInstance?.ActiveLayer?.Image?.Image is not null))
+                {
+                    Layer layer = Program.ActiveInstance!.ActiveLayer!;
+                    layer.Image.Image!.Rotate180();
+                    layer.Changed();
+                }
+                if (ImGui.MenuItem("Flip Horizontal", Program.ActiveInstance?.ActiveLayer?.Image?.Image is not null))
+                {
+                    Layer layer = Program.ActiveInstance!.ActiveLayer!;
+                    layer.Image.Image!.Mutate(op => op.Flip(FlipMode.Horizontal));
+                    layer.Changed();
+                }
+                if (ImGui.MenuItem("Flip Vertical", Program.ActiveInstance?.ActiveLayer?.Image?.Image is not null))
+                {
+                    Layer layer = Program.ActiveInstance!.ActiveLayer!;
+                    layer.Image.Image!.Mutate(op => op.Flip(FlipMode.Vertical));
+                    layer.Changed();
+                }
                 ImGui.EndMenu();
             }
 

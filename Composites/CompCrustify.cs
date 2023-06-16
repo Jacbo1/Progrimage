@@ -27,6 +27,7 @@ namespace Progrimage.Composites
         {
             if (result.Image is null) yield break;
 
+            bool applyAlpha = false;
             byte[,] alpha;
             if (_preserveAlpha)
             {
@@ -37,6 +38,7 @@ namespace Progrimage.Composites
                     Span<Argb32> row = result.Image.DangerousGetPixelRowMemory(y).Span;
                     for (int x = 0; x < result.Width; x++)
                     {
+                        applyAlpha |= row[x].A != byte.MaxValue;
                         alpha[x, y] = row[x].A;
                     }
                 }
@@ -69,7 +71,7 @@ namespace Progrimage.Composites
                 stream.Dispose();
             }
 
-            if (_preserveAlpha)
+            if (applyAlpha)
             {
                 for (int y = 0; y < result.Height; y++)
                 {
