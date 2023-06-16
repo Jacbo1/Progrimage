@@ -214,6 +214,7 @@
 			<ul>
 				<li><b>bicubic</b> - Commonly used algorithm that preserves sharpness better than triangle (bilinear) interpolation.</li>
 				<li><b>box</b> - When downscaling, the pixels will average and merge together. Similar to nearest neighbor when upscaling.</li>
+				<li><b>boxp</b> - Custom sampling method. Upscaling is bilinear/triangle. Downscaling is box but the edge pixels are treated as non-full pixels when not fully contained by the area being sampled.</li>
 				<li><b>catmullrom</b> - Cubic filter that produces a reasonably sharp edge, but without the pronounced gradient change on large scale image enlargements that a Lagrange filter can produce.</li>
 				<li><b>hermite</b> - Smoothed triangular interpolation filter that rounds off strong edges while preserving flat color levels in the original image.</li>
 				<li><b>lanczos2</b> - Lanczos kernel sampler that implements smooth interpolation with a radius of 2 pixels. Gives sharper results than others when downsampling. All of this applies to the rest of the Lanczos sampling modes.</li>
