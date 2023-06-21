@@ -66,7 +66,7 @@ namespace Progrimage.Tools
 			if (ColorPicker.Draw("tool", ref _curve.Color, "", ID.TOOL_COLOR_PICKER) && _curveOverlay is not null)
 			{
 				_curveOverlay.Shapes[0] = _curve;
-				Program.ActiveInstance.Changed |= _curveReady;
+				if (_curveReady) Program.ActiveInstance.Changed();
 			}
 			ImGui.PopID();
 			ImGui.SameLine();
@@ -82,7 +82,7 @@ namespace Progrimage.Tools
 				if (_curveOverlay is not null)
 				{
 					_curveOverlay.Shapes[0] = _curve;
-					Program.ActiveInstance.Changed |= _curveReady;
+					if (_curveReady) Program.ActiveInstance.Changed();
 				}
 			}
 		}
@@ -116,7 +116,7 @@ namespace Progrimage.Tools
 			}
 			_curveOverlay.Shapes[0] = _curve;
 			_curveReady = true;
-			Program.ActiveInstance.Changed = true;
+			Program.ActiveInstance.Changed();
 		}
 
 		public void OnMouseMoveCanvasDouble(double2 pos)
@@ -138,7 +138,7 @@ namespace Progrimage.Tools
 					_pointOverlay!.Shapes[i] = _dragPoints[i];
 				_curveOverlay!.Shapes[0] = _curve;
 
-				Program.ActiveInstance.Changed = true;
+				Program.ActiveInstance.Changed();
 				return;
 			}
 
@@ -147,7 +147,7 @@ namespace Progrimage.Tools
 			_pointOverlay!.Shapes[_grabbedPointIndex] = _dragPoints[_grabbedPointIndex];
 			_curveOverlay!.Shapes[0] = _curve;
 
-			Program.ActiveInstance.Changed = true;
+			Program.ActiveInstance.Changed();
 		}
 
 		public void OnMouseUp(int2 _, int2 _2)
@@ -175,7 +175,7 @@ namespace Progrimage.Tools
             _curveReady = false;
 			_pointOverlay!.Hidden = true;
 			_curveOverlay!.Hidden = true;
-			Program.ActiveInstance.Changed = true;
+			Program.ActiveInstance.Changed();
 		}
 
 		public void EscapePressed()
@@ -183,7 +183,7 @@ namespace Progrimage.Tools
 			if (_pointOverlay is not null) _pointOverlay.Hidden = true;
 			if (_curveOverlay is not null) _curveOverlay!.Hidden = true;
 			_curveReady = false;
-			Program.ActiveInstance.Changed = true;
+			Program.ActiveInstance.Changed();
 		}
 		#endregion
 

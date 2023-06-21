@@ -132,7 +132,7 @@ namespace Progrimage
         {
             ProcessingComposites = false;
             _shouldUpdateThumbnail = true;
-            _instance.Changed = true;
+            _instance.Changed();
 
             if (Composites is null) return;
             JobIdentifier.Cancel();
@@ -144,7 +144,7 @@ namespace Progrimage
             if (Composites is null) return;
             foreach (Composite comp in Composites!)
                 comp.CompositeAction.DisposalDelegate?.Invoke();
-            _instance.Changed = true;
+            _instance.Changed();
             ProcessingComposites = false;
         }
 
@@ -152,7 +152,7 @@ namespace Progrimage
         {
             foreach (Composite comp in Composites!)
                 comp.CompositeAction.RunOnceFirstRepeat(CompositeResult);
-            _instance.Changed = true;
+            _instance.Changed();
         }
 
         private IEnumerator ChangedEnum()
@@ -174,7 +174,7 @@ namespace Progrimage
             }
 
             ProcessingComposites = false;
-            _instance.Changed = true;
+            _instance.Changed();
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace Progrimage
             _thumbnail = null;
             ThumbnailTex.Dispose();
             _instance.LayerManager.Remove(this);
-            _instance.Changed = true;
+            _instance.Changed();
         }
 
         public void AddComposite(Composite comp)

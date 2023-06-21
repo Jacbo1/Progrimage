@@ -66,7 +66,7 @@ namespace Progrimage.Composites
         public void Changed()
         {
             _shouldUpdateThumbnail = true;
-            Program.ActiveInstance.Changed = true;
+            Program.ActiveInstance.Changed();
         }
 
         public void UpdateThumbnail()

@@ -33,7 +33,7 @@ namespace Progrimage.Tools
         {
             if (Program.ActiveInstance.Selection is null) return;
             Program.ActiveInstance.Selection.DrawBoundaryDots = false;
-            Program.ActiveInstance.OverlayChanged = true;
+            Program.ActiveInstance.OverlayChanged();
         }
 
         public void OnMouseDownCanvas(int2 pos)
@@ -57,7 +57,7 @@ namespace Progrimage.Tools
             Program.ActiveInstance.ClearSelection();
             Program.ActiveInstance.Selection = new MarqueSelection(pos, pos, Program.ActiveInstance.ActiveLayer!);
             _corner = pos;
-            Program.ActiveInstance.OverlayChanged = true;
+            Program.ActiveInstance.OverlayChanged();
         }
 
         public void OnMouseMoveCanvas(int2 pos)
@@ -68,7 +68,7 @@ namespace Progrimage.Tools
             if (MainWindow.IsDragging)
             {
                 // Mouse down
-                Program.ActiveInstance.OverlayChanged = true;
+                Program.ActiveInstance.OverlayChanged();
 
                 if (_resizing)
                 {

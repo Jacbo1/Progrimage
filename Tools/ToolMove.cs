@@ -85,7 +85,7 @@ namespace Progrimage.Tools
                     Program.ActiveInstance.Selection!.Pos += delta;
                 }
                 else Program.ActiveInstance.ActiveLayer!.Pos += pos - MainWindow.LastMousePosCanvas;
-                Program.ActiveInstance.Changed = true;
+                Program.ActiveInstance.Changed();
             }
         }
 
@@ -154,7 +154,7 @@ namespace Progrimage.Tools
             //            _resizeFlipV = newFlipV;
             //            selection.Min = newMin;
             //            selection.Max = newMax;
-            //            Program.ActiveInstance.Changed = true;
+            //            Program.ActiveInstance.Changed();
             //        };
             //        undoAction.Disposed += (o, e) =>
             //        {
@@ -174,12 +174,12 @@ namespace Progrimage.Tools
                     () =>
                     {
                         layer.Pos = oldPos;
-                        Program.ActiveInstance.Changed = true;
+                        Program.ActiveInstance.Changed();
                     },
                     () =>
                     {
                         layer.Pos = newPos;
-                        Program.ActiveInstance.Changed = true;
+                        Program.ActiveInstance.Changed();
                     })
                 );
 			}
@@ -286,7 +286,7 @@ namespace Progrimage.Tools
             //        _resizeFlipV = oldFlipV;
             //        selection.Min = oldMin;
             //        selection.Max = oldMax;
-            //        Program.ActiveInstance.Changed = true;
+            //        Program.ActiveInstance.Changed();
             //    }, () => { });
             //    undo.Disposed += (o, e) =>
             //    {

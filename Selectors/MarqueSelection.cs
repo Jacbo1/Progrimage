@@ -68,7 +68,7 @@ namespace Progrimage.Selectors
 
                 if (value) Overlay.Shapes.Add(new OverlayImage(Image, int2.Zero)); // Add selection image to overlay
                 else Overlay.Shapes.RemoveAt(0); // Remove selection image from overlay
-                Program.ActiveInstance.Changed = true;
+                Program.ActiveInstance.Changed();
             }
         }
 
@@ -112,7 +112,7 @@ namespace Progrimage.Selectors
                 OverlayImage overlay = (OverlayImage)Overlay.Shapes[0];
                 overlay.Image = Image;
                 Overlay.Shapes[0] = overlay;
-                Program.ActiveInstance.Changed = true;
+                Program.ActiveInstance.Changed();
             }
         }
 
@@ -123,7 +123,7 @@ namespace Progrimage.Selectors
             {
                 if (_drawBoundaryDots == value) return;
                 _drawBoundaryDots = value;
-                Program.ActiveInstance.Changed = true;
+                Program.ActiveInstance.Changed();
             }
         }
         #endregion
@@ -171,7 +171,7 @@ namespace Progrimage.Selectors
             Overlay = null;
             _image?.Dispose();
             _image = null;
-            Program.ActiveInstance.Changed = true;
+            Program.ActiveInstance.Changed();
         }
 
         public override void DrawOutline(IImageProcessingContext image)
@@ -194,7 +194,7 @@ namespace Progrimage.Selectors
         private void UpdateOutline()
         {
             Overlay.Pos = _min;
-            Program.ActiveInstance.Changed = true;
+            Program.ActiveInstance.Changed();
         }
         #endregion
     }

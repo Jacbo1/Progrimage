@@ -88,14 +88,14 @@ namespace Progrimage.Tools
 			if (!MainWindow.IsDragging) return;
 			Program.ActiveInstance.Stroke.Layer = Program.ActiveInstance.ActiveLayer;
 			Program.ActiveInstance.Stroke.BeginStroke(MainWindow.MousePosCanvasDouble);
-			JobQueue.Queue.Add(new CoroutineJob(() => Program.ActiveInstance.Changed = true));
+			JobQueue.Queue.Add(new CoroutineJob(Program.ActiveInstance.Changed));
 		}
 
 		public void OnMouseMoveCanvasDouble(double2 pos)
 		{
 			if (!MainWindow.IsDragging) return;
 			Program.ActiveInstance.Stroke.ContinueStroke(pos);
-			JobQueue.Queue.Add(new CoroutineJob(() => Program.ActiveInstance.Changed = true));
+			JobQueue.Queue.Add(new CoroutineJob(Program.ActiveInstance.Changed));
 		}
 
 		public void OnMouseUp(int2 _, int2 _2)

@@ -105,7 +105,7 @@ namespace Progrimage.Tools
 			}
 			else _drawingLine.Stop = pos;
 			_overlayShapeSet.Shapes[0] = _drawingLine;
-			Program.ActiveInstance.Changed = true;
+			Program.ActiveInstance.Changed();
 		}
 		#endregion
 	}

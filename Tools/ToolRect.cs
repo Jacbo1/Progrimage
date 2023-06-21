@@ -128,7 +128,7 @@ namespace Progrimage.Tools
 			else _drawingRect.Pos = min;
 			_drawingRect.Size = size;
             _overlayShapeSet.Shapes[0] = _drawingRect;
-            Program.ActiveInstance.Changed = true;
+            Program.ActiveInstance.Changed();
         }
         #endregion
     }

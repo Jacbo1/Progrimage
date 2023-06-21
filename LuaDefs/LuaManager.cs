@@ -193,7 +193,7 @@ namespace Progrimage.LuaDefs
             Lua["render.getCanvasSize"] = () => CreateVector2(Program.ActiveInstance.CanvasSize);
             Lua["render.getZoom"] = () => CreateVector2(Program.ActiveInstance.Zoom);
             Lua["render.createImage"] = (Func<int, int, LuaImage>) ((w, h) => new LuaImage(0, 0, w, h));
-            Lua["render.update"] = () => Program.ActiveInstance.Changed = true;
+            Lua["render.update"] = () => Program.ActiveInstance.Changed();
             InitLuaValues();
 			MainWindow.OnPreUpdate += PreUpdate!;
 		}

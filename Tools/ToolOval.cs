@@ -129,7 +129,7 @@ namespace Progrimage.Tools
             else _drawingOval.Pos = min;
 			_drawingOval.Size = size;
             _overlayShapeSet.Shapes[0] = _drawingOval;
-            Program.ActiveInstance.Changed = true;
+            Program.ActiveInstance.Changed();
         }
         #endregion
     }

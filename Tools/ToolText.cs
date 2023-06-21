@@ -94,7 +94,7 @@ namespace Progrimage.Tools
 			_overlayShapeSet.AttachedToLayer = true;
 			if (layer.Image.Image is null) _overlayShapeSet.Pos = _corner;
 			Program.ActiveInstance.ActiveLayer!.RenderOverlayShapes.Add(_overlayShapeSet);
-			Program.ActiveInstance.Changed = true;
+			Program.ActiveInstance.Changed();
 			_cursorBlinkOn = true;
 			_cursorChangeTime = 0;
 			_shouldUpdateCursor = true;
@@ -321,7 +321,7 @@ namespace Progrimage.Tools
             cursor.Hidden = !_cursorBlinkOn;
             if (_cursorBlinkOn) cursor.Pos = CompText.Composite.Layer.Image.Image is null ? int2.Zero : CompText.GetCursorPos(_textPos, false);
             _overlayShapeSet.Shapes[1] = cursor;
-            Program.ActiveInstance.OverlayChanged = true;
+            Program.ActiveInstance.OverlayChanged();
         }
 
         public void OnMouseDownCanvas(int2 pos)
@@ -376,7 +376,7 @@ namespace Progrimage.Tools
                     CompText.MinBound = box.Min + (int2)_overlayShapeSet.Pos;
                     CompText.MaxBound = box.Max + (int2)_overlayShapeSet.Pos;
                     CompText.Changed();
-                    Program.ActiveInstance.OverlayChanged = true;
+                    Program.ActiveInstance.OverlayChanged();
                     return;
                 }
 
@@ -451,7 +451,7 @@ namespace Progrimage.Tools
             box.Min -= (int2)_overlayShapeSet.Pos;
             box.Max -= (int2)_overlayShapeSet.Pos;
             _overlayShapeSet.Shapes[0] = box;
-            Program.ActiveInstance.OverlayChanged = true;
+            Program.ActiveInstance.OverlayChanged();
 
             _cursorBlinkOn = true;
             _cursorChangeTime = 0;

@@ -38,7 +38,7 @@ namespace Progrimage.Tools
 		{
 			_overlay?.Dispose();
 			_overlay = null;
-			Program.ActiveInstance.OverlayChanged = true;
+			Program.ActiveInstance.OverlayChanged();
 		}
 
 		public void OnLayerSelect(Layer layer)
@@ -172,7 +172,7 @@ namespace Progrimage.Tools
 			{
 				// Clear
 				_overlay.Hidden = true;
-				Program.ActiveInstance.OverlayChanged = true;
+				Program.ActiveInstance.OverlayChanged();
 				return;
 			}
 			_overlay.Hidden = false;
@@ -197,7 +197,7 @@ namespace Progrimage.Tools
 			rect.Size = new double2(selection.Max.x - selection.Min.x + 1, Program.ActiveInstance.CanvasSize.y - selection.Max.y - 1);
 			_overlay.Shapes[3] = rect;
 
-			Program.ActiveInstance.OverlayChanged = true;
+			Program.ActiveInstance.OverlayChanged();
 		}
 		#endregion
 	}

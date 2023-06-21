@@ -33,7 +33,7 @@ namespace Progrimage.Selectors
             
             if (instance.Selection != this || instance.ActiveLayer is null) return null;
             DrawBoundaryDots = true;
-            instance.OverlayChanged = true;
+            instance.OverlayChanged();
 
             int2 center = (max + min) / 2;
             int minDist = int.MaxValue;

@@ -272,7 +272,7 @@ namespace Progrimage
                 var bounds = Window.ClientBounds;
                 Width = bounds.Width;
                 Height = bounds.Height;
-                Program.ActiveInstance.Changed = true;
+                Program.ActiveInstance.Changed();
                 Program.ActiveInstance.Zoom = Program.ActiveInstance.Zoom;
             };
 
@@ -280,7 +280,7 @@ namespace Progrimage
                 var bounds = Window.ClientBounds;
                 Width = bounds.Width;
                 Height = bounds.Height;
-                Program.ActiveInstance.Changed = true;
+                Program.ActiveInstance.Changed();
                 Program.ActiveInstance.Zoom = Program.ActiveInstance.Zoom;
             }
 
@@ -418,7 +418,7 @@ namespace Progrimage
             LastMousePosCanvasDouble = MousePosCanvasDouble;
 
             if (oldCanvasMin != CanvasMin || oldCanvasMax != CanvasMax)
-                Program.ActiveInstance.Changed = true;
+                Program.ActiveInstance.Changed();
 
             Program.ActiveInstance.Init();
             ImGuiRenderer.TextInput.Clear();
@@ -937,7 +937,7 @@ namespace Progrimage
                 {
                     // Clicked
                     layer.Hidden = !layer.Hidden;
-                    Program.ActiveInstance.Changed = true;
+                    Program.ActiveInstance.Changed();
                 }
 
                 // Draw delete button
@@ -970,7 +970,7 @@ namespace Progrimage
 						if (payload.NativePtr != null)
 						{
 							(layers[*(int*)payload.Data], layers[i]) = (layers[i], layers[*(int*)payload.Data]);
-							Program.ActiveInstance.Changed = true;
+							Program.ActiveInstance.Changed();
 						}
 					}
 					ImGui.EndDragDropTarget();
@@ -1071,7 +1071,7 @@ namespace Progrimage
                                         (layers[_draggedComposite.Item1].Composites[_draggedComposite.Item2], layer.Composites[j]) = (layer.Composites[j], layers[_draggedComposite.Item1].Composites[_draggedComposite.Item2]);
                                         layer.Changed();
                                         if (i != _draggedComposite.Item1) layers[_draggedComposite.Item1].Changed();
-                                        Program.ActiveInstance.Changed = true;
+                                        Program.ActiveInstance.Changed();
                                     }
                                 }
                                 ImGui.EndDragDropTarget();

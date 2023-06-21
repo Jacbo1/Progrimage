@@ -52,7 +52,7 @@ namespace Progrimage
         public BrushState BrushSettings;
         public BrushState EraserSettings;
         public ISelector? Selection = null;
-        public bool Changed = true, OverlayChanged;
+        private bool _changed = true, _overlayChanged;
         public List<ToolLua> LuaTools = new();
         public ITool[] DefaultTools = new ITool[]
         {
@@ -155,7 +155,7 @@ namespace Progrimage
                 _checkerSize = (int)(8 * MainWindow.UIScale);
 				_transparencyBg = Util.GetTransparencyChecker(_canvasSize.x + _checkerSize * 2, _canvasSize.y + _checkerSize * 2, _checkerSize).CloneAs<Argb32>();
                 Zoom = _zoom;
-				Changed = true;
+				_changed = true;
             }
         }
 
@@ -165,7 +165,7 @@ namespace Progrimage
             set
             {
                 _pos = value;
-                Changed = true;
+                _changed = true;
             }
         }
 
@@ -175,7 +175,7 @@ namespace Progrimage
             set
             {
                 _zoom = value;
-                Changed = true;
+                _changed = true;
 
                 GetZoomBounds(out _, out double minZoom, out double maxZoom);
                 double minZoomLog = Math.Log(minZoom);
@@ -191,7 +191,7 @@ namespace Progrimage
                 _zoomLerp = value;
                 GetZoomBounds(out _, out double minZoom, out double maxZoom);
                 _zoom = Math.Exp(Math2.Lerp(Math.Log(minZoom), Math.Log(maxZoom), _zoomLerp));
-                Changed = true;
+                _changed = true;
             }
         }
         #endregion
@@ -209,6 +209,16 @@ namespace Progrimage
         #endregion
 
         #region Public Methods
+        public void Changed()
+        {
+            _changed = true;
+        }
+
+        public void OverlayChanged()
+        {
+            _overlayChanged = true;
+        }
+
         public void Init()
         {
             if (!_firstUpdate) return;
@@ -261,7 +271,7 @@ namespace Progrimage
             Layer layer = new Layer(this, img);
             LayerManager.Add(layer);
             ActiveLayer = layer;
-            Changed = true;
+            _changed = true;
             return layer;
         }
 
@@ -277,26 +287,26 @@ namespace Progrimage
             Layer layer = new Layer(this);
             LayerManager.Add(layer);
             ActiveLayer = layer;
-            Changed = true;
+            _changed = true;
             return layer;
         }
 
         public void Draw(IShape shape)
         {
             _overlayShapes.Enqueue(shape);
-            OverlayChanged = true;
+            _overlayChanged = true;
         }
 
         public void RenderToTexture2D(ref TexPair tex, out int2 offset, out int2 size)
         {
             offset = _renderOffset;
             size = _renderSize;
-            if (!Changed && !OverlayChanged) return; // Only re-render if there have been changes
+            if (!_changed && !_overlayChanged) return; // Only re-render if there have been changes
             
             bool offscreen = false;
-            if (Changed)
+            if (_changed)
             {
-                using (Image<Argb32> img = LayerManager.Merge())
+                using (Image<Argb32> img = LayerManager.Merge()!)
                 {
                     //Draw layer overlay shapes
                     img.Mutate(op =>
@@ -341,8 +351,8 @@ namespace Progrimage
                 }
             }
 
-            Changed = false;
-            OverlayChanged = false;
+            _changed = false;
+            _overlayChanged = false;
 
             using var temp = _renderedImage.Clone();
             temp.Mutate(i =>
@@ -404,7 +414,7 @@ namespace Progrimage
             if (Selection is null) return;
             Selection.Dispose();
             Selection = null;
-            OverlayChanged = true;
+            _overlayChanged = true;
         }
 
         public void GetZoomBounds(out double ratio, out double minZoom, out double maxZoom)

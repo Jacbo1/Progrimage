@@ -161,7 +161,7 @@ namespace Progrimage.Tools
 					yieldCheck--;
 					if (yieldCheck == 0)
 					{
-						Program.ActiveInstance.Changed = true;
+						Program.ActiveInstance.Changed();
 						yieldCheck = 100;
 						if (JobQueue.ShouldYield) yield return true;
 					}
@@ -209,7 +209,7 @@ namespace Progrimage.Tools
 				}
 			}
 
-			Program.ActiveInstance.Changed = true;
+			Program.ActiveInstance.Changed();
 			layer?.Changed();
 			if (!_sampleAllLayers) yield break;
 

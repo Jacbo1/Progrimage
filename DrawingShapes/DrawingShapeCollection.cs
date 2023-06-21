@@ -87,8 +87,8 @@ namespace Progrimage.DrawingShapes
 
         public void Dispose()
         {
-			Program.ActiveInstance.Changed |= Layer.OverlayShapes.Remove(this);
-			Program.ActiveInstance.OverlayChanged |= Layer.RenderOverlayShapes.Remove(this);
+			if (Layer.OverlayShapes.Remove(this)) Program.ActiveInstance.Changed();
+			if (Layer.RenderOverlayShapes.Remove(this)) Program.ActiveInstance.OverlayChanged();
         }
         #endregion
     }
