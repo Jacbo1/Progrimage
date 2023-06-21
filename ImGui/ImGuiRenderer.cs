@@ -62,9 +62,9 @@ namespace Progrimage
         private readonly Keys[] _allKeys = Enum.GetValues<Keys>();
 
         public bool[] KeysDown;
-        private bool _leftCtrlPressed, _rightCtrlPressed;
-        private bool _leftShiftPressed, _rightShiftPressed;
-        private bool _leftAltPressed, _rightAltPressed;
+        private bool _leftCtrlPressed, _rightCtrlPressed, _altCtrlPressed;
+        private bool _leftShiftPressed, _rightShiftPressed, _altShiftPressed;
+        private bool _leftAltPressed, _rightAltPressed, _altAltPressed;
 
         public ImGuiRenderer(Game game)
         {
@@ -245,13 +245,19 @@ namespace Progrimage
                         }
                         break;
                     case Keys.Z:
-                        if (Program.IsCtrlPressed) UndoManager.Undo();
+                        if (_leftCtrlPressed || _rightCtrlPressed) UndoManager.Undo();
+                        else if (Program.ALTERNATE_MODIFIER_KEYS) _altCtrlPressed = Program.IsCtrlPressed = true;
                         break;
                     case Keys.Y:
                         if (Program.IsCtrlPressed) UndoManager.Redo();
                         break;
                     case Keys.C:
-                        if (!Program.IsCtrlPressed) return;
+                        if (!Program.IsCtrlPressed)
+                        {
+                            if (!Program.ALTERNATE_MODIFIER_KEYS) return;
+                            _altAltPressed = Program.IsAltPressed = true;
+                            return;
+                        }
                         if (Program.ActiveInstance.ActiveTool is ToolText)
                         {
                             // Copy text
@@ -360,6 +366,9 @@ namespace Progrimage
                         // Save
                         MainWindow.Self.Save(path);
                         break;
+                    case Keys.X:
+                        if (Program.ALTERNATE_MODIFIER_KEYS) _altShiftPressed = Program.IsShiftPressed = true;
+                        break;
                 }
             };
 
@@ -392,6 +401,22 @@ namespace Progrimage
                     case Keys.RightAlt:
                         _rightAltPressed = false;
                         Program.IsAltPressed = _leftAltPressed;
+                        break;
+
+                    case Keys.Z:
+                        if (!Program.ALTERNATE_MODIFIER_KEYS) break;
+                        _altCtrlPressed = false;
+                        Program.IsCtrlPressed = _leftCtrlPressed || _rightCtrlPressed;
+                        break;
+                    case Keys.X:
+                        if (!Program.ALTERNATE_MODIFIER_KEYS) break;
+                        _altShiftPressed = false;
+                        Program.IsShiftPressed = _leftShiftPressed || _rightShiftPressed;
+                        break;
+                    case Keys.C:
+                        if (!Program.ALTERNATE_MODIFIER_KEYS) break;
+                        _altAltPressed = false;
+                        Program.IsAltPressed = _leftAltPressed || _rightAltPressed;
                         break;
                 }
             };

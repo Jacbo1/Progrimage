@@ -1,8 +1,10 @@
 ﻿using ImGuiNET;
 using NewMath;
+using Progrimage.DrawingShapes;
 using Progrimage.Selectors;
 using Progrimage.Undo;
 using Progrimage.Utils;
+using SixLabors.Fonts.Unicode;
 
 namespace Progrimage.Tools
 {
@@ -16,7 +18,7 @@ namespace Progrimage.Tools
         private bool _movingSelection, _moving, _resizing, _resizeFlipH, _resizeFlipV, _prevResizeFlipH, _prevResizeFlipV;
         private Image<Argb32>? _sourceImage;
         private ResizeDir _resizeDir;
-        private int2 _resizeStartMin, _resizeStartMax, _originalPos;
+        private int2 _resizeStartMin, _resizeStartMax, _originalPos, _mouseDownPos;
         //private List<UndoAction> _undos = new();
         //private bool _changed;
         #endregion
@@ -68,6 +70,26 @@ namespace Progrimage.Tools
             if (_resizing)
             {
                 // Resize
+                if (Program.IsShiftPressed)
+                {
+                    double2 dir = (_resizeStartMax - _resizeStartMin).Normalize();
+                    bool skip = false;
+                    switch (_resizeDir)
+                    {
+                        case ResizeDir.DownLeft:
+                        case ResizeDir.UpRight: dir.x = -dir.x; break;
+                        case ResizeDir.DownRight:
+                        case ResizeDir.UpLeft: break;
+                        default: skip = true; break;
+                    }
+
+                    if (!skip)
+                    {
+                        int2 delta = pos - _mouseDownPos;
+                        pos = Math2.RoundToInt(_mouseDownPos + dir * Math2.Sign(delta / dir) * Math2.Abs(delta / dir).max);
+                    }
+                }
+
                 Resize(pos);
                 return;
             }
@@ -77,14 +99,24 @@ namespace Progrimage.Tools
 			if (_moving)
             {
                 // Move
+                int2 lastMousePos = MainWindow.LastMousePosCanvas;
+                if (Program.IsShiftPressed)
+                {
+                    if (Math.Abs(pos.x - _mouseDownPos.x) > Math.Abs(pos.y - _mouseDownPos.y)) pos.y = _mouseDownPos.y;
+                    else pos.x = _mouseDownPos.x;
+
+                    if (Math.Abs(lastMousePos.x - _mouseDownPos.x) > Math.Abs(lastMousePos.y - _mouseDownPos.y)) lastMousePos.y = _mouseDownPos.y;
+                    else lastMousePos.x = _mouseDownPos.x;
+                }
+
                 if (_movingSelection)
                 {
                     // Move selection
                     if (Program.ActiveInstance.Selection is null) return;
-                    var delta = pos - MainWindow.LastMousePosCanvas;
+                    int2 delta = pos - lastMousePos;
                     Program.ActiveInstance.Selection!.Pos += delta;
                 }
-                else Program.ActiveInstance.ActiveLayer!.Pos += pos - MainWindow.LastMousePosCanvas;
+                else Program.ActiveInstance.ActiveLayer!.Pos += pos - lastMousePos;
                 Program.ActiveInstance.Changed();
             }
         }
@@ -94,8 +126,9 @@ namespace Progrimage.Tools
             //_changed = false;
             if (Program.ActiveInstance.ActiveLayer is null || _moving || !MainWindow.IsDragging) return;
 			_originalPos = Program.ActiveInstance.ActiveLayer.Pos;
+            _mouseDownPos = pos;
 
-			_moving = true;
+            _moving = true;
             ResizeDir? dir = Program.ActiveInstance.Selection?.GetResizeDir(ImGuiMouseCursor.ResizeAll);
             _resizing = dir is not null;
 
@@ -110,6 +143,14 @@ namespace Progrimage.Tools
                 // Resize
                 _resizeDir = (ResizeDir)dir!;
                 ISelector selection = Program.ActiveInstance.Selection!;
+
+                switch (_resizeDir)
+                {
+                    case ResizeDir.DownRight: _mouseDownPos = selection.Min; break;
+                    case ResizeDir.DownLeft: _mouseDownPos = new int2(selection.Max.x, selection.Min.y); break;
+                    case ResizeDir.UpLeft: _mouseDownPos = selection.Max; break;
+                    case ResizeDir.UpRight: _mouseDownPos = new int2(selection.Min.x, selection.Max.y); break;
+                }
 
                 _resizeStartMin = selection.Min;
                 _resizeStartMax = selection.Max;
