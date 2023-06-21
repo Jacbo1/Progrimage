@@ -105,12 +105,16 @@
 			<hr>
 
 			<h3 class="code"><a class="type">LuaImage</a>:clear(<a class="type" href="#vector3">vector3?</a><a class="type"> or </a><a class="type" href="#vector4">vector4?</a> color)</h3>
-			<p>Sets all pixels in the image to the given color. If no color is provided, it will use 0,0,0,0</p>
+			<p>Sets all pixels in the image to the given color. If no color is provided, it will use 0,0,0,0.</p>
 			<hr>
 
 			<h3 class="code"><a class="type">LuaImage</a>:clear(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> x, <a class="type">number</a> y, <a class="type">number</a> width, <a class="type">number</a> height) or<br>
 				<a class="type">LuaImage</a>:clear(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type" href="#vector2">vector2</a> pos, <a class="type" href="#vector2">vector2</a> size)</h3>
 			<p>Sets all pixels in the rectangle to the given color.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:clone()</h3>
+			<p>Clones the image.</p>
 			<hr>
 
 			<h3 class="code" id="LuaImage_dispose"><a class="type">LuaImage</a>:dispose()</h3>
@@ -121,12 +125,26 @@
 			<p>Draws an arc on the image.</p>
 			<hr>
 
+			<h3 class="code"><a class="type">LuaImage</a>:drawImage(<a class="type">LuaImage</a> overlay, <a class="type">bool?</a> expand)</h3>
+			<p>Draws the overlay image on top of this image. The positions of the two images are used for the drawing position. Pass true to expand the image when drawing if needed. Default to false.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawImage(<a class="type">LuaImage</a> overlay, <a class="type">number</a> x, <a class="type">number</a> y, <a class="type">bool?</a> expand) or<br>
+				<a class="type">LuaImage</a>:drawImage(<a class="type">LuaImage</a> overlay, <a class="type" href="#vector2">vector2</a> pos, <a class="type">bool?</a> expand)</h3>
+			<p>Draws the overlay image on top of this image at the specified position. Pass true to expand the image when drawing if needed. Default to false.</p>
+			<hr>
+
 			<h3 class="code"><a class="type">LuaImage</a>:drawLine(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type">number</a> x1, <a class="type">number</a> y1, <a class="type">number</a> x2, <a class="type">number</a> y2) or<br>
 				<a class="type">LuaImage</a>:drawLine(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type" href="#vector2">vector2</a> start, <a class="type" href="#vector2">vector2</a> stop)</h3>
 			<p>Draws a line on the image.</p>
 			<hr>
 
 			<h3 class="code"><a class="type">LuaImage</a>:drawMask(<a class="type">LuaImage</a> mask)</h3>
+			<p>Multiplies the alpha of this image with the alpha of the mask. The positions of the two images are used for the drawing position. E.g. if a pixel in the mask has an alpha of 0, the pixel in this image will then have an alpha of 0. If the mask has 255, then the pixel in this image will be unmodified.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawMask(<a class="type">LuaImage</a> mask, <a class="type">number</a> x, <a class="type">number</a> y) or<br>
+				<a class="type">LuaImage</a>:drawMask(<a class="type">LuaImage</a> mask, <a class="type" href="#vector2">vector2</a> pos)</h3>
 			<p>Multiplies the alpha of this image with the alpha of the mask. E.g. if a pixel in the mask has an alpha of 0, the pixel in this image will then have an alpha of 0. If the mask has 255, then the pixel in this image will be unmodified.</p>
 			<hr>
 
@@ -135,16 +153,17 @@
 			<p>Draws an outlined oval on the image.</p>
 			<hr>
 
-			<h3 class="code"><a class="type">LuaImage</a>:drawOver(<a class="type">LuaImage</a> overlay, <a class="type">bool?</a> expand)</h3>
-			<p>Draws the overlay image on top of this image. Pass true to expand the image when drawing if needed. Default to false.</p>
-			<hr>
-
 			<h3 class="code"><a class="type">LuaImage</a>:drawRect(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type">number</a> x, <a class="type">number</a> y, <a class="type">number</a> width, <a class="type">number</a> height) or<br>
 				<a class="type">LuaImage</a>:drawRect(<a class="type" href="#vector3">vector3</a><a class="type"> or </a><a class="type" href="#vector4">vector4</a> color, <a class="type">number</a> thickness, <a class="type" href="#vector2">vector2</a> pos, <a class="type" href="#vector2">vector2</a> size)</h3>
 			<p>Draws an outlined rectangle on the image.</p>
 			<hr>
 
 			<h3 class="code"><a class="type">LuaImage</a>:drawReplace(<a class="type">LuaImage</a> overlay, <a class="type">bool?</a> expand)</h3>
+			<p>Draws the overlay image on top of this image but replaces the pixels instend of blending them. The positions of the two images are used for the drawing position. Pass true to expand the image when drawing if needed. Default to false.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">LuaImage</a>:drawReplace(<a class="type">LuaImage</a> overlay, <a class="type">number</a> x, <a class="type">number</a> y, <a class="type">bool?</a> expand) or<br>
+				<a class="type">LuaImage</a>:drawReplace(<a class="type">LuaImage</a> overlay, <a class="type" href="#vector2">vector2</a> pos, <a class="type">bool?</a> expand)</h3>
 			<p>Draws the overlay image on top of this image but replaces the pixels instend of blending them. Pass true to expand the image when drawing if needed. Default to false.</p>
 			<hr>
 
