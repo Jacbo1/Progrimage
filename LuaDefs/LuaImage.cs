@@ -82,6 +82,11 @@ namespace Progrimage.LuaDefs
 		#endregion
 
 		#region Public Methods
+		public LuaImage clone()
+		{
+			return new LuaImage(Image.Clone());
+		}
+
 		public LuaTable getPixels()
 		{
 			if (Image.Image is null) return null;
@@ -212,13 +217,55 @@ namespace Progrimage.LuaDefs
 		public static bool operator !=(LuaImage a, LuaImage b) => a.Image != b.Image;
 
 		#region Drawing
-		public void drawOver(LuaImage overlay, bool expand = false) => Image.DrawOver(overlay.Image, expand);
+		public void drawImage(LuaImage overlay, bool expand = false) => Image.DrawOver(overlay.Image, expand);
+
+		public void drawImage(LuaImage overlay, LuaTable pos, bool expand = false)
+		{
+			int2 ipos = LuaManager.ToInt2(pos);
+			drawImage(overlay, ipos.x, ipos.y, expand);
+		}
+
+		public void drawImage(LuaImage overlay, int x, int y, bool expand = false)
+		{
+			int2 oldPos = overlay.Image.Pos;
+			overlay.Image.Pos = Image.Pos + new int2(x, y);
+			Image.DrawOver(overlay.Image, expand);
+			overlay.Image.Pos = oldPos;
+        }
 
 		public void drawReplace(LuaImage overlay, bool expand = false) => Image.DrawReplace(overlay.Image, expand);
 
-		public void drawMask(LuaImage overlay) => Image.DrawMask(overlay.Image);
+        public void drawReplace(LuaImage overlay, LuaTable pos, bool expand = false)
+        {
+            int2 ipos = LuaManager.ToInt2(pos);
+            drawReplace(overlay, ipos.x, ipos.y, expand);
+        }
 
-		public void tint(LuaTable color)
+        public void drawReplace(LuaImage overlay, int x, int y, bool expand = false)
+        {
+            int2 oldPos = overlay.Image.Pos;
+            overlay.Image.Pos = Image.Pos + new int2(x, y);
+            Image.DrawReplace(overlay.Image, expand);
+            overlay.Image.Pos = oldPos;
+        }
+
+        public void drawMask(LuaImage overlay) => Image.DrawMask(overlay.Image);
+
+        public void drawMask(LuaImage overlay, LuaTable pos)
+        {
+            int2 ipos = LuaManager.ToInt2(pos);
+            drawMask(overlay, ipos.x, ipos.y);
+        }
+
+        public void drawMask(LuaImage overlay, int x, int y)
+        {
+            int2 oldPos = overlay.Image.Pos;
+            overlay.Image.Pos = Image.Pos + new int2(x, y);
+            Image.DrawMask(overlay.Image);
+            overlay.Image.Pos = oldPos;
+        }
+
+        public void multiplyColor(LuaTable color)
 		{
 			if (Image.Image is null) return;
 			int4 col = Math2.RoundToInt(LuaManager.ToColor(color));
