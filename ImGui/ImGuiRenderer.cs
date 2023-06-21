@@ -318,7 +318,6 @@ namespace Progrimage
                                 // Have to clone the image for some reason or else it will get a memory access violation at some point
                                 Bitmap temp = (Bitmap)Clipboard.GetImage();
                                 using LockedBitmap src = new LockedBitmap((Bitmap)temp.Clone());
-                                Console.WriteLine(src.PixelFormat);
                                 temp.Dispose();
                                 img = new Image<Argb32>(src.Width, src.Height);
 
