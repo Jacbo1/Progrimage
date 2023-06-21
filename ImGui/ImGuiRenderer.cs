@@ -271,21 +271,19 @@ namespace Progrimage
                         {
                             DataObject dataObject = new DataObject();
 
-                            MemoryStream pngStream = new MemoryStream();
+                            using MemoryStream pngStream = new MemoryStream();
                             copiedImage.SaveAsPng(pngStream, new PngEncoder()
                             {
                                 CompressionLevel = PngCompressionLevel.BestCompression
                             });
                             dataObject.SetData("PNG", pngStream);
-                            pngStream.Dispose();
 
-                            MemoryStream bmpStream = new MemoryStream();
+                            using MemoryStream bmpStream = new MemoryStream();
                             copiedImage.SaveAsBmp(bmpStream, new BmpEncoder()
                             {
                                 SupportTransparency = true
                             });
                             dataObject.SetData("Bitmap", bmpStream);
-                            bmpStream.Dispose();
 
                             using (LockedBitmap bitmap = new LockedBitmap(copiedImage.Width, copiedImage.Height))
                             {
@@ -299,8 +297,8 @@ namespace Progrimage
                                     }
                                 });
                                 dataObject.SetData(DataFormats.Bitmap, bitmap.Bitmap);
+                                Clipboard.SetDataObject(dataObject, true);
                             }
-                            Clipboard.SetDataObject(dataObject, true);
                         }
                         break;
                     case Keys.V:
