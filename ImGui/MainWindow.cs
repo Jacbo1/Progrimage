@@ -32,9 +32,6 @@ using ImageSharpExtensions;
 
 namespace Progrimage
 {
-    /// <summary>
-    /// Simple FNA + ImGui example
-    /// </summary>
     public class MainWindow : Game
     {
         private enum Events
@@ -143,7 +140,7 @@ namespace Progrimage
         private static string _luaCompositeInputName;
 
 		// Private
-		private GraphicsDeviceManager _graphics;
+		private readonly GraphicsDeviceManager _graphics;
         private string[]? _launchFiles;
 		#endregion
 
@@ -168,12 +165,14 @@ namespace Progrimage
                     FileDrop(file);
                 }
             };
-            _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 1024;
-            _graphics.PreferredBackBufferHeight = 768;
-            _graphics.PreferMultiSampling = true;
-            _graphics.SynchronizeWithVerticalRetrace = true;
-            _graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            _graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = 1024,
+                PreferredBackBufferHeight = 768,
+                PreferMultiSampling = true,
+                SynchronizeWithVerticalRetrace = true,
+                GraphicsProfile = GraphicsProfile.HiDef
+            };
             Window.AllowUserResizing = true;
             Window.AllowAltF4 = true;
 
@@ -322,7 +321,6 @@ namespace Progrimage
         private bool show_another_window = false;
         private bool show_style_editor = false;
         private Num.Vector3 clear_color = new Num.Vector3(114f / 255f, 144f / 255f, 154f / 255f);
-        private byte[] _textBuffer = new byte[100];
 
         protected virtual void ImGuiLayout()
         {
@@ -600,7 +598,7 @@ namespace Progrimage
             var red = new Vector4(1, 0, 0, 1);
 
             int toolCounter = 0;
-            Action<ITool> Draw = tool =>
+            void Draw(ITool tool)
             {
                 bool isActiveTool = false;
                 if (tool == Program.ActiveInstance?.ActiveTool)
@@ -614,7 +612,7 @@ namespace Progrimage
 
                 // Set active tool
                 toolCounter++;
-				if (ImGui.ImageButton(tool.ToString() + toolCounter, tool.Icon, ToolIconSize, Vector2.Zero, Vector2.One, ColorManager.GetSRGB(tool == Program.ActiveInstance?.ActiveTool ? CustomColor.SelectedButtonBG : CustomColor.UnselectedButtonBG)))
+                if (ImGui.ImageButton(tool.ToString() + toolCounter, tool.Icon, ToolIconSize, Vector2.Zero, Vector2.One, ColorManager.GetSRGB(tool == Program.ActiveInstance?.ActiveTool ? CustomColor.SelectedButtonBG : CustomColor.UnselectedButtonBG)))
                     Program.ActiveInstance!.ActiveTool = tool;
 
                 if (!isActiveTool) return;
@@ -622,7 +620,7 @@ namespace Progrimage
                 // Set colors back to normal
                 Style.Colors[(int)ImGuiCol.Button] = buttonColor;
                 Style.Colors[(int)ImGuiCol.ButtonHovered] = buttonColorHover;
-            };
+            }
 
             // Draw default tool buttons
             foreach (ITool tool in Program.ActiveInstance.DefaultTools)
@@ -1090,14 +1088,13 @@ namespace Progrimage
 
             TextColor = textColor;
             IndentSpacing = indentSpacing;
-            //CellPadding = cellPadding;
         }
 
         private void DrawBottomBar()
         {
-            float width = (float)((ImGui.GetWindowWidth() - 150 * _uiScale) - (30 * _uiScale));
+            float width = (float)(ImGui.GetWindowWidth() - 150 * _uiScale - (30 * _uiScale));
             float height = ImGui.GetFontSize() * 1.5f;
-            List<string> strings = new();
+            List<string> strings = new List<string>();
             strings.Add($"Cursor Pos: ({MousePosCanvas.x}x, {MousePosCanvas.y}y)");
             if (Program.ActiveInstance.ActiveLayer is not null)
             {
@@ -1122,7 +1119,6 @@ namespace Progrimage
             ImGui.SetNextWindowPos(new Vector2((float)(30 * _uiScale), ImGui.GetWindowHeight() - height));
 			ImGui.BeginChild("bottom bar", new Vector2(width, height), false, ImGuiWindowFlags.NoBringToFrontOnFocus);
             float interval = width / Math.Max(1, strings.Count - 0.5f);
-            float x = interval;
             for (int i = 0; i < Math.Max(strings.Count - 1, 1); i++)
             {
                 ImGui.SameLine();
@@ -1133,7 +1129,7 @@ namespace Progrimage
             if (strings.Count > 1)
             {
                 ImGui.SameLine();
-                string s = strings[strings.Count - 1];
+                string s = strings[^1];
                 ImGui.Indent(width - ImGui.CalcTextSize("Zoom: 100%").X - interval * (strings.Count - 2));
                 ImGui.TextUnformatted(s);
             }

@@ -33,13 +33,13 @@ namespace Progrimage
         public static List<TextInput> TextInput = new();
         public static Font FontToCheckValidChars = SystemFonts.CreateFont("Arial", 1);
 
-		private Game _game;
+		private readonly Game _game;
 
         // Graphics
-        private GraphicsDevice _graphicsDevice;
+        private readonly GraphicsDevice _graphicsDevice;
 
         private BasicEffect _effect;
-        private RasterizerState _rasterizerState;
+        private readonly RasterizerState _rasterizerState;
 
         private byte[] _vertexData;
         private VertexBuffer _vertexBuffer;
@@ -50,7 +50,7 @@ namespace Progrimage
         private int _indexBufferSize;
 
         // Textures
-        private Dictionary<IntPtr, Texture2D> _loadedTextures;
+        private readonly Dictionary<IntPtr, Texture2D> _loadedTextures;
 
         private int _textureId;
         private IntPtr? _fontTextureId;
@@ -59,7 +59,7 @@ namespace Progrimage
         private int _scrollWheelValue;
         private int _horizontalScrollWheelValue;
         private readonly float WHEEL_DELTA = 120;
-        private Keys[] _allKeys = Enum.GetValues<Keys>();
+        private readonly Keys[] _allKeys = Enum.GetValues<Keys>();
 
         public bool[] KeysDown;
         private bool _leftCtrlPressed, _rightCtrlPressed;
@@ -265,19 +265,21 @@ namespace Progrimage
                         {
                             DataObject dataObject = new DataObject();
 
-                            using MemoryStream pngStream = new MemoryStream();
+                            MemoryStream pngStream = new MemoryStream();
                             copiedImage.SaveAsPng(pngStream, new PngEncoder()
                             {
                                 CompressionLevel = PngCompressionLevel.BestCompression
                             });
                             dataObject.SetData("PNG", pngStream);
+                            pngStream.Dispose();
 
-                            using MemoryStream bmpStream = new MemoryStream();
+                            MemoryStream bmpStream = new MemoryStream();
                             copiedImage.SaveAsBmp(bmpStream, new BmpEncoder()
                             {
                                 SupportTransparency = true
                             });
                             dataObject.SetData("Bitmap", bmpStream);
+                            bmpStream.Dispose();
 
                             using (LockedBitmap bitmap = new LockedBitmap(copiedImage.Width, copiedImage.Height))
                             {
@@ -287,7 +289,7 @@ namespace Progrimage
                                     for (int x = 0; x < row.Length; x++)
                                     {
                                         Argb32 pixel = row[x];
-                                        bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(pixel.R, pixel.G, pixel.B));
+                                        bitmap.SetPixel(x, y, pixel.R, pixel.G, pixel.B);
                                     }
                                 });
                                 dataObject.SetData(DataFormats.Bitmap, bitmap.Bitmap);
@@ -316,6 +318,7 @@ namespace Progrimage
                                 // Have to clone the image for some reason or else it will get a memory access violation at some point
                                 Bitmap temp = (Bitmap)Clipboard.GetImage();
                                 using LockedBitmap src = new LockedBitmap((Bitmap)temp.Clone());
+                                Console.WriteLine(src.PixelFormat);
                                 temp.Dispose();
                                 img = new Image<Argb32>(src.Width, src.Height);
 
@@ -324,7 +327,7 @@ namespace Progrimage
                                     Span<Argb32> row = img.DangerousGetPixelRowMemory(y).Span;
                                     for (int x = 0; x < row.Length; x++)
                                     {
-                                        System.Drawing.Color srcPixel = src.GetPixel(x, y);
+                                        SimpleColor srcPixel = src.GetPixel(x, y);
                                         row[x].A = 255;
                                         row[x].R = srcPixel.R;
                                         row[x].G = srcPixel.G;
@@ -413,7 +416,7 @@ namespace Progrimage
         /// </summary>
         protected virtual Effect UpdateEffect(Texture2D texture)
         {
-            _effect = _effect ?? new BasicEffect(_graphicsDevice);
+            _effect ??= new BasicEffect(_graphicsDevice);
 
             var io = ImGui.GetIO();
 
