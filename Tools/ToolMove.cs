@@ -85,8 +85,8 @@ namespace Progrimage.Tools
 
                     if (!skip)
                     {
-                        int2 delta = pos - _mouseDownPos;
-                        pos = Math2.RoundToInt(_mouseDownPos + dir * Math2.Sign(delta / dir) * Math2.Abs(delta / dir).max);
+                        double2 ratio = (pos - _mouseDownPos) / dir;
+                        pos = Math2.RoundToInt(_mouseDownPos + dir * Math2.Sign(ratio) * Math2.Abs(ratio).max);
                     }
                 }
 
