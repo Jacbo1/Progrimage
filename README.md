@@ -63,11 +63,12 @@ Known issue: sometimes everything will be black except for icons and text. I don
 # Building
 **Requirements**
 * The dlls included in the release.
+* [DesktopGL](https://www.nuget.org/packages/MonoGame.Framework.DesktopGL/3.8.1.303)
 * [ImageSharp](https://www.nuget.org/packages/SixLabors.ImageSharp/2.1.3)
-* [ImGui.NET](https://www.nuget.org/packages/ImGui.NET/1.89.1?_src=template)
-* [DesktopGL](https://www.nuget.org/packages/MonoGame.Framework.DesktopGL/3.8.1.303?_src=template)
-* [NLua](https://www.nuget.org/packages/NLua/1.6.0?_src=template)
-* [ImageSharp.Drawing](https://www.nuget.org/packages/SixLabors.ImageSharp.Drawing/1.0.0-beta15?_src=template)
+* [ImageSharp.Drawing](https://www.nuget.org/packages/SixLabors.ImageSharp.Drawing/1.0.0-beta15)
+* [ImGui.NET](https://www.nuget.org/packages/ImGui.NET/1.89.1)
+* [NLua](https://www.nuget.org/packages/NLua/1.6.0)
+* [Pfim](https://www.nuget.org/packages/Pfim/0.11.2)
 
 ## Ownership
 I do not own or take credit for the brush, eraser, fill, or move tool icons. They are placeholders I found on Google images.
