@@ -404,6 +404,16 @@ namespace Progrimage.LuaDefs
 			double2 dradius = LuaManager.ToDouble2(radius);
 			Image.Mutate(op => op.Draw(LuaManager.ToColor(color).ToArgb32(), (float)thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)dcenter.x, (float)dcenter.y), new SizeF((float)dradius.x, (float)dradius.y), 0, (float)startAng, (float)angDelta))));
 		}
+
+		public void blur()
+		{
+			Image.Mutate(op => op.GaussianBlur());
+		}
+
+		public void blur(double sigma)
+		{
+			Image.Mutate(op => op.GaussianBlur((float)sigma));
+		}
 		#endregion
 		#endregion
 	}
