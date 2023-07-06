@@ -9,7 +9,8 @@ The main feature of this image editor is the ability for users to easily create 
 **NOTE: This is an early unfinished build. There is an issue where under some conditions or on some computers the entire interface be black except for text and icons. This is suspected to be an issue with ImGui.NET or DesktopGL. Tests were done and the proper colors are being sent to ImGui.NET but are displayed as black. If the canvas is not black on startup, the program is still usable and theme colors can seemingly be reselected and saved without issue.**  
 Some (or a lot) of the code also needs refactoring to make it look better.  
 
-![image](https://user-images.githubusercontent.com/86734639/220980725-df9c16d6-5d3d-4442-ac9e-c9c38844b8de.png)
+[Demo video](https://www.youtube.com/watch?v=uSaQBk6_q1U)  
+![Demo video](https://github.com/Jacbo1/Progrimage/assets/86734639/570aea88-a4ef-4090-a17c-11b125baf8f5)
 
 **Features**
 * Tools
