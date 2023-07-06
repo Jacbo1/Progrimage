@@ -2,10 +2,7 @@
 using NewMath;
 using Progrimage.DrawingShapes;
 using Progrimage.Utils;
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 
@@ -27,9 +24,7 @@ namespace Progrimage.Selectors
             get => _min;
             set
             {
-                int2 val = Math2.Clamp(value, 0, Program.ActiveInstance.CanvasSize - 1);
-                if (val == _min) return;
-                _min = val;
+                _min = value;
                 UpdateOutline();
             }
         }
@@ -39,9 +34,7 @@ namespace Progrimage.Selectors
             get => _max;
             set
             {
-                int2 val = Math2.Clamp(value, 0, Program.ActiveInstance.CanvasSize - 1);
-                if (val == _max) return;
-                _max = val;
+                _max = value;
                 UpdateOutline();
             }
         }
@@ -96,11 +89,23 @@ namespace Progrimage.Selectors
                 if (_layer.Image.Image is null)
                 {
                     _image = new Image<Argb32>(size.x, size.y);
+
+                    if (_drawImageInOverlay && Overlay.Shapes.Count != 0)
+                    {
+                        Overlay.Shapes[0] = new OverlayImage(_image, int2.Zero);
+                    }
+
                     return _image; // Layer does not overlap with selection
                 }
 
                 // Copy Layer selection to _image
                 _image = _layer.Image.Image.GetSubimage(_min - _layer.Pos, size);
+
+                if (_drawImageInOverlay && Overlay.Shapes.Count != 0)
+                {
+                    Overlay.Shapes[0] = new OverlayImage(_image, int2.Zero);
+                }
+
                 return _image;
             }
             set
@@ -151,8 +156,7 @@ namespace Progrimage.Selectors
             Rectangle region = new Rectangle(_min.x, _min.y, _max.x - _min.x + 1, _max.y - _min.y + 1);
             Rectangle bounds = new Rectangle(layer.Pos.x, layer.Pos.y, layer.Size.x, layer.Size.y);
 
-            if (!region.IntersectsWith(bounds))
-                return; // Layer does not overlap with selection
+            if (!region.IntersectsWith(bounds)) return; // Layer does not overlap with selection
 
             region = Util.Clamp(region, bounds);
             region.Offset(-layer.Pos.x, -layer.Pos.y);
@@ -195,6 +199,13 @@ namespace Progrimage.Selectors
         {
             Overlay.Pos = _min;
             Program.ActiveInstance.Changed();
+        }
+
+        public static void SelectRegion(int2 pos, int2 size)
+        {
+            Program.ActiveInstance.ClearSelection();
+            Program.ActiveInstance.Selection = new MarqueSelection(pos, pos + size - 1, Program.ActiveInstance.ActiveLayer!);
+            Program.ActiveInstance.OverlayChanged();
         }
         #endregion
     }

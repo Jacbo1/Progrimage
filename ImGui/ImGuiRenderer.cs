@@ -221,28 +221,9 @@ namespace Progrimage
                         break;
                     case Keys.A:
                         if (Program.ActiveInstance.ActiveTool is ToolText t && t.CompText is not null) break;
-                        if (Program.IsCtrlPressed)
-                        {
-                            Program.ActiveInstance.ClearSelection();
-                            var marqueTool = Program.ActiveInstance.GetTool<ToolMarqueSelect>();
-                            bool oldDragging = MainWindow.IsDragging;
-                            MainWindow.IsDragging = true;
-                            marqueTool!.OnMouseDownCanvas(0);
-                            marqueTool.OnMouseMoveCanvas(Program.ActiveInstance.CanvasSize - 1);
-                            marqueTool.OnMouseUp(0, 0);
-                            MainWindow.IsDragging = oldDragging;
-                        }
+                        if (Program.IsCtrlPressed) MarqueSelection.SelectRegion(0, Program.ActiveInstance.CanvasSize);
                         else if (Program.ActiveInstance.ActiveLayer is Layer layer && layer.Size != int2.Zero)
-                        {
-                            Program.ActiveInstance.ClearSelection();
-                            var marqueTool = Program.ActiveInstance.GetTool<ToolMarqueSelect>();
-                            bool oldDragging = MainWindow.IsDragging;
-                            MainWindow.IsDragging = true;
-                            marqueTool!.OnMouseDownCanvas(layer.Pos);
-                            marqueTool.OnMouseMoveCanvas(layer.Pos + layer.Size - 1);
-                            marqueTool.OnMouseUp(0, 0);
-                            MainWindow.IsDragging = oldDragging;
-                        }
+                            MarqueSelection.SelectRegion(layer.Pos, layer.Size);
                         break;
                     case Keys.Z:
                         if (_leftCtrlPressed || _rightCtrlPressed) UndoManager.Undo();

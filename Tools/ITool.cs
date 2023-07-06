@@ -9,5 +9,6 @@ namespace Progrimage.Tools
         public void OnDeselect() { }
         public void EnterPressed() { }
         public void EscapePressed() { }
+        public void PreSelectionChanged() { }
     }
 }

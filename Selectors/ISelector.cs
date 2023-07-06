@@ -2,9 +2,6 @@
 using NewMath;
 using Progrimage.DrawingShapes;
 using Progrimage.Utils;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 
 namespace Progrimage.Selectors
 {

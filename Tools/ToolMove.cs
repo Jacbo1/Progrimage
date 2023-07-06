@@ -1,10 +1,8 @@
 ﻿using ImGuiNET;
 using NewMath;
-using Progrimage.DrawingShapes;
 using Progrimage.Selectors;
 using Progrimage.Undo;
 using Progrimage.Utils;
-using SixLabors.Fonts.Unicode;
 
 namespace Progrimage.Tools
 {
@@ -96,7 +94,7 @@ namespace Progrimage.Tools
 
             if (MainWindow.MouseInCanvas) Util.SetMouseCursor(ImGuiMouseCursor.ResizeAll);
             else Util.SetMouseCursor(ImGuiMouseCursor.Arrow);
-			if (_moving)
+            if (_moving)
             {
                 // Move
                 int2 lastMousePos = MainWindow.LastMousePosCanvas;
@@ -125,7 +123,7 @@ namespace Progrimage.Tools
         {
             //_changed = false;
             if (Program.ActiveInstance.ActiveLayer is null || _moving || !MainWindow.IsDragging) return;
-			_originalPos = Program.ActiveInstance.ActiveLayer.Pos;
+            _originalPos = Program.ActiveInstance.ActiveLayer.Pos;
             _mouseDownPos = pos;
 
             _moving = true;
@@ -134,9 +132,15 @@ namespace Progrimage.Tools
 
             if (Program.ActiveInstance.Selection is not null)
             {
-                Program.ActiveInstance.Selection.DrawBoundaryDots = false;
-				Program.ActiveInstance.Selection.ClearSelection();
-			}
+                ISelector selection = Program.ActiveInstance.Selection!;
+                selection.DrawBoundaryDots = false;
+                selection.DrawImageInOverlay = true;
+                if (selection.GrabSource)
+                {
+                    selection.GrabSource = false;
+                    selection.ClearSelection();
+                }
+            }
 
             if (_resizing)
             {
@@ -161,12 +165,12 @@ namespace Progrimage.Tools
                 return;
             }
 
-			// Move
-			if (MainWindow.MouseInCanvas) Util.SetMouseCursor(ImGuiMouseCursor.ResizeAll);
-			else Util.SetMouseCursor(ImGuiMouseCursor.Arrow);
-			if (Program.ActiveInstance.Selection is not null) _movingSelection = true; // Move the selection
+            // Move
+            if (MainWindow.MouseInCanvas) Util.SetMouseCursor(ImGuiMouseCursor.ResizeAll);
+            else Util.SetMouseCursor(ImGuiMouseCursor.Arrow);
+            if (Program.ActiveInstance.Selection is not null) _movingSelection = true; // Move the selection
             else _movingSelection = false; // Move the entire layer
-		}
+        }
 
         public void OnMouseMoveScreen(int2 mousePos)
         {
@@ -206,7 +210,7 @@ namespace Progrimage.Tools
             //    }
             //}
 
-			Layer? layer = Program.ActiveInstance.ActiveLayer;
+            Layer? layer = Program.ActiveInstance.ActiveLayer;
             if (_moving && !_movingSelection && layer is not null)
             {
                 int2 newPos = layer.Pos;
@@ -223,7 +227,7 @@ namespace Progrimage.Tools
                         Program.ActiveInstance.Changed();
                     })
                 );
-			}
+            }
             Apply();
             Program.ActiveInstance.Selection?.GetResizeDir(ImGuiMouseCursor.ResizeAll);
         }
@@ -235,10 +239,19 @@ namespace Progrimage.Tools
             if (Program.ActiveInstance.ActiveLayer is null) return new string[] { };
             return new[] { $"Move: ({Program.ActiveInstance.ActiveLayer.Pos.x}x, {Program.ActiveInstance.ActiveLayer.Pos.y}y)" };
         }
-		#endregion
 
-		#region Private Methods
-		private void Apply()
+        public void PreSelectionChanged()
+        {
+            Program.ActiveInstance.Selection?.DrawImage();
+            Apply();
+            Util.SetMouseCursor(ImGuiMouseCursor.Arrow);
+            _resizeFlipH = false;
+            _resizeFlipV = false;
+        }
+        #endregion
+
+        #region Private Methods
+        private void Apply()
         {
             _moving = false;
             _resizing = false;

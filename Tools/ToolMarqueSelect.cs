@@ -55,6 +55,7 @@ namespace Progrimage.Tools
 
             // Not resizing
             Program.ActiveInstance.ClearSelection();
+            pos = Math2.Clamp(pos, 0, Program.ActiveInstance.CanvasSize - 1);
             Program.ActiveInstance.Selection = new MarqueSelection(pos, pos, Program.ActiveInstance.ActiveLayer!);
             _corner = pos;
             Program.ActiveInstance.OverlayChanged();
@@ -64,6 +65,8 @@ namespace Progrimage.Tools
         {
             ISelector? selection = Program.ActiveInstance.Selection;
             if (selection is null) return;
+
+            pos = Math2.Clamp(pos, 0, Program.ActiveInstance.CanvasSize - 1);
 
             if (MainWindow.IsDragging)
             {

@@ -412,6 +412,7 @@ namespace Progrimage
         public void ClearSelection()
         {
             if (Selection is null) return;
+            ActiveTool.PreSelectionChanged();
             Selection.Dispose();
             Selection = null;
             _overlayChanged = true;
