@@ -223,7 +223,10 @@ namespace Progrimage
                         if (Program.ActiveInstance.ActiveTool is ToolText t && t.CompText is not null) break;
                         if (Program.IsCtrlPressed) MarqueSelection.SelectRegion(0, Program.ActiveInstance.CanvasSize);
                         else if (Program.ActiveInstance.ActiveLayer is Layer layer && layer.Size != int2.Zero)
+                        {
+                            Program.ActiveInstance.ClearSelection();
                             MarqueSelection.SelectRegion(layer.Pos, layer.Size);
+                        }
                         break;
                     case Keys.Z:
                         if (_leftCtrlPressed || _rightCtrlPressed) UndoManager.Undo();
