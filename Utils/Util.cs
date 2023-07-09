@@ -114,28 +114,55 @@ namespace Progrimage.Utils
             return false;
         }
 
-        /// <summary>
-        /// Alpha blend 2 colors
-        /// </summary>
-        /// <param name="a">Source color</param>
-        /// <param name="b">Overlay color</param>
-        /// <returns>Blended color</returns>
-        public static int4 BlendColors(int4 a, int4 b)
+        public static Argb32 Blend(Argb32 source, Argb32 over)
         {
-            if (b.w == 255 || a.w == 0) return b; // No need to blend alpha
+            if (over.A == 0) return source; // Overlay pixel is fully transparent
 
-            double aAlpha = a.w / 255.0;
-            double bAlpha = b.w / 255.0;
-            double alpha1 = 1 - bAlpha;
-            double denom = bAlpha + aAlpha * alpha1;
-            if (denom == 0) return a;
-            double alphaMult = aAlpha * alpha1;
-            return new int4(
-                (int)Math.Round((b.x * bAlpha + a.x * alphaMult) / denom, MidpointRounding.AwayFromZero),
-                (int)Math.Round((b.y * bAlpha + a.y * alphaMult) / denom, MidpointRounding.AwayFromZero),
-                (int)Math.Round((b.z * bAlpha + a.z * alphaMult) / denom, MidpointRounding.AwayFromZero),
-                (int)Math.Round(b.w + a.w * alpha1, MidpointRounding.AwayFromZero));
+            byte iOverlayAlpha = (byte)(255 - over.A);
+            byte alpha = (byte)(over.A + source.A * iOverlayAlpha / 255);
+
+            if (source.A == 0)
+            {
+                // Overlay is the only source of color and will darken if not handled separately
+                source.R = over.R;
+                source.G = over.G;
+                source.B = over.B;
+            }
+            else
+            {
+                // Blend colors
+                source.R = (byte)((over.R * over.A + source.R * source.A * iOverlayAlpha / 255) / alpha);
+                source.G = (byte)((over.G * over.A + source.G * source.A * iOverlayAlpha / 255) / alpha);
+                source.B = (byte)((over.B * over.A + source.B * source.A * iOverlayAlpha / 255) / alpha);
+            }
+
+            source.A = alpha;
+
+            return source;
         }
+
+        ///// <summary>
+        ///// Alpha blend 2 colors
+        ///// </summary>
+        ///// <param name="a">Source color</param>
+        ///// <param name="b">Overlay color</param>
+        ///// <returns>Blended color</returns>
+        //public static int4 BlendColors(int4 a, int4 b)
+        //{
+        //    if (b.w == 255 || a.w == 0) return b; // No need to blend alpha
+
+        //    double aAlpha = a.w / 255.0;
+        //    double bAlpha = b.w / 255.0;
+        //    double alpha1 = 1 - bAlpha;
+        //    double denom = bAlpha + aAlpha * alpha1;
+        //    if (denom == 0) return a;
+        //    double alphaMult = aAlpha * alpha1;
+        //    return new int4(
+        //        (int)Math.Round((b.x * bAlpha + a.x * alphaMult) / denom, MidpointRounding.AwayFromZero),
+        //        (int)Math.Round((b.y * bAlpha + a.y * alphaMult) / denom, MidpointRounding.AwayFromZero),
+        //        (int)Math.Round((b.z * bAlpha + a.z * alphaMult) / denom, MidpointRounding.AwayFromZero),
+        //        (int)Math.Round(b.w + a.w * alpha1, MidpointRounding.AwayFromZero));
+        //}
 
         public static int4 BlendColorsErase(int4 a, int4 b)
         {

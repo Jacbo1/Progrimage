@@ -175,8 +175,7 @@ namespace Progrimage.Tools
 					int g = pixel.G - baseColor.G;
 					int b = pixel.B - baseColor.B;
 					int a = pixel.A - baseColor.A;
-					int diff = r * r + g * g + b * b + a * a;
-					if (diff > threshold) continue; // Difference over threshold
+					if (r * r + g * g + b * b + a * a > threshold) continue; // Difference over threshold
 
 					// Apply change
 					int2 sourcePos = pos + sampleImage.Pos - source.Pos;
@@ -190,11 +189,7 @@ namespace Progrimage.Tools
 					else
 					{
 						// Blend colors
-						byte alpha = (byte)(color.A + pixel.A * iAlpha / byte.MaxValue);
-						pixel.R = (byte)((color.R * color.A + pixel.R * pixel.A * iAlpha / byte.MaxValue) / alpha);
-						pixel.G = (byte)((color.G * color.A + pixel.G * pixel.A * iAlpha / byte.MaxValue) / alpha);
-						pixel.B = (byte)((color.B * color.A + pixel.B * pixel.A * iAlpha / byte.MaxValue) / alpha);
-						pixel.A = alpha;
+						pixel = Util.Blend(pixel, color);
 					}
 
 					source.Image![pos.x, pos.y] = pixel;
@@ -203,8 +198,8 @@ namespace Progrimage.Tools
 
 					// Push neighboring pixels
 					if (pos.x > 0) _checkPoints.Push(new int2(pos.x - 1, pos.y));
-					if (pos.y > 0) _checkPoints.Push(new int2(pos.x, pos.y - 1));
-					if (pos.x < xMax) _checkPoints.Push(new int2(pos.x + 1, pos.y));
+                    if (pos.x < xMax) _checkPoints.Push(new int2(pos.x + 1, pos.y));
+                    if (pos.y > 0) _checkPoints.Push(new int2(pos.x, pos.y - 1));
 					if (pos.y < yMax) _checkPoints.Push(new int2(pos.x, pos.y + 1));
 				}
 			}
