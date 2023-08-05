@@ -104,7 +104,7 @@ namespace Progrimage.Tools
         {
             Stroke stroke = Program.ActiveInstance.Stroke;
             if (stroke.Layer is null) return;
-            JobQueue.Queue.Add(new CoroutineJob(() => UndoManager.AddUndo(new UndoImagePatch(stroke.Layer, stroke.Min, stroke.Size))));
+            JobQueue.Queue.Add(new CoroutineJob(() => UndoManager.AddUndo(new UndoRegion(stroke.Layer, stroke.Min, stroke.Size))));
             stroke.QueueDraw(stroke.Layer.Image, true);
             JobQueue.Queue.Add(new CoroutineJob(() =>
             {

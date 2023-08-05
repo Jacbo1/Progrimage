@@ -91,7 +91,7 @@ namespace ProgrimageImGui.Windows
 			ImGui.BeginDisabled(!valid);
 			if (ImGui.Button("Apply", new Vector2(windowWidth * 0.5f, itemHeight)) && newSize is not null)
 			{
-				UndoManager.AddUndo(new UndoImagePatch(layer, layer.Pos, layer.Size));
+				UndoManager.AddUndo(new UndoRegion(layer, layer.Pos, layer.Size));
 				int2 size = (int2)newSize;
 				if (layer.Image.Image is null) layer.Size = size;
 				else layer.Image.Mutate(op => op.Resize(size.x, size.y));

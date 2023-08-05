@@ -1,5 +1,6 @@
 input = {}
 render = {}
+util = {}
 
 function math.round(x)
 	return math.floor(x + 0.5)

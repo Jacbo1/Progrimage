@@ -164,7 +164,7 @@ namespace Progrimage.Tools
 			if (!_curveReady || Program.ActiveInstance.ActiveLayer is not Layer layer) return;
 
 			var bounds = _curve.GetBounds();
-			UndoManager.AddUndo(new UndoImagePatch(layer, bounds));
+			UndoManager.AddUndo(new UndoRegion(layer, bounds));
 			layer.Image.ExpandToContain(bounds);
 			double2 curPos = _curve.Pos;
 			_curve.Pos -= layer.Pos;

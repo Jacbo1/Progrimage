@@ -65,7 +65,7 @@ namespace Progrimage.Tools
             _overlayShapeSet?.Dispose();
             if (!MainWindow.PostMouseDownStartInCanvas || Program.ActiveInstance.ActiveLayer is not Layer layer) return;
             var bounds = _drawingRect.GetBounds();
-            UndoManager.AddUndo(new UndoImagePatch(layer, bounds));
+            UndoManager.AddUndo(new UndoRegion(layer, bounds));
 			layer.Image.ExpandToContain(bounds);
 			_drawingRect.Pos -= layer.Pos;
             ((IShape)_drawingRect).Draw(layer);

@@ -1,11 +1,10 @@
 ﻿using ImageSharpExtensions;
 using NewMath;
 using SixLabors.ImageSharp.Advanced;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace Progrimage.Undo
 {
-    public class UndoImagePatch: IUndoAction, IDisposable //where TPixel : unmanaged, IPixel<TPixel>
+    public class UndoRegion: IUndoAction, IDisposable //where TPixel : unmanaged, IPixel<TPixel>
 	{
 		private Layer _layer;
 		private PositionedImage<Argb32> _image;
@@ -13,7 +12,7 @@ namespace Progrimage.Undo
 		private int2 _layerPos, _layerSize;
 		public long MemorySize { get; private set; }
 
-		public UndoImagePatch(Layer layer, int2 pos, int2 size)
+		public UndoRegion(Layer layer, int2 pos, int2 size)
 		{	
 			//						  ref  int2s self
 			MemorySize = sizeof(long) + 4 + 4*3 + 1;
@@ -25,7 +24,7 @@ namespace Progrimage.Undo
 			MemorySize += _image.Image.Width * _image.Image.Height * System.Runtime.InteropServices.Marshal.SizeOf(_image.Image!.DangerousGetPixelRowMemory(0).Span[0]);
 		}
 
-		public UndoImagePatch(Layer layer, SixLabors.ImageSharp.Rectangle bounds)
+		public UndoRegion(Layer layer, SixLabors.ImageSharp.Rectangle bounds)
 		{	
 			//						  ref  int2s self
 			MemorySize = sizeof(long) + 4 + 4*3 + 1;

@@ -75,7 +75,7 @@ namespace Progrimage.Tools
 		private IEnumerator<bool> Run(int2 pos)
 		{
 			Layer? layer = Program.ActiveInstance.ActiveLayer;
-			if (layer is not null) UndoManager.AddUndo(new UndoImagePatch(layer, layer.Pos, layer.Size));
+			if (layer is not null) UndoManager.AddUndo(new UndoRegion(layer, layer.Pos, layer.Size));
 			PositionedImage<Argb32> sampleImage;
 			Argb32 baseColor = new Argb32(0, 0, 0, 0);
 			bool sourceIsNew = layer is null;

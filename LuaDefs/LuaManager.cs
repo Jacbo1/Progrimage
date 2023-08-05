@@ -194,6 +194,10 @@ namespace Progrimage.LuaDefs
             Lua["render.getZoom"] = () => CreateVector2(Program.ActiveInstance.Zoom);
             Lua["render.createImage"] = (Func<int, int, LuaImage>) ((w, h) => new LuaImage(0, 0, w, h));
             Lua["render.update"] = () => Program.ActiveInstance.Changed();
+
+            Lua["util.createUndoAction"] = (Func<LuaFunction, LuaFunction, LuaUndoAction>) ((undo, redo) => new LuaUndoAction(undo, redo));
+            Lua["util.createUndoRegion"] = (Func<LuaLayer, LuaTable, LuaTable, LuaUndoRegion>) ((layer, pos, size) => new LuaUndoRegion(layer.Layer, ToInt2(pos), ToInt2(size)));
+
             InitLuaValues();
 			MainWindow.OnPreUpdate += PreUpdate!;
 		}

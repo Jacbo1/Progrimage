@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Tracing;
-
-namespace Progrimage.Undo
+﻿namespace Progrimage.Undo
 {
-	public class UndoAction : IUndoAction
+    public class UndoAction : IUndoAction
 	{
 		public Action UndoDelegate, RedoDelegate;
 		public EventHandler Disposed;
