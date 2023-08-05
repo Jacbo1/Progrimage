@@ -148,6 +148,8 @@ namespace Progrimage.Tools
                 _resizeDir = (ResizeDir)dir!;
                 ISelector selection = Program.ActiveInstance.Selection!;
 
+                _sourceImage = selection.Image.Clone();
+
                 switch (_resizeDir)
                 {
                     case ResizeDir.DownRight: _mouseDownPos = selection.Min; break;
