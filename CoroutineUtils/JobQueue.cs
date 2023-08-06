@@ -6,11 +6,11 @@ namespace Progrimage.CoroutineUtils
     public static class JobQueue
     {
         public static List<CoroutineJob> Queue = new();
-        public static int MaxProcessingTime = 1000 / 60 - 4;
+        public const int MAX_PROCESSING_TIME = 1000 / 60 - 4;
 		public static bool UnlimitedTime = false;
 
         private static long _processingStartTime = Util.Time;
-        private static long _nextYieldTime = _processingStartTime + MaxProcessingTime;
+        private static long _nextYieldTime = _processingStartTime + MAX_PROCESSING_TIME;
 
         public static bool ShouldYield
         {
@@ -20,7 +20,7 @@ namespace Progrimage.CoroutineUtils
         public static void UpdateTime()
         {
             _processingStartTime = Util.Time;
-            _nextYieldTime = _processingStartTime + MaxProcessingTime;
+            _nextYieldTime = _processingStartTime + MAX_PROCESSING_TIME;
         }
 
         public static void Work()

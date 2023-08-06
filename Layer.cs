@@ -124,8 +124,13 @@ namespace Progrimage
 
         public void DrawBrushLine(double2 start, double2 stop)
         {
+            //JobIdentifier.Cancel();
+            //CompositeResult.Dispose();
+        }
+
+        public void CancelJobs()
+        {
             JobIdentifier.Cancel();
-            CompositeResult.Dispose();
         }
 
         public void Changed()

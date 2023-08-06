@@ -1,7 +1,6 @@
 ﻿using ImageSharpExtensions;
 using NewMath;
 using Progrimage.CoroutineUtils;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace Progrimage.Composites
 {
@@ -14,7 +13,10 @@ namespace Progrimage.Composites
         public void RunOnceFirstRepeat(PositionedImage<Argb32> result) { }
         public void Init(Composite composite);
         public void DrawQuickActionsToolbar(PositionedImage<Argb32> result) { }
-        public void Rerun() => JobQueue.Queue.Add(new CoroutineJob(Composite!.Layer.Changed));
-
+        public void Rerun()
+        {
+            Composite!.Layer.CancelJobs();
+            JobQueue.Queue.Add(new CoroutineJob(Composite!.Layer.Changed));
+        }
     }
 }

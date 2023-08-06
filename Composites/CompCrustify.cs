@@ -1,6 +1,7 @@
 ﻿using ImageSharpExtensions;
 using ImGuiNET;
 using NewMath;
+using Progrimage.CoroutineUtils;
 using SixLabors.ImageSharp.Advanced;
 using System.Collections;
 
@@ -46,7 +47,7 @@ namespace Progrimage.Composites
             else alpha = null;
 
             Random rand = new Random(_seed);
-            List<int> qualities = new List<int>();
+            List<int> qualities = new List<int>(_level);
             if (_level == 1) qualities.Add(1);
             else
             {
@@ -58,6 +59,7 @@ namespace Progrimage.Composites
 
             for (int i = 0; i < _level; i++)
             {
+                if (JobQueue.ShouldYield) yield return true;
                 MemoryStream stream = new MemoryStream();
                 int index = rand.Next(qualities.Count);
                 result.Image.SaveAsJpeg(stream, new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder

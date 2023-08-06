@@ -28,7 +28,6 @@ namespace Progrimage.Utils
         private static Image<Argb32>? _defaultIconImg, _defaultTextureImg;
         private static TexPair _defaultIconTex, _defaultTextureTex;
         private static ImGuiMouseCursor _currentCusor = ImGuiMouseCursor.Arrow;
-        private static ImageCodecInfo? _codecInfo;
 
         public static long Time
         {
