@@ -1,6 +1,9 @@
 # Progrimage
-**A User-end scripting focused image editor**  
+A User-end scripting focused image editor  
+  
 **Requires [.NET 6.0](https://dotnet.microsoft.com/en-us/download) to run**  
+Windows only  
+  
 You can download Progrimage in the [releases](https://github.com/Jacbo1/Progrimage/releases/latest).  
 Documentation and examples can be found on the [wiki](https://github.com/Jacbo1/Progrimage/wiki/Lua-Examples).  
 
