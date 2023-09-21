@@ -219,6 +219,23 @@ namespace Progrimage
                     case Keys.Enter:
                         Program.ActiveInstance.ActiveTool.EnterPressed();
                         break;
+                    case Keys.H:
+                        if (Program.ActiveInstance?.ActiveLayer?.Image?.Image is not null)
+                        {
+                            // Flip horizontally
+							Layer layer = Program.ActiveInstance!.ActiveLayer!;
+							layer.Image.Mutate(op => op.Flip(FlipMode.Horizontal));
+                            layer.Changed();
+
+							Action undo = () =>
+                            {
+								layer?.Image.Mutate(op => op.Flip(FlipMode.Horizontal));
+								layer?.Changed();
+							};
+
+                            UndoManager.AddUndo(new UndoAction(undo, undo));
+						}
+                        break;
                     case Keys.A:
                         if (Program.ActiveInstance.ActiveTool is ToolText t && t.CompText is not null) break;
                         if (Program.IsCtrlPressed) MarqueSelection.SelectRegion(0, Program.ActiveInstance.CanvasSize);
@@ -242,6 +259,7 @@ namespace Progrimage
                             _altAltPressed = Program.IsAltPressed = true;
                             return;
                         }
+
                         if (Program.ActiveInstance.ActiveTool is ToolText)
                         {
                             // Copy text
@@ -286,10 +304,29 @@ namespace Progrimage
                         }
                         break;
                     case Keys.V:
-                        if (!Program.IsCtrlPressed) return;
+                        if (!Program.IsCtrlPressed)
+                        {
+                            // Flip vertically
+							if (Program.ActiveInstance?.ActiveLayer?.Image?.Image is not null)
+							{
+								Layer layer = Program.ActiveInstance!.ActiveLayer!;
+								layer.Image.Mutate(op => op.Flip(FlipMode.Vertical));
+								layer.Changed();
+
+								Action undo = () =>
+								{
+									layer?.Image.Mutate(op => op.Flip(FlipMode.Horizontal));
+									layer?.Changed();
+								};
+
+								UndoManager.AddUndo(new UndoAction(undo, undo));
+							}
+                            return;
+						}
+
                         if (Program.ActiveInstance.ActiveTool is ToolText && Clipboard.ContainsText())
                         {
-                            // Copy text
+                            // Paste text
                             TextInput.Add(new TextInput(Clipboard.GetText()));
                             return;
                         }

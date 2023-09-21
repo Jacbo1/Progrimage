@@ -1,11 +1,9 @@
 ﻿using NewMath;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Progrimage
 {
-    public class BrushTextureArray
+	public class BrushTextureArray
     {
         public byte[,]? ByteData { get; private set; }
         public ushort[,]? ShortData { get; private set; }

@@ -199,8 +199,8 @@ namespace Progrimage.Utils
         public static void MakeDeleteIcon()
         {
 			using var img = new Image<La16>(size.x, size.y);
-            double thickness = size.min * 0.1;
-            double distMult = (size.min * 0.5 * Math.Sqrt(2) - thickness * 0.5) / size.Length();
+            double thickness = size.Min * 0.1;
+            double distMult = (size.Min * 0.5 * Math.Sqrt(2) - thickness * 0.5) / size.Length();
             double2 center = (size - 1) * 0.5;
             double2 diag = size * distMult;
             double2[] corners =
@@ -221,7 +221,7 @@ namespace Progrimage.Utils
         public static void MakeAddIcon()
         {
 			using var img = new Image<La16>(size.x, size.y);
-            float thickness = size.min * 0.1f;
+            float thickness = size.Min * 0.1f;
             double2 center = (size - 1) * 0.5;
             double2[] points =
             {
@@ -241,7 +241,7 @@ namespace Progrimage.Utils
         public static void MakeLineToolIcon()
         {
 			using var img = new Image<La16>(size.x, size.y);
-			double thickness = size.min * 0.1;
+			double thickness = size.Min * 0.1;
 			double2 center = (size - 1) * 0.5;
 			double2 distMult = (size * 0.5 * Math.Sqrt(2) - thickness * 0.5) / size.Length();
 			double2 diag = size * distMult;
@@ -293,7 +293,7 @@ namespace Progrimage.Utils
             using var img = new Image<La16>(size.x, size.y);
             img.Mutate(i =>
             {
-				float thickness = size.min * 0.1f;
+				float thickness = size.Min * 0.1f;
 				i.Clear(new Color(new Argb32(0, 0, 0, 0)));
 
                 double2 padding = thickness;
@@ -322,7 +322,7 @@ public static void MakeCubicCurveIcon()
     using var img = new Image<La16>(size.x, size.y);
     img.Mutate(i =>
     {
-        float thickness = size.min * 0.1f;
+        float thickness = size.Min * 0.1f;
         i.Clear(new Color(new Argb32(0, 0, 0, 0)));
 
         double2 padding = thickness;
