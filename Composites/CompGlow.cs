@@ -76,7 +76,7 @@ namespace Progrimage.Composites
                 for (int i = iterations - 1; i >= 0; i--)
                 {
                     Image<Argb32> cur = images[i];
-                    int2 nextSize = Math2.RoundToInt(cur.Size() * sizes[i] / (double2)sizes[i + 1]);
+                    int2 nextSize = Math2.Round(cur.Size() * sizes[i] / (double2)sizes[i + 1]);
                     int2 nextSizePlusBlur = nextSize + _blurRadius * 2;
                     Image<Argb32> next = images[Math.Max(i - 1, 0)];
 

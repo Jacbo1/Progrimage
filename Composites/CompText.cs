@@ -178,8 +178,8 @@ namespace Progrimage.Composites
 			List<LetterRect> rects = new(line.Length + (lastLineHadBreak ? 1 : 0));
 			int maxWidth = MaxBound.x - MinBound.x + 1;
 			int x = 0;
-			int y = Math2.RoundToInt(lineHeight * LetterBoxes.Count);
-			int height = Math2.RoundToInt(lineHeight * (LetterBoxes.Count + 1)) - y;
+			int y = Math2.Round(lineHeight * LetterBoxes.Count);
+			int height = Math2.Round(lineHeight * (LetterBoxes.Count + 1)) - y;
 			string current = "";
             WrappedHeight = y + height;
 

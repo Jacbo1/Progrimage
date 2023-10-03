@@ -47,7 +47,7 @@ namespace Progrimage.Utils
         /// </summary>
         /// <param name="pos">Canvas position</param>
         /// <returns>Screen position</returns>
-        public static int2 CanvasToScreen(int2 pos) => Math2.RoundToInt((pos + MainWindow.CanvasOriginDouble) * Program.ActiveInstance.Zoom);
+        public static int2 CanvasToScreen(int2 pos) => Math2.Round((pos + MainWindow.CanvasOriginDouble) * Program.ActiveInstance.Zoom);
         public static double2 CanvasToScreenDouble(int2 pos) => (pos + MainWindow.CanvasOriginDouble) * Program.ActiveInstance.Zoom;
         public static double2 CanvasToScreenDouble(double2 pos) => (pos + MainWindow.CanvasOriginDouble) * Program.ActiveInstance.Zoom;
 

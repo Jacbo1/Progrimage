@@ -180,7 +180,7 @@ namespace Progrimage.DrawingShapes
 			int2 origin = int2.Zero;
 			if (collectionMember is not null)
 			{
-				origin += Math2.RoundToInt(collectionMember.Pos);
+				origin += Math2.Round(collectionMember.Pos);
 				if (collectionMember.AttachedToLayer)
 					origin += collectionMember.Layer.Pos;
 			}

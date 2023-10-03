@@ -116,7 +116,7 @@ namespace Progrimage
 
 		private void DrawBrushAt(float[] maxValues, double2 pos)
 		{
-			int2 ipos = Math2.RoundToInt(pos);
+			int2 ipos = Math2.Round(pos);
 			double2 posFrac = ipos - pos;
 			double xAdd = posFrac.x - ipos.x;
 
@@ -168,7 +168,7 @@ namespace Progrimage
 		private void Scale(double scale)
 		{
 			// Scale to fit in the new size but maintain aspect ratio
-			int2 newSize = Math2.RoundToInt(this._imageSize * scale);
+			int2 newSize = Math2.Round(this._imageSize * scale);
 			double2 scale_ = newSize / (double2)this._imageSize;
 			float[] scaledPixels = new float[newSize.x * newSize.y];
 

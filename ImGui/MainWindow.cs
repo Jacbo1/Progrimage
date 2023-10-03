@@ -724,7 +724,7 @@ namespace Progrimage
         private void SetCanvasOrigin()
         {
 			CanvasOriginDouble = (CanvasMax - CanvasMin) * 0.5 - (Program.ActiveInstance.CanvasSize * 0.5 - Program.ActiveInstance.Pos) * Program.ActiveInstance.Zoom + CanvasMin;
-			CanvasOrigin = Math2.RoundToInt(CanvasOriginDouble);
+			CanvasOrigin = Math2.Round(CanvasOriginDouble);
         }
 
         private void HandleEvents(Queue<Events> eventHandlersTrigged)
@@ -1111,7 +1111,7 @@ namespace Progrimage
 			foreach (var interactable in Program.ActiveInstance.GetInteractables())
                 strings.AddRange(interactable.DrawBottomBar());
 
-            strings.Add($"Zoom: {Math2.RoundToInt(Program.ActiveInstance.Zoom * 100)}%");
+            strings.Add($"Zoom: {Math2.Round(Program.ActiveInstance.Zoom * 100)}%");
 
             ref var ChildBg = ref Style.Colors[(int)ImGuiCol.ChildBg];
             var childBg = ChildBg;

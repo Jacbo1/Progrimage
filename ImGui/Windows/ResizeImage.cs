@@ -98,7 +98,7 @@ namespace ProgrimageImGui.Windows
 				for (int i = 0; i < layers.Count; i++)
 				{
 					Layer layer = layers[i];
-					int2 layerSize = Math2.RoundToInt(layer.Size * scale);
+					int2 layerSize = Math2.Round(layer.Size * scale);
 					if (layerSize <= layer.Size)
 					{
 						// High quality proprietary downscale
@@ -110,7 +110,7 @@ namespace ProgrimageImGui.Windows
 						// Default scaling
 						layer.Image.Mutate(op => op.Resize(layerSize.x, layerSize.y));
 					}
-					layer.Pos = Math2.RoundToInt(layer.Pos * scale);
+					layer.Pos = Math2.Round(layer.Pos * scale);
 					layer.Changed();
 				}
 				Show = false;

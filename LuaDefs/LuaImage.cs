@@ -268,7 +268,7 @@ namespace Progrimage.LuaDefs
         public void multiplyColor(LuaTable color)
 		{
 			if (Image.Image is null) return;
-			int4 col = Math2.RoundToInt(LuaManager.ToColor(color));
+			int4 col = Math2.Round(LuaManager.ToColor(color));
 			Parallel.For(0, Image.Height, y =>
 			{
                 Span<Argb32> row = Image.Image.DangerousGetPixelRowMemory(y).Span;

@@ -84,7 +84,7 @@ namespace Progrimage.Tools
                     if (!skip)
                     {
                         double2 ratio = (pos - _mouseDownPos) / dir;
-                        pos = Math2.RoundToInt(_mouseDownPos + dir * Math2.Sign(ratio) * Math2.Abs(ratio).Max);
+                        pos = Math2.Round(_mouseDownPos + dir * Math2.Sign(ratio) * Math2.Abs(ratio).Max);
                     }
                 }
 

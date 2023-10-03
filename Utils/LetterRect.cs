@@ -115,9 +115,9 @@ namespace Progrimage.Utils
         public static implicit operator FontRectangle(LetterRect rect) => new FontRectangle(rect.X, rect.Y, rect.Width, rect.Height);
         public static implicit operator LetterRect(FontRectangle rect)
         {
-            int x = Math2.RoundToInt(rect.X);
-            int y = Math2.RoundToInt(rect.Y);
-            return new LetterRect(x, y, Math2.RoundToInt(rect.X + rect.Width) - x + 1, Math2.RoundToInt(rect.Y + rect.Height) - y + 1, (int)rect.Width);
+            int x = Math2.Round(rect.X);
+            int y = Math2.Round(rect.Y);
+            return new LetterRect(x, y, Math2.Round(rect.X + rect.Width) - x + 1, Math2.Round(rect.Y + rect.Height) - y + 1, (int)rect.Width);
         }
         #endregion
     }

@@ -322,7 +322,7 @@ namespace Progrimage
                         }
                     });
 
-                    int2 checkerOffset = Math2.RoundToInt(MainWindow.CanvasOrigin / _zoom) % (_checkerSize * 2);
+                    int2 checkerOffset = Math2.Round(MainWindow.CanvasOrigin / _zoom) % (_checkerSize * 2);
                     if (checkerOffset.x < 0) checkerOffset.x += _checkerSize * 2;
                     if (checkerOffset.y < 0) checkerOffset.y += _checkerSize * 2;
                     _renderedImage?.Dispose();
@@ -332,7 +332,7 @@ namespace Progrimage
 
 				// Crop to screen bounds
 				int2 min = Math2.Max(MainWindow.CanvasMin, MainWindow.CanvasOrigin);
-				int2 max = Math2.Min(MainWindow.CanvasMax, MainWindow.CanvasOrigin + Math2.RoundToInt(_canvasSize * _zoom) - 1);
+				int2 max = Math2.Min(MainWindow.CanvasMax, MainWindow.CanvasOrigin + Math2.Round(_canvasSize * _zoom) - 1);
 				int2 pixMinScaled = min - MainWindow.CanvasOrigin;
 				int2 pixMaxScaled = max - MainWindow.CanvasOrigin;
                 _renderOffset = pixMinScaled;
@@ -435,7 +435,7 @@ namespace Progrimage
 			// Downscaling and upscaling are separated on each axis
 
 			int2 imageSize = new int2(image.Width, image.Height);
-			int2 newSize = Math2.RoundToInt(imageSize * _zoom);
+			int2 newSize = Math2.Round(imageSize * _zoom);
 			double2 scale = newSize / (double2)imageSize;
 
 			int2 croppedSize = scaledMax - scaledMin + 1;

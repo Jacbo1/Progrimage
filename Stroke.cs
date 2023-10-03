@@ -667,7 +667,7 @@ namespace Progrimage
 
         private void DrawBrushAt(double2 pos)
         {
-            int2 ipos = Math2.RoundToInt(pos);
+            int2 ipos = Math2.Round(pos);
             double2 posFrac = ipos - pos;
             ipos -= _maskMinBound;
 			double xAdd = posFrac.x - ipos.x;
@@ -690,7 +690,7 @@ namespace Progrimage
 
         private void DrawBrushAsSinglePoint(double2 pos)
         {
-			int2 ipos = Math2.RoundToInt(pos);
+			int2 ipos = Math2.Round(pos);
 			double2 posFrac = ipos - pos;
 			ipos -= _maskMinBound;
             double xAdd = posFrac.x - ipos.x;
