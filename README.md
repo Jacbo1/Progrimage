@@ -1,7 +1,7 @@
 # Progrimage
 A User-end scripting focused image editor  
   
-**Requires [.NET 6.0](https://dotnet.microsoft.com/en-us/download) to run**  
+**Requires [.NET 6.0](https://dotnet.microsoft.com/en-us/download) and [.NET 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) to run**  
 Windows only  
   
 You can download Progrimage in the [releases](https://github.com/Jacbo1/Progrimage/releases/latest).  
