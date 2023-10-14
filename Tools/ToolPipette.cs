@@ -46,12 +46,12 @@ namespace Progrimage.Tools
 			}
 			else
 			{
-				if (instance.ActiveLayer?.Image == null) return;
+				if (instance.ActiveLayer?.Image?.Image == null) return;
 				Layer layer = instance.ActiveLayer;
-				Image<Argb32> image = layer.Image!;
+				Image<Argb32> image = layer.Image.Image!;
 				mousePos -= layer.Pos;
-				if (mousePos.x < 0 || mousePos.y < 0 || mousePos.x >= image.Width || mousePos.y >= image.Height) return;
-				color = image[mousePos.x, mousePos.y];
+				if (mousePos.x < 0 || mousePos.y < 0 || mousePos.x >= image.Width || mousePos.y >= image.Height) color = new Argb32(0, 0, 0, 0);
+				else color = image[mousePos.x, mousePos.y];
 			}
 
 			ColorPicker.PushColorToPalette("tool", color);
