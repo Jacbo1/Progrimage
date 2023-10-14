@@ -34,7 +34,7 @@ namespace ProgrimageImGui.Windows
 			ImGui.Indent(TARGET_TEXT_WIDTH);
 			ImGui.SetNextItemWidth(100);
 			string oldWidthString = _widthInput;
-			ImGui.InputText("px ", ref _widthInput, 10, ImGuiInputTextFlags.CharsDecimal);
+			ImGui.InputText("px ", ref _widthInput, 100, ImGuiInputTextFlags.CharsDecimal);
 			_widthInput.Replace(".", "");
 			ImGui.Unindent(TARGET_TEXT_WIDTH);
 
@@ -43,7 +43,7 @@ namespace ProgrimageImGui.Windows
 			ImGui.Indent(TARGET_TEXT_WIDTH);
 			ImGui.SetNextItemWidth(100);
 			string oldHeightString = _heightInput;
-			ImGui.InputText("px", ref _heightInput, 10, ImGuiInputTextFlags.CharsDecimal);
+			ImGui.InputText("px", ref _heightInput, 100, ImGuiInputTextFlags.CharsDecimal);
 			float itemHeight = ImGui.GetItemRectSize().Y;
 			_heightInput.Replace(".", "");
 			ImGui.Unindent(TARGET_TEXT_WIDTH);
