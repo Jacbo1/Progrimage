@@ -3,7 +3,6 @@ using ImGuiNET;
 using NewMath;
 using Progrimage;
 using Progrimage.Undo;
-using SixLabors.ImageSharp.Processing;
 using System.Numerics;
 
 namespace ProgrimageImGui.Windows
@@ -14,7 +13,7 @@ namespace ProgrimageImGui.Windows
 		private static bool _wasShowing, _maintainAspectRatio;
 		private static string _widthInput = "", _heightInput = "";
 
-		public static void TryShowResizeLayerWindow(ref bool mouseOverCanvasWindow)
+		public static void TryShowWindow(ref bool mouseOverCanvasWindow)
 		{
 			if (Program.ActiveInstance.ActiveLayer is not Layer layer) return; // No active layer
 			if (!Show)
@@ -23,8 +22,7 @@ namespace ProgrimageImGui.Windows
 				return;
 			}
 
-			if (!ImGui.Begin("Resize Layer", ref Show, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse))
-				return;
+			if (!ImGui.Begin("Resize Layer", ref Show, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse)) return;
 
 			if (!_wasShowing)
 			{

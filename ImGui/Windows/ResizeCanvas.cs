@@ -12,7 +12,7 @@ namespace ProgrimageImGui.Windows
 		private static bool _wasShowing, _maintainAspectRatio;
 		private static string _widthInput = "", _heightInput = "";
 
-		public static void TryShowResizeCanvasWindow(ref bool mouseOverCanvasWindow)
+		public static void TryShowWindow(ref bool mouseOverCanvasWindow)
 		{
 			if (!Show)
 			{
@@ -20,8 +20,7 @@ namespace ProgrimageImGui.Windows
 				return;
 			}
 
-			if (!ImGui.Begin("Resize Canvas", ref Show, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse))
-				return;
+			if (!ImGui.Begin("Resize Canvas", ref Show, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse)) return;
 
 			if (!_wasShowing)
 			{

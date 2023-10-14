@@ -203,41 +203,51 @@ namespace Progrimage
             {
                 LayerManager manager = Program.ActiveInstance.LayerManager;
                 bool setSavePath = manager.Layers.Count == 0 || (manager.Layers.Count == 1 && manager.Layers[0].Image.Image is null);
-                if (Path.GetExtension(file).ToLower() == ".dds")
+                switch (Path.GetExtension(file).ToLower())
                 {
-                    // Load DDS through Pfim
-                    Pfim.IImage image = Pfim.Pfimage.FromFile(file);
-
-                    if (image.Format != Pfim.ImageFormat.Rgba32) return;
-
-                    byte[] data = image.Data;
-                    Image<Argb32> dest = new(image.Width, image.Height);
-                    unsafe
-                    {
-                        for (int y = 0; y < image.Height; y++)
+                    case ".dds":
                         {
-                            Span<Argb32> row = dest.DangerousGetPixelRowMemory(y).Span;
-                            for (int x = 0; x < image.Width; x++)
+                            // Load DDS through Pfim
+                            Pfim.IImage image = Pfim.Pfimage.FromFile(file);
+
+                            if (image.Format != Pfim.ImageFormat.Rgba32) return;
+
+                            byte[] data = image.Data;
+                            Image<Argb32> dest = new(image.Width, image.Height);
+                            unsafe
                             {
-                                int src = (x + (image.Height - y - 1) * image.Width) * 4;
-                                row[x] = new Argb32(data[src + 2], data[src + 1], data[src], data[src + 3]);
+                                for (int y = 0; y < image.Height; y++)
+                                {
+                                    Span<Argb32> row = dest.DangerousGetPixelRowMemory(y).Span;
+                                    for (int x = 0; x < image.Width; x++)
+                                    {
+                                        int src = (x + (image.Height - y - 1) * image.Width) * 4;
+                                        row[x] = new Argb32(data[src + 2], data[src + 1], data[src], data[src + 3]);
+                                    }
+                                }
                             }
+                            image.Dispose();
+
+                            Program.ActiveInstance.CreateLayer(dest);
                         }
-                    }
-                    image.Dispose();
+                        break;
 
-                    Program.ActiveInstance.CreateLayer(dest);
-                }
-                else
-                {
-                    // Load image normally
-                    Program.ActiveInstance.CreateLayer(Image.Load<Argb32>(file));
+                    case ".svg":
+                        // Load SVG through import window
+                        SVGImport.SetPath(file);
+                        SVGImport.Show = true;
+                        break;
 
-                    if (setSavePath)
-                    {
-                        // Set save path to this file
-                        Util.SetLastSavePath(file);
-                    }
+                    default:
+                            // Load image normally
+                            Program.ActiveInstance.CreateLayer(Image.Load<Argb32>(file));
+
+                            if (setSavePath)
+                            {
+                                // Set save path to this file
+                                Util.SetLastSavePath(file);
+                            }
+                        break;
                 }
             }
             catch { }
@@ -344,9 +354,10 @@ namespace Progrimage
             DrawRightPanel();
             FontPickerPopup.Draw();
             CreateLuaCompPopup.Draw();
-            ResizeCanvas.TryShowResizeCanvasWindow(ref MouseOverCanvasWindow);
-            ResizeImage.TryShowResizeImageWindow(ref MouseOverCanvasWindow);
-            ResizeLayer.TryShowResizeLayerWindow(ref MouseOverCanvasWindow);
+            ResizeCanvas.TryShowWindow(ref MouseOverCanvasWindow);
+            ResizeImage.TryShowWindow(ref MouseOverCanvasWindow);
+            ResizeLayer.TryShowWindow(ref MouseOverCanvasWindow);
+            SVGImport.TryShowWindow(ref MouseOverCanvasWindow);
 
             ImGui.End();
 

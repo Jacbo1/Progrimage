@@ -3,7 +3,6 @@ using ImageSharpExtensions;
 using ImGuiNET;
 using NewMath;
 using Progrimage;
-using SixLabors.ImageSharp.Processing;
 using System.Numerics;
 
 namespace ProgrimageImGui.Windows
@@ -14,7 +13,7 @@ namespace ProgrimageImGui.Windows
 		private static bool _wasShowing, _maintainAspectRatio;
 		private static string _widthInput = "", _heightInput = "";
 
-		public static void TryShowResizeImageWindow(ref bool mouseOverCanvasWindow)
+		public static void TryShowWindow(ref bool mouseOverCanvasWindow)
 		{
 			if (!Show)
 			{
@@ -22,8 +21,7 @@ namespace ProgrimageImGui.Windows
 				return;
 			}
 
-			if (!ImGui.Begin("Resize Image", ref Show, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse))
-				return;
+			if (!ImGui.Begin("Resize Image", ref Show, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse)) return;
 
 			if (!_wasShowing)
 			{

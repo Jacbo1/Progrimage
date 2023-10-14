@@ -1,12 +1,9 @@
 ﻿using ImGuiNET;
 using Microsoft.Xna.Framework.Graphics;
 using NewMath;
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using XnaVector4 = Microsoft.Xna.Framework.Vector4;
@@ -19,10 +16,13 @@ using Size = SixLabors.ImageSharp.Size;
 using PointF = SixLabors.ImageSharp.PointF;
 using System.Drawing.Imaging;
 using ImageSharpExtensions;
+using Svg.Transforms;
+using Svg;
+using LockedBitmapLibrary;
 
 namespace Progrimage.Utils
 {
-    public static class Util
+	public static class Util
     {
         private static int _windowID = 0;
         private static Image<Argb32>? _defaultIconImg, _defaultTextureImg;
@@ -181,12 +181,12 @@ namespace Progrimage.Utils
                 (int)Math.Round(colorAlpha * alpha1 + a.w, MidpointRounding.AwayFromZero));
         }
 
-        /// <summary>
-        /// Draws an Image to a Texture2D
-        /// </summary>
-        /// <param name="tex">Destination texture</param>
-        /// <param name="img">Source image</param>
-        public static void DrawImageToTexture2D(Texture2D tex, Image<Rgb24> img)
+		/// <summary>
+		/// Draws an <see cref="Image"/> to a <see cref="Texture2D"/>
+		/// </summary>
+		/// <param name="tex">Destination texture</param>
+		/// <param name="img">Source image</param>
+		public static void DrawImageToTexture2D(Texture2D tex, Image<Rgb24> img)
         {
             uint[] pixels = new uint[tex.Width * tex.Height];
 
@@ -203,12 +203,12 @@ namespace Progrimage.Utils
             tex.SetData(pixels);
         }
 
-        /// <summary>
-        /// Draws an Image to a Texture2D
-        /// </summary>
-        /// <param name="tex">Destination texture</param>
-        /// <param name="img">Source image</param>
-        public static void DrawImageToTexture2DAsRGB24(Texture2D tex, Image<Argb32> img)
+		/// <summary>
+		/// Draws an <see cref="Image"/> to a <see cref="Texture2D"/>
+		/// </summary>
+		/// <param name="tex">Destination texture</param>
+		/// <param name="img">Source image</param>
+		public static void DrawImageToTexture2DAsRGB24(Texture2D tex, Image<Argb32> img)
         {
             uint[] pixels = new uint[tex.Width * tex.Height];
 
@@ -225,12 +225,12 @@ namespace Progrimage.Utils
             tex.SetData(pixels);
         }
 
-        /// <summary>
-        /// Draws an Image to a Texture2D while supporting alpha
-        /// </summary>
-        /// <param name="tex">Destination texture (must be SurfaceColor.Color)</param>
-        /// <param name="img">Source image</param>
-        public static void DrawImageToTexture2D(Texture2D tex, Image<Argb32> img)
+		/// <summary>
+		/// Draws an <see cref="Image"/> to a <see cref="Texture2D"/> while supporting alpha
+		/// </summary>
+		/// <param name="tex">Destination texture (must be SurfaceColor.Color)</param>
+		/// <param name="img">Source image</param>
+		public static void DrawImageToTexture2D(Texture2D tex, Image<Argb32> img)
         {
             XnaColor[] pixels = new XnaColor[tex.Width * tex.Height];
 
@@ -248,16 +248,33 @@ namespace Progrimage.Utils
                 }
             });
             tex.SetData(pixels);
-        }
+		}
 
-        /// <summary>
-        /// Generates a checkered white and gray background used to indicate transparency
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="checkerSize"></param>
-        /// <returns></returns>
-        public static Image<Rgb24> GetTransparencyChecker(int width, int height, int checkerSize)
+        public static Image<Argb32> BitmapToImage(Bitmap img)
+        {
+            LockedBitmap src = new LockedBitmap(img);
+            Image<Argb32> dest = new(img.Width, img.Height);
+			Parallel.For(0, src.Height, y =>
+			{
+				Span<Argb32> row = dest.DangerousGetPixelRowMemory(y).Span;
+				for (int x = 0; x < row.Length; x++)
+				{
+					SimpleColor srcPixel = src.GetPixel(x, y);
+					row[x].A = srcPixel.A;
+					row[x].R = srcPixel.R;
+					row[x].G = srcPixel.G;
+					row[x].B = srcPixel.B;
+				}
+			});
+            src.Unlock();
+
+            return dest;
+		}
+
+		/// <summary>
+		/// Generates a checkered white and gray background used to indicate transparency
+		/// </summary>
+		public static Image<Rgb24> GetTransparencyChecker(int width, int height, int checkerSize)
         {
             Image<Rgb24> img = new(width, height, Color.White);
             img.Mutate(i =>
@@ -298,7 +315,6 @@ namespace Progrimage.Utils
         /// <summary>
         /// Sets a default path for opening file load dialog to
         /// </summary>
-        /// <param name="path"></param>
         public static void SetLastLoadPath(string path)
         {
             if (Program.ActiveInstance != null)
@@ -309,7 +325,6 @@ namespace Progrimage.Utils
         /// <summary>
         /// Sets a default path for opening file save dialog to
         /// </summary>
-        /// <param name="path"></param>
         public static void SetLastSavePath(string path)
         {
             if (Program.ActiveInstance != null)
@@ -322,7 +337,6 @@ namespace Progrimage.Utils
         /// </summary>
         /// <param name="size">Source Size</param>
         /// <param name="target">Target Size</param>
-        /// <returns></returns>
         public static int2 ScaleToFit(int2 size, int2 target, bool scaleUp = true)
         {
             if (!scaleUp && size.x <= target.x && size.y <= target.y) return size;
@@ -675,6 +689,103 @@ namespace Progrimage.Utils
             int2 size = new int2(image?.Width ?? 0, image?.Height ?? 0);
             return ExtendToContain(ref image, ref pos, ref size, regionPos, regionSize);
         }
+
+        public static Bitmap? LoadSVG(string path, double width, double height, bool fit) => LoadSVG(path, width, height, fit, out double _, out double _);
+        public static Bitmap? LoadSVG(string path, double width, double height, bool fit, out double srcWidth, out double srcHeight)
+		{
+			SvgDocument svgDoc = SvgDocument.Open(path);
+			srcWidth = 0;
+			srcHeight = 0;
+			if (svgDoc == null) return null;
+
+			double ogWidth, ogHeight;
+			if (svgDoc.Width.Type == SvgUnitType.Percentage)
+			{
+				if (svgDoc.ContainsAttribute("viewBox"))
+				{
+					svgDoc.Width = svgDoc.ViewBox.Width;
+					ogWidth = svgDoc.Width.ToDeviceValue(null, UnitRenderingType.Other, null);
+				}
+				else ogWidth = 100;
+			}
+			else ogWidth = svgDoc.Width.ToDeviceValue(null, UnitRenderingType.Other, null);
+            srcWidth = ogWidth;
+
+			if (svgDoc.Height.Type == SvgUnitType.Percentage)
+			{
+				if (svgDoc.ContainsAttribute("viewBox"))
+				{
+					svgDoc.Height = svgDoc.ViewBox.Height;
+					ogHeight = svgDoc.Height.ToDeviceValue(null, UnitRenderingType.Other, null);
+				}
+				else ogHeight = 100;
+			}
+			else ogHeight = svgDoc.Height.ToDeviceValue(null, UnitRenderingType.Other, null);
+            srcHeight = ogHeight;
+
+			SvgScale svgScale = null;
+			void SetWidth(float newWidth)
+			{
+				if (ogWidth == newWidth) return;
+
+				if (svgDoc.Width.Type == SvgUnitType.Percentage)
+				{
+					svgDoc.Width = (float)newWidth;
+					return;
+				}
+				svgDoc.Width = (float)newWidth;
+
+				if (svgDoc.ContainsAttribute("viewBox")) return;
+				svgDoc.Transforms ??= new SvgTransformCollection();
+
+				float scale = newWidth / svgDoc.Bounds.Width;
+				if (svgScale == null)
+				{
+					svgScale = new SvgScale(scale, 1);
+					svgDoc.Transforms.Add(svgScale);
+				}
+				else svgScale.X = scale;
+			}
+
+			void SetHeight(float newHeight)
+			{
+				if (ogHeight == newHeight) return;
+
+				if (svgDoc.Height.Type == SvgUnitType.Percentage)
+				{
+					svgDoc.Height = newHeight;
+					return;
+				}
+				svgDoc.Height = newHeight;
+
+				if (svgDoc.ContainsAttribute("viewBox")) return;
+				svgDoc.Transforms ??= new SvgTransformCollection();
+
+				float scale = newHeight / svgDoc.Bounds.Height;
+				if (svgScale == null)
+				{
+					svgScale = new SvgScale(1, scale);
+					svgDoc.Transforms.Add(svgScale);
+				}
+				else svgScale.Y = scale;
+			}
+
+			if (fit)
+			{
+				double scalex = ogWidth / width;
+				double scaley = ogHeight / height;
+				if (scalex > scaley) height = ogHeight / scalex;
+				else width = ogWidth / scaley;
+
+				SetWidth(Math.Max(1f, (float)width));
+				SetHeight(Math.Max(1f, (float)height));
+				return svgDoc.Draw();
+			}
+
+			SetWidth((float)width);
+			SetHeight((float)height);
+			return svgDoc.Draw();
+		}
 
 		public static string RemoveInvalidChars(string filename)
 		{
