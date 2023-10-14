@@ -25,8 +25,11 @@
 				<li><a href="#input">input</a></li>
 				<li><a href="#LuaImage">LuaImage</a></li>
 				<li><a href="#LuaLayer">LuaLayer</a></li>
+				<li><a href="#LuaUndoAction">LuaUndoAction</a></li>
+				<li><a href="#LuaUndoRegion">LuaUndoRegion</a></li>
 				<li><a href="#render">render</a></li>
 				<li><a href="#timer">timer</a></li>
+				<li><a href="#util">util</a></li>
 				<li><a href="#vector2">vector2</a></li>
 				<li><a href="#vector3">vector3</a></li>
 				<li><a href="#vector4">vector4</a></li>
@@ -332,6 +335,30 @@
 			<h3 class="code"><a class="type">number LuaLayer</a>.y</h3>
 			<p>Get or set the y position of the layer's <a class="type" href="#LuaImage">LuaImage</a>.</p>
 		</div>
+		
+		<br>
+		<h2 class="type noul" id="LuaUndoAction">LuaUndoAction</h2>
+		<div class="tab group">
+			<h3 class="code"><a class="type">function LuaUndoAction</a>.undo</h3>
+			<p>Get or set the undo callback function.</p>
+			<hr>
+
+			<h3 class="code"><a class="type">function LuaUndoAction</a>.redo</h3>
+			<p>Get or set the redo callback function.</p>
+			<hr>
+			
+			<h3 class="code"><a class="type">LuaUndoAction</a>:remove()</h3>
+			<p>Removes this <a class="type" href="#LuaUndoAction">LuaUndoAction</a> from the undo history.</p>
+			<hr>
+		</div>
+		
+		<br>
+		<h2 class="type noul" id="LuaUndoRegion">LuaUndoRegion</h2>
+		<div class="tab group">
+			<h3 class="code"><a class="type">LuaUndoRegion</a>:remove()</h3>
+			<p>Removes this <a class="type" href="#LuaUndoRegion">LuaUndoRegion</a> from the undo history.</p>
+			<hr>
+		</div>
 
 		<br>
 		<h2 class="type noul" id="render">render</h2>
@@ -452,6 +479,18 @@
 
 			<h3 class="code"><a class="type">timer</a>.simple(<a class="type">number</a> delay, <a class="type">function</a> callback)</h3>
 			<p>Starts a timer that will run the call back of the specified amount of seconds. Will pass how much extra time over the target delay elapsed to the callback function.</p>
+		</div>
+
+		<br>
+		<h2 class="type noul" id="util">util</h2>
+		<div class="tab group">
+			<h3 class="code"><a class="type" href="#LuaUndoAction">LuaUndoAction</a> util</a>.createUndoAction(<a class="type">function</a> undoCallback, <a class="type">function</a> redoCallback)</a></h3>
+			<p>Creates a <a class="type" href="#LuaUndoAction">LuaUndoAction</a> undo history item and returns it. When undoing, the undoCallback function is ran. When redoing, the redoCallback function is ran.</p>
+			<hr>
+
+			<h3 class="code"><a class="type" href="#LuaUndoRegion">LuaUndoRegion</a> util</a>.createUndoRegion(<a class="type" href="#LuaLayer">LuaLayer</a> layer, <a class="type" href="#vector2">vector2</a> pos, <a class="type" href="#vector2">vector2</a> size)</a></h3>
+			<p>Creates a <a class="type" href="#LuaUndoRegion">LuaUndoRegion</a> undo history item and returns it. Use this in tool scripts and call it before modifying the layer. When called, it will copy the specified region of the image. When undoing, the <a class="type" href="#LuaUndoRegion">LuaUndoRegion</a> will copy the region of the current image and restore to the previous copy. When redoing, it will overwrite the region with the copy made when undoing.</p>
+			<hr>
 		</div>
 
 		<br>
