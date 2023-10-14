@@ -6,16 +6,13 @@ using Progrimage.LuaDefs;
 using Progrimage.Selectors;
 using Progrimage.Tools;
 using Progrimage.Utils;
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using System.Numerics;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Progrimage
 {
-    public enum BrushMode
+	public enum BrushMode
     {
         Brush,
         Pencil,
@@ -59,6 +56,7 @@ namespace Progrimage
             new ToolBrush(),
             new ToolEraser(),
 			new ToolFill(),
+			new ToolPipette(),
 			new ToolMove(),
             new ToolMarqueSelect(),
             new ToolRect(),

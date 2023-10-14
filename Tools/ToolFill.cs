@@ -19,7 +19,7 @@ namespace Progrimage.Tools
 		public const string CONST_NAME = "Fill";
 
 		// Private fields
-		private Color _color = Color.Red;
+		internal Color Color = Color.Red;
 		private bool _erase, _sampleAllLayers, _replacePixels;
 		private bool _contiguous = true;
 		private float _threshold = 0.1f;
@@ -47,7 +47,7 @@ namespace Progrimage.Tools
 		{
 			// Color picker
 			ImGui.PushID(ID.TOOL_COLOR_PICKER);
-			ColorPicker.Draw("tool", ref _color, "", ID.TOOL_COLOR_PICKER);
+			ColorPicker.Draw("tool", ref Color, "", ID.TOOL_COLOR_PICKER);
 			ImGui.PopID();
 			ImGui.SameLine();
 
@@ -111,7 +111,7 @@ namespace Progrimage.Tools
 			}
 
 			double threshold = 260100.0 * _threshold * _threshold;
-			Argb32 color = _color.ToPixel<Argb32>();
+			Argb32 color = Color.ToPixel<Argb32>();
 			byte iAlpha = (byte)(byte.MaxValue - color.A);
 
 			if (sampleImage.Image is null)
@@ -128,7 +128,7 @@ namespace Progrimage.Tools
 						AlphaCompositionMode = _replacePixels ? PixelAlphaCompositionMode.Src : PixelAlphaCompositionMode.SrcOver
 					}
 				};
-				source.Mutate(op => op.Fill(options, _color, new Rectangle(0, 0, sampleImage.Width, sampleImage.Height)));
+				source.Mutate(op => op.Fill(options, Color, new Rectangle(0, 0, sampleImage.Width, sampleImage.Height)));
 
 				if (sourceIsNew) Program.ActiveInstance.CreateLayer(source);
 

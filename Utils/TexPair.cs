@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using ImageSharpExtensions;
+using Microsoft.Xna.Framework.Graphics;
 using NewMath;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -101,11 +102,14 @@ namespace Progrimage.Utils
             }
 
             Image<Argb32> img = Image.Load<Argb32>(path);
-            ImageSharpExtensions.ISEUtils.HighQualityDownscale(ref img, size, true);
-            Texture = new Texture2D(MainWindow.GraphicsDevice, img.Width, img.Height, false, SurfaceFormat.Color);
-            if (hasAlpha) Util.DrawImageToTexture2D(Texture, img);
-            else Util.DrawImageToTexture2DAsRGB24(Texture, img);
+			ISEUtils.HighQualityDownscale(ref img, Util.ScaleToFit(new int2(img.Width, img.Height), size), true);
+            Image<Argb32> padded = new Image<Argb32>(size.x, size.y);
+            padded.DrawOver(img, new int2((size.x - img.Width) / 2, (size.y - img.Height) / 2));
             img.Dispose();
+            Texture = new Texture2D(MainWindow.GraphicsDevice, padded.Width, padded.Height, false, SurfaceFormat.Color);
+            if (hasAlpha) Util.DrawImageToTexture2D(Texture, padded);
+            else Util.DrawImageToTexture2DAsRGB24(Texture, padded);
+			padded.Dispose();
             _ptr = MainWindow.ImGuiRenderer.BindTexture(Texture);
         }
 

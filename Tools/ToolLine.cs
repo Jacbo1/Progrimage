@@ -25,6 +25,15 @@ namespace Progrimage.Tools
 		#region Properties
 		public string Name => CONST_NAME;
 		public TexPair Icon { get; private set; }
+
+		internal Color Color
+		{
+			set
+			{
+				_colorVec = value.ToVector4();
+				_drawingLine.Color = value;
+			}
+		}
 		#endregion
 
 		#region Constructor

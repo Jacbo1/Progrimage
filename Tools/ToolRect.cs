@@ -26,10 +26,19 @@ namespace Progrimage.Tools
         #region Properties
         public string Name => CONST_NAME;
         public TexPair Icon { get; private set; }
-        #endregion
 
-        #region Constructor
-        public ToolRect()
+		internal Color Color
+		{
+			set
+            {
+                _colorVec = value.ToVector4();
+                _drawingRect.Color = value;
+            }
+		}
+		#endregion
+
+		#region Constructor
+		public ToolRect()
         {
             Icon = new(@"Assets\Textures\Tools\rect.png", Defs.TOOL_ICON_SIZE, true);
         }

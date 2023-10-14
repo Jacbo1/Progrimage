@@ -1,6 +1,7 @@
 ﻿using ImGuiNET;
 using Progrimage.Utils;
 using System.Numerics;
+using System.Threading.Channels;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Progrimage.ImGuiComponents
@@ -140,6 +141,16 @@ namespace Progrimage.ImGuiComponents
 
             return changed;
         }
+
+        public static void PushColorToPalette(string paletteName, Argb32 color) => PushColorToPalette(paletteName, new Vector4(color.R, color.G, color.B, color.A) / 255f);
+
+        public static void PushColorToPalette(string paletteName, Color color) => PushColorToPalette(paletteName, color.ToVector4());
+
+        public static void PushColorToPalette(string paletteName, Vector4 color)
+        {
+            if (!_palettes.TryGetValue(paletteName, out Palette? palette)) return;
+			palette.PushColor(color);
+		}
         #endregion
     }
 }

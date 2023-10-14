@@ -1,16 +1,9 @@
 ﻿using ImGuiNET;
 using NewMath;
-using Progrimage.CoroutineUtils;
 using Progrimage.DrawingShapes;
 using Progrimage.ImGuiComponents;
 using Progrimage.Undo;
 using Progrimage.Utils;
-using SixLabors.ImageSharp.Processing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progrimage.Tools
 {
@@ -32,6 +25,12 @@ namespace Progrimage.Tools
 		#region Properties
 		public string Name => CONST_NAME;
 		public TexPair Icon { get; private set; }
+
+		internal SixLabors.ImageSharp.Color Color
+		{
+			get => _curve.Color;
+			set => _curve.Color = value;
+		}
 		#endregion
 
 		#region Constructor

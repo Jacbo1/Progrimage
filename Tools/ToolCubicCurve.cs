@@ -4,11 +4,10 @@ using Progrimage.DrawingShapes;
 using Progrimage.ImGuiComponents;
 using Progrimage.Undo;
 using Progrimage.Utils;
-using SixLabors.ImageSharp.Processing;
 
 namespace Progrimage.Tools
 {
-    internal class ToolCubicCurve : ITool
+	internal class ToolCubicCurve : ITool
 	{
 		#region Fields
 		// Public fields
@@ -26,6 +25,12 @@ namespace Progrimage.Tools
 		#region Properties
 		public string Name => CONST_NAME;
 		public TexPair Icon { get; private set; }
+
+		internal SixLabors.ImageSharp.Color Color
+		{
+			get => _curve.Color;
+			set => _curve.Color = value;
+		}
 		#endregion
 
 		#region Constructor

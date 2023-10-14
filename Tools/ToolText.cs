@@ -1,29 +1,16 @@
 ﻿using ImGuiNET;
 using NewMath;
 using Progrimage.Composites;
-using Progrimage.CoroutineUtils;
 using Progrimage.DrawingShapes;
 using Progrimage.ImGuiComponents;
 using Progrimage.Utils;
-using SixLabors.Fonts;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static Progrimage.Utils.FilePicker;
 using Color = SixLabors.ImageSharp.Color;
-using FontFamily = SixLabors.Fonts.FontFamily;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using SystemFonts = SixLabors.Fonts.SystemFonts;
 
 namespace Progrimage.Tools
 {
-    public class ToolText : ITool
+	public class ToolText : ITool
     {
         #region Fields
         // Public fields
@@ -45,10 +32,19 @@ namespace Progrimage.Tools
         #region Properties
         public string Name => CONST_NAME;
         public TexPair Icon { get; private set; }
-        #endregion
 
-        #region Constructor
-        public ToolText()
+		internal Color Color
+		{
+			set
+            {
+                _prevColor = value;
+                if (CompText != null) CompText.Color = value;
+            }
+		}
+		#endregion
+
+		#region Constructor
+		public ToolText()
         {
             Icon = new(@"Assets\Textures\Tools\text.png", Defs.TOOL_ICON_SIZE, true);
         }

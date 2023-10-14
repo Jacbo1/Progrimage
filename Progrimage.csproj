@@ -137,6 +137,9 @@
     <None Update="Assets\Textures\Tools\pencil.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Textures\Tools\pipette.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Textures\Tools\quadratic_curve.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

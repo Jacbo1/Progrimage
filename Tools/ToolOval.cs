@@ -26,10 +26,19 @@ namespace Progrimage.Tools
         #region Properties
         public string Name => CONST_NAME;
         public TexPair Icon { get; private set; }
-        #endregion
 
-        #region Constructor
-        public ToolOval()
+		internal SixLabors.ImageSharp.Color Color
+		{
+			set
+            {
+                _colorVec = value.ToVector4();
+                _drawingOval.Color = value;
+            }
+		}
+		#endregion
+
+		#region Constructor
+		public ToolOval()
         {
             Icon = new(@"Assets\Textures\Tools\oval.png", Defs.TOOL_ICON_SIZE, true);
         }
