@@ -1,7 +1,6 @@
 ﻿using NewMath;
 using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.Processing;
 using PointF = SixLabors.ImageSharp.PointF;
 using Color = SixLabors.ImageSharp.Color;
 using Progrimage.Utils;

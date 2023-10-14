@@ -1,16 +1,13 @@
-﻿using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp;
-using NewMath;
+﻿using NewMath;
 using Progrimage.Utils;
 using System.Numerics;
-using SixLabors.ImageSharp.Processing;
 using System.Collections;
 using Progrimage.CoroutineUtils;
 using ImageSharpExtensions;
 
 namespace Progrimage.Composites
 {
-    public class Composite : IUsesToolbar, IDisposable
+	public class Composite : IUsesToolbar, IDisposable
     {
         public string Name { get; set; }
         public TexPair Thumbnail;

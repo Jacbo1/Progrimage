@@ -2,14 +2,13 @@
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 using Size = SixLabors.ImageSharp.Size;
 
 namespace Progrimage.DrawingShapes
 {
-    public struct DrawingOval : IShape
+	public struct DrawingOval : IShape
     {
         public Color Color;
         public double Thickness;

@@ -1,12 +1,11 @@
 ﻿using ImGuiNET;
 using Progrimage.Utils;
 using System.Numerics;
-using System.Threading.Channels;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Progrimage.ImGuiComponents
 {
-    class Palette
+	class Palette
     {
         public static int _id;
 

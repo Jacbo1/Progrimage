@@ -1,12 +1,11 @@
 ﻿using ImageSharpExtensions;
 using NewMath;
 using SixLabors.ImageSharp.Advanced;
-using SixLabors.ImageSharp.PixelFormats;
 using System.Collections;
 
 namespace Progrimage.Composites
 {
-    internal class CompInvert : ICompositeAction
+	internal class CompInvert : ICompositeAction
 	{
 		public Action? DisposalDelegate { get; private set; }
 		public Composite Composite { get; private set; }

@@ -4,12 +4,11 @@ using Progrimage.DrawingShapes;
 using Progrimage.Selectors;
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Advanced;
-using SixLabors.ImageSharp.PixelFormats;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Progrimage.Tools
 {
-    internal class ToolCrop : ITool
+	internal class ToolCrop : ITool
 	{
 		#region Fields
 		// Public fields

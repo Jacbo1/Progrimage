@@ -1,5 +1,4 @@
 ﻿using NewMath;
-using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Drawing.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
@@ -9,7 +8,7 @@ using Progrimage.Utils;
 
 namespace Progrimage.DrawingShapes
 {
-    public struct DrawingRect : IShape
+	public struct DrawingRect : IShape
     {
         public Color Color;
         public double Thickness;

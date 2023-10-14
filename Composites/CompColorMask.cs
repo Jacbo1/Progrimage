@@ -3,17 +3,12 @@ using ImGuiNET;
 using NewMath;
 using Progrimage.ImGuiComponents;
 using SixLabors.ImageSharp.Advanced;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Progrimage.Composites
 {
-    internal class CompColorMask : ICompositeAction
+	internal class CompColorMask : ICompositeAction
     {
         private Vector4 _color = Vector4.One;
         public Action? DisposalDelegate { get; private set; }

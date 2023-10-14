@@ -4,14 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 using NewMath;
 using Progrimage.Utils;
 using IS = SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using Num = System.Numerics;
 using Vector2 = System.Numerics.Vector2;
 using Vector4 = System.Numerics.Vector4;
 using Progrimage.Tools;
 using Color = Microsoft.Xna.Framework.Color;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
 using Progrimage.Composites;
 using Progrimage.CoroutineUtils;
 using Image = SixLabors.ImageSharp.Image;
@@ -25,14 +22,12 @@ using ProgrimageImGui;
 using System.Buffers;
 using Progrimage.LuaDefs;
 using SixLabors.ImageSharp.Formats.Png;
-using LockedBitmapLibrary;
-using System.Drawing.Imaging;
 using SixLabors.ImageSharp.Advanced;
 using ImageSharpExtensions;
 
 namespace Progrimage
 {
-    public class MainWindow : Game
+	public class MainWindow : Game
     {
         private enum Events
         {

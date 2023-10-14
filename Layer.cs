@@ -1,7 +1,4 @@
 ﻿using NewMath;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.PixelFormats;
 using Progrimage.Utils;
 using System.Numerics;
 using Progrimage.DrawingShapes;
@@ -12,7 +9,7 @@ using ImageSharpExtensions;
 
 namespace Progrimage
 {
-    public class Layer : IDisposable
+	public class Layer : IDisposable
     {
         #region Fields
         // Public

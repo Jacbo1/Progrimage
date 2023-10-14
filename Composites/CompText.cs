@@ -1,5 +1,4 @@
 ﻿using NewMath;
-using SixLabors.ImageSharp.PixelFormats;
 using System.Collections;
 using Color = SixLabors.ImageSharp.Color;
 using Font = SixLabors.Fonts.Font;
@@ -8,12 +7,10 @@ using Progrimage.Utils;
 using SixLabors.ImageSharp.Drawing.Processing;
 using PointF = SixLabors.ImageSharp.PointF;
 using ImageSharpExtensions;
-using System;
-using SystemFonts = SixLabors.Fonts.SystemFonts;
 
 namespace Progrimage.Composites
 {
-    public class CompText : ICompositeAction
+	public class CompText : ICompositeAction
     {
         #region Fields
         // Public

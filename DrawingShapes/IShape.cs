@@ -1,13 +1,10 @@
 ﻿using ImageSharpExtensions;
 using NewMath;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 
 namespace Progrimage.DrawingShapes
 {
-    public interface IShape
+	public interface IShape
     {
         /// <summary>
         /// The position of the IShape.

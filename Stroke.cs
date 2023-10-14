@@ -1,16 +1,12 @@
 ﻿using ImageSharpExtensions;
 using NewMath;
 using Progrimage.CoroutineUtils;
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
-using SixLabors.ImageSharp.PixelFormats;
-using System;
 using System.Numerics;
-using System.Windows.Forms;
 
 namespace Progrimage
 {
-    public class Stroke
+	public class Stroke
     {
         #region Fields
         // Private

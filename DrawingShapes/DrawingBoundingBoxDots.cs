@@ -1,13 +1,12 @@
 ﻿using ImGuiNET;
 using NewMath;
 using Progrimage.Utils;
-using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 
 namespace Progrimage.DrawingShapes
 {
-    public struct DrawingBoundingBoxDots : IShape
+	public struct DrawingBoundingBoxDots : IShape
     {
         public int2 Min, Max;
         public Color Color;

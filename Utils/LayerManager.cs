@@ -1,19 +1,14 @@
 ﻿using Xna = Microsoft.Xna.Framework.Graphics;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Drawing.Processing;
-using Point = SixLabors.ImageSharp.Point;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
-using static Progrimage.LuaDefs.LuaManager;
 using NewMath;
 using ImageSharpExtensions;
 using Progrimage.LuaDefs;
 
 namespace Progrimage.Utils
 {
-    public class LayerManager
+	public class LayerManager
     {
         public List<Layer> Layers { get; private set; }
         public List<LuaLayer> LuaLayers { get; private set; }

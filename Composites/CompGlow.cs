@@ -1,8 +1,5 @@
 ﻿using ImGuiNET;
 using NewMath;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp;
 using Progrimage.Utils;
 using System.Collections;
 using Progrimage.CoroutineUtils;
@@ -10,7 +7,7 @@ using ImageSharpExtensions;
 
 namespace Progrimage.Composites
 {
-    public class CompGlow : ICompositeAction
+	public class CompGlow : ICompositeAction
     {
         private int _iterations = 5, _maxIterations = 1, _blurRadius = 8;
 

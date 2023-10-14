@@ -2,15 +2,12 @@
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Drawing;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp;
 using Color = SixLabors.ImageSharp.Color;
 using SixLabors.ImageSharp.Advanced;
 
 namespace Progrimage.DrawingShapes
 {
-    public struct DrawingCircleCursor : IShape
+	public struct DrawingCircleCursor : IShape
 	{
 		public double2 Pos { get; set; }
 		public double2 Size;

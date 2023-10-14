@@ -1,13 +1,11 @@
 ﻿using ImageSharpExtensions;
 using Microsoft.Xna.Framework.Graphics;
 using NewMath;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Progrimage.Utils
 {
-    public struct TexPair : IDisposable
+	public struct TexPair : IDisposable
     {
         public Texture2D Texture;
         private IntPtr _ptr;

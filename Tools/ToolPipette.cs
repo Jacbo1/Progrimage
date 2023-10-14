@@ -1,7 +1,5 @@
 ﻿using ImGuiNET;
 using NewMath;
-using Progrimage.CoroutineUtils;
-using Progrimage.DrawingShapes;
 using Progrimage.ImGuiComponents;
 using Progrimage.Utils;
 

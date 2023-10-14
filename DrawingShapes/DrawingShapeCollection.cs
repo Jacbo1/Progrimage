@@ -1,9 +1,8 @@
 ﻿using NewMath;
-using SixLabors.ImageSharp.Processing;
 
 namespace Progrimage.DrawingShapes
 {
-    public class DrawingShapeCollection : IDisposable
+	public class DrawingShapeCollection : IDisposable
     {
         #region Fields
         public List<IShape> Shapes;

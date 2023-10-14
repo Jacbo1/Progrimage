@@ -1,7 +1,5 @@
 ﻿using NewMath;
 using NLua;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using ImageSharpExtensions;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -15,7 +13,7 @@ using SizeF = SixLabors.ImageSharp.SizeF;
 
 namespace Progrimage.LuaDefs
 {
-    public class LuaImage
+	public class LuaImage
 	{
 		#region Fields
 		internal PositionedImage<Argb32> Image;

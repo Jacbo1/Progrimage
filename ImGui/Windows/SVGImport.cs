@@ -5,10 +5,7 @@ using Progrimage;
 using System.Numerics;
 using Progrimage.Utils;
 using LockedBitmapLibrary;
-using static System.Net.Mime.MediaTypeNames;
 using Color = Microsoft.Xna.Framework.Color;
-using System.Runtime.InteropServices;
-using SixLabors.ImageSharp.Drawing.Processing;
 
 namespace ProgrimageImGui.Windows
 {

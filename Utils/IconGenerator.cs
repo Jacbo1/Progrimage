@@ -1,8 +1,5 @@
 ﻿using NewMath;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp;
 using Color = SixLabors.ImageSharp.Color;
-using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Drawing;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
@@ -15,7 +12,7 @@ using PointF = SixLabors.ImageSharp.PointF;
 
 namespace Progrimage.Utils
 {
-    internal static class IconGenerator
+	internal static class IconGenerator
     {
         public static int2 size = new int2(256);
         public static Color color = Color.White;

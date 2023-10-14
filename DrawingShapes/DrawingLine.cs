@@ -1,14 +1,12 @@
 ﻿using NewMath;
 using Progrimage.Utils;
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using PointF = SixLabors.ImageSharp.PointF;
 
 namespace Progrimage.DrawingShapes
 {
-    public struct DrawingLine : IShape
+	public struct DrawingLine : IShape
     {
         public double Thickness;
         public double2 Start, Stop;

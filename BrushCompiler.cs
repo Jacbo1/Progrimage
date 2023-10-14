@@ -1,13 +1,11 @@
 ﻿using NewMath;
-using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
-using SixLabors.ImageSharp.PixelFormats;
 using System.IO.Compression;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Progrimage
 {
-    internal class BrushCompiler
+	internal class BrushCompiler
 	{
 		public volatile int Progress;
 		private volatile float[] _pixels;

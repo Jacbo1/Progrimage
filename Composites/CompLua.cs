@@ -1,7 +1,6 @@
 ﻿using ImageSharpExtensions;
 using NewMath;
 using Progrimage.LuaDefs;
-using SixLabors.ImageSharp.PixelFormats;
 using System.Collections;
 
 namespace Progrimage.Composites

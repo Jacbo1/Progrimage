@@ -6,13 +6,12 @@ using Progrimage.ImGuiComponents;
 using Progrimage.Undo;
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.PixelFormats;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 
 namespace Progrimage.Tools
 {
-    public class ToolFill : ITool
+	public class ToolFill : ITool
 	{
 		#region Fields
 		// Public fields

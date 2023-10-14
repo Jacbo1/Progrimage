@@ -1,12 +1,11 @@
 ﻿using NewMath;
 using Progrimage.Utils;
-using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 
 namespace Progrimage.DrawingShapes
 {
-    internal struct DrawingGrabPoint : IShape
+	internal struct DrawingGrabPoint : IShape
 	{
 		public double2 Pos { get; set; }
 		public bool Hidden { get; set; }
