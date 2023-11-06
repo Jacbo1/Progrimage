@@ -1,5 +1,6 @@
 # Progrimage
-A User-end scripting focused image editor
+A user-end scripting focused image editor  
+Early unfinished build
 
 **Requires [.NET 6.0](https://dotnet.microsoft.com/en-us/download) and [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) to run**
 Windows only
@@ -12,8 +13,6 @@ The main feature of this image editor is the ability for users to easily create 
 **IMPORTANT: Either ImGui.NET or MonoGame DesktopGL does not seem to work if you do not have a dedicated GPU i.e. if you only have integrated graphics.** I'm not 100% sure about this but it seems to be the case.
 
 **IMPORTANT: If on a laptop, you must launch while plugged in or else the interface will be black except for outlines and text.** I have no idea why this happens and I can only assume it's ImGui.NET or DesktopGL as I have checked the colors I am passing to ImGui.NET and they are still correct.
-
-**NOTE: This is an early unfinished build.** There is an issue where under some conditions or on some computers the entire interface will be black except for text and icons. This is suspected to be an issue with ImGui.NET or DesktopGL. Tests were done and the proper colors are being sent to ImGui.NET but are displayed as black. If the canvas is not black on startup, the program is still usable and theme colors can seemingly be reselected and saved without issue.
 
 [Demo video](https://www.youtube.com/watch?v=uSaQBk6_q1U)
 ![Demo video](https://github.com/Jacbo1/Progrimage/assets/86734639/570aea88-a4ef-4090-a17c-11b125baf8f5)
