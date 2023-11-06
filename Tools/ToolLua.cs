@@ -103,7 +103,7 @@ namespace Progrimage.Tools
                     // Import image
                     OpenFileDialog picker = new OpenFileDialog();
                     picker.Title = "Set icon";
-                    picker.Filter = Defs.FILE_FILTER_FULL;
+                    picker.Filter = Defs.EXPORT_FILE_FILTER_FULL;
                     if (picker.ShowDialog() == DialogResult.OK)
                     {
                         Icon.Dispose();

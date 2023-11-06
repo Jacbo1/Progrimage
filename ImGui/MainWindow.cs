@@ -464,7 +464,7 @@ namespace Progrimage
                     if (Util.GetLoadPath() is string s)
                         picker.InitialDirectory = s;
                     picker.Title = "Import file";
-                    picker.Filter = Defs.FILE_FILTER_FULL;
+                    picker.Filter = Defs.IMPORT_FILE_FILTER_FULL;
                     if (picker.ShowDialog() == DialogResult.OK)
                     {
                         Program.ActiveInstance.CreateLayer(IS.Image.Load<Argb32>(picker.FileName));
@@ -1259,7 +1259,7 @@ namespace Progrimage
             if (Util.GetSavePath() is string s)
                 picker.InitialDirectory = s;
             picker.Title = "Save As...";
-            picker.Filter = Defs.FILE_FILTER_FULL;
+            picker.Filter = Defs.EXPORT_FILE_FILTER_FULL;
             picker.AddExtension = true;
             picker.OverwritePrompt = true;
             if (picker.ShowDialog() == DialogResult.OK)
