@@ -36,7 +36,7 @@ namespace Progrimage.DrawingShapes
 
         public void Draw(IImageProcessingContext context)
         {
-            context.DrawLines(Color, (float)Thickness, new PointF((float)Start.x, (float)Start.y), new PointF((float)Stop.x, (float)Stop.y));
+            context.DrawLines(Color, (float)Thickness, new PointF((float)Start.X, (float)Start.Y), new PointF((float)Stop.X, (float)Stop.Y));
         }
 
         public void DrawToRender(IImageProcessingContext context)
@@ -44,13 +44,13 @@ namespace Progrimage.DrawingShapes
             double2 start = Util.CanvasToRenderDouble(Start);
             double2 stop = Util.CanvasToRenderDouble(Stop);
             float thickness = (float)(ScaleThickness ? Thickness * Program.ActiveInstance.Zoom : Thickness);
-            context.DrawLines(Color, thickness, new PointF((float)start.x, (float)start.y), new PointF((float)stop.x, (float)stop.y));
+            context.DrawLines(Color, thickness, new PointF((float)start.X, (float)start.Y), new PointF((float)stop.X, (float)stop.Y));
         }
 
         public SixLabors.ImageSharp.Rectangle GetBounds()
         {
             double2 delta = Stop - Start;
-            double2 side = new double2(-delta.y, delta.x);
+            double2 side = new double2(-delta.Y, delta.X);
             side *= Thickness / (2 * side.Length()); // Normalize and scale
 
             double2 a = Start + side;
@@ -64,7 +64,7 @@ namespace Progrimage.DrawingShapes
             int2 imin = Math2.FloorToInt(min);
             int2 size = Math2.CeilingToInt(max - min) + 1;
 
-            return new SixLabors.ImageSharp.Rectangle(imin.x, imin.y, size.x, size.y);
+            return new SixLabors.ImageSharp.Rectangle(imin.X, imin.Y, size.X, size.Y);
         }
 
         public int2 GetSize() => GetBounds().Size();

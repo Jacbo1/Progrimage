@@ -143,16 +143,16 @@ namespace Progrimage
             float brushAlpha = _brushState.Color.W;
 
             // Multithreading this outer loop causes weird glitches in the result
-            for (int y = 0; y < overlapSize.y; y++)
+            for (int y = 0; y < overlapSize.Y; y++)
             {
-                Span<Argb32> row = image.Image!.DangerousGetPixelRowMemory(y + imageOffset.y).Span;
-                int yw = (y + strokeOffset.y) * _maskSize.x;
+                Span<Argb32> row = image.Image!.DangerousGetPixelRowMemory(y + imageOffset.Y).Span;
+                int yw = (y + strokeOffset.Y) * _maskSize.X;
 
-                for (int x = 0; x < overlapSize.x; x++)
+                for (int x = 0; x < overlapSize.X; x++)
                 {
-                    brushColor.W = Math.Min(_mask[x + strokeOffset.x + yw] * brushAlpha, 1);
+                    brushColor.W = Math.Min(_mask[x + strokeOffset.X + yw] * brushAlpha, 1);
 
-                    ref Argb32 pixel = ref row[x + imageOffset.x];
+                    ref Argb32 pixel = ref row[x + imageOffset.X];
 
                     if (brushColor.W == 0) continue; // Second color is invisible
 
@@ -201,15 +201,15 @@ namespace Progrimage
             int2 overlapMin = Math2.Max(image.Pos, _maskMinBound);
             int2 overlapMax = Math2.Min(image.Pos + image.Size - 1, _maskMaxBound);
             int2 overlapSize = overlapMax - overlapMin + 1;
-            for (int y = 0; y < overlapSize.y; y++)
+            for (int y = 0; y < overlapSize.Y; y++)
             {
-                Span<Argb32> row = image.Image.DangerousGetPixelRowMemory(y + imageOffset.y).Span;
-                int yw = (y + strokeOffset.y) * _maskSize.x;
+                Span<Argb32> row = image.Image.DangerousGetPixelRowMemory(y + imageOffset.Y).Span;
+                int yw = (y + strokeOffset.Y) * _maskSize.X;
 
-                for (int x = 0; x < overlapSize.x; x++)
+                for (int x = 0; x < overlapSize.X; x++)
                 {
-                    ref var pixel = ref row[x + imageOffset.x];
-					float stroke = Math.Max(1 - _mask[x + strokeOffset.x + yw] * _brushState.Color.W, 0);
+                    ref var pixel = ref row[x + imageOffset.X];
+					float stroke = Math.Max(1 - _mask[x + strokeOffset.X + yw] * _brushState.Color.W, 0);
 					pixel.A = (byte)Math.Round(pixel.A * stroke, MidpointRounding.AwayFromZero);
                 }
             }
@@ -229,7 +229,7 @@ namespace Progrimage
 			_targetBrushSize = _brushState.Size;
             _brushTexture = ScaleTexture(_unscaledBrushTexture, _unscaledBrushSize, _targetBrushSize, false, out _brushSize);
             _normTexture = ScaleTexture(_unscaledNormTexture, _unscaledNormSize, _brushSize, true, out int2 _);
-            _normMult = (_unscaledNormSize.x / (float)_brushSize.x + _unscaledNormSize.y / (float)_brushSize.y) * 0.5f;
+            _normMult = (_unscaledNormSize.X / (float)_brushSize.X + _unscaledNormSize.Y / (float)_brushSize.Y) * 0.5f;
 		}
 
         public void SetBrushTexture(BrushPath path)
@@ -306,12 +306,12 @@ namespace Progrimage
 			JobQueue.Queue.Add(new CoroutineJob(() =>
             {
                 _unscaledBrushSize = new int2(image.Width, image.Height);
-                _unscaledBrushTexture = new float[_unscaledBrushSize.x * _unscaledBrushSize.y];
+                _unscaledBrushTexture = new float[_unscaledBrushSize.X * _unscaledBrushSize.Y];
 
                 // Copy texture to array
                 for (int y = 0; y < image.Height; y++)
                 {
-                    int yw = y * _unscaledBrushSize.x;
+                    int yw = y * _unscaledBrushSize.X;
                     Span<L8> row = image.DangerousGetPixelRowMemory(y).Span;
                     for (int x = 0; x < row.Length; x++)
                         _unscaledBrushTexture[x + yw] = row[x].PackedValue / 255f;
@@ -319,7 +319,7 @@ namespace Progrimage
 
                 _brushTexture = ScaleTexture(_unscaledBrushTexture, _unscaledBrushSize, _targetBrushSize, false, out _brushSize);
                 _normTexture = ScaleTexture(_unscaledNormTexture, _unscaledNormSize, _brushSize, true, out int2 _);
-				_normMult = (_unscaledNormSize.x / (float)_brushSize.x + _unscaledNormSize.y / (float)_brushSize.y) * 0.5f;
+				_normMult = (_unscaledNormSize.X / (float)_brushSize.X + _unscaledNormSize.Y / (float)_brushSize.Y) * 0.5f;
 				_currentBrushPath = null;
 				_queuedJobs--;
 			}));
@@ -331,12 +331,12 @@ namespace Progrimage
 			JobQueue.Queue.Add(new CoroutineJob(() =>
 			{
 				_unscaledBrushSize = new int2(image.Width, image.Height);
-				_unscaledBrushTexture = new float[_unscaledBrushSize.x * _unscaledBrushSize.y];
+				_unscaledBrushTexture = new float[_unscaledBrushSize.X * _unscaledBrushSize.Y];
 
                 // Copy texture to array
                 for (int y = 0; y < image.Height; y++)
                 {
-                    int yw = y * _unscaledBrushSize.x;
+                    int yw = y * _unscaledBrushSize.X;
                     Span<L16> row = image.DangerousGetPixelRowMemory(y).Span;
                     for (int x = 0; x < row.Length; x++)
                         _unscaledBrushTexture[x + yw] = row[x].PackedValue / 65535f;
@@ -344,7 +344,7 @@ namespace Progrimage
 
 				_brushTexture = ScaleTexture(_unscaledBrushTexture, _unscaledBrushSize, _targetBrushSize, false, out _brushSize);
 				_normTexture = ScaleTexture(_unscaledNormTexture, _unscaledNormSize, _brushSize, true, out int2 _);
-				_normMult = (_unscaledNormSize.x / (float)_brushSize.x + _unscaledNormSize.y / (float)_brushSize.y) * 0.5f;
+				_normMult = (_unscaledNormSize.X / (float)_brushSize.X + _unscaledNormSize.Y / (float)_brushSize.Y) * 0.5f;
 				_currentBrushPath = null;
 				_queuedJobs--;
 			}));
@@ -363,7 +363,7 @@ namespace Progrimage
         {
             RecalculateBounds(out _maskMinBound, out _maskMaxBound);
             _maskSize = _maskMaxBound - _maskMinBound + 1;
-            _mask = new float[_maskSize.x * _maskSize.y];
+            _mask = new float[_maskSize.X * _maskSize.Y];
             _lastPointDrawn = -1;
 
 			_queuedJobs++;
@@ -404,7 +404,7 @@ namespace Progrimage
             _maskMinBound = Math2.FloorToInt(pos - strokeHalfSize);
             _maskMaxBound = Math2.CeilingToInt(pos + strokeHalfSize);
 			_maskSize = _maskMaxBound - _maskMinBound + 1;
-            _mask = new float[_maskSize.x * _maskSize.y];
+            _mask = new float[_maskSize.X * _maskSize.Y];
 
 			_queuedJobs++;
 			var draw = DrawStroke();
@@ -437,7 +437,7 @@ namespace Progrimage
             if (_wasSinglePoint && _points.Count != 1)
             {
 				// Clear mask
-                _mask = new float[_maskSize.x * _maskSize.y];
+                _mask = new float[_maskSize.X * _maskSize.Y];
                 _lastPointDrawn = 0;
                 _wasSinglePoint = false;
             }
@@ -454,50 +454,50 @@ namespace Progrimage
                     int2 next = (int2)_points[_lastPointDrawn + 1];
 
                     bool skipFirst = _lastPointDrawn != 0;
-                    if (last.x == next.x)
+                    if (last.X == next.X)
                     {
                         // Vertical line
-                        for (int y = Math.Min(last.y, next.y) + (skipFirst ? 1 : 0); y <= Math.Max(last.y, next.y); y++)
+                        for (int y = Math.Min(last.Y, next.Y) + (skipFirst ? 1 : 0); y <= Math.Max(last.Y, next.Y); y++)
                         {
-                            DrawBrushAt(new double2(last.x, y) - brushHalfSize);
+                            DrawBrushAt(new double2(last.X, y) - brushHalfSize);
                             if (JobQueue.ShouldYield) yield return true;
                         }
                         continue;
                     }
 
-                    if (last.y == next.y)
+                    if (last.Y == next.Y)
                     {
                         // Horizontal line
-                        for (int x = Math.Min(last.x, next.x) + (skipFirst ? 1 : 0); x <= Math.Max(last.x, next.x); x++)
+                        for (int x = Math.Min(last.X, next.X) + (skipFirst ? 1 : 0); x <= Math.Max(last.X, next.X); x++)
                         {
-                            DrawBrushAt(new double2(x, last.y) - brushHalfSize);
+                            DrawBrushAt(new double2(x, last.Y) - brushHalfSize);
                             if (JobQueue.ShouldYield) yield return true;
                         }
 						continue;
 					}
 
                     // Diagonal line
-                    double dx = (last.x - next.x) / (double)(last.y - next.y);
-                    double dy = (last.y - next.y) / (double)(last.x - next.x);
+                    double dx = (last.X - next.X) / (double)(last.Y - next.Y);
+                    double dy = (last.Y - next.Y) / (double)(last.X - next.X);
                     if (Math.Abs(dx) > Math.Abs(dy))
                     {
                         // Go along x
-                        if (last.x > next.x) (last, next) = (next, last);
+                        if (last.X > next.X) (last, next) = (next, last);
 
-                        for (int x = last.x + (skipFirst ? 1 : 0); x <= next.x; x++)
+                        for (int x = last.X + (skipFirst ? 1 : 0); x <= next.X; x++)
                         {
-                            DrawBrushAt(new double2(x, Math.Round(dy * (x - last.x) + last.y, MidpointRounding.AwayFromZero)) - brushHalfSize);
+                            DrawBrushAt(new double2(x, Math.Round(dy * (x - last.X) + last.Y, MidpointRounding.AwayFromZero)) - brushHalfSize);
                             if (JobQueue.ShouldYield) yield return true;
                         }
                     }
                     else
                     {
                         // Go along y
-                        if (last.y > next.y) (last, next) = (next, last);
+                        if (last.Y > next.Y) (last, next) = (next, last);
 
-                        for (int y = last.y + (skipFirst ? 1 : 0); y <= next.y; y++)
+                        for (int y = last.Y + (skipFirst ? 1 : 0); y <= next.Y; y++)
                         {
-                            DrawBrushAt(new double2(Math.Round(dx * (y - last.y) + last.x, MidpointRounding.AwayFromZero), y) - brushHalfSize);
+                            DrawBrushAt(new double2(Math.Round(dx * (y - last.Y) + last.X, MidpointRounding.AwayFromZero), y) - brushHalfSize);
                             if (JobQueue.ShouldYield) yield return true;
                         }
                     }
@@ -526,7 +526,7 @@ namespace Progrimage
                     // Keeping it a fixed distance from the last drawn point
                     double2 deltaLast = _lastPointDrawnPos - last;
                     double2 nDelta = delta / length;
-                    double2 perp = new(nDelta.y, -nDelta.x);
+                    double2 perp = new(nDelta.Y, -nDelta.X);
                     double perpDist = deltaLast.Dot(perp);
                     stepShift = (Math.Sqrt(_brushStep * _brushStep - perpDist * perpDist) + deltaLast.Dot(nDelta)) / length;
                 }
@@ -550,7 +550,7 @@ namespace Progrimage
 
 		private float[] ScaleTexture(float[] texture, int2 currentSize, int2 targetSize, bool exactSize, out int2 newSize)
         {
-            if (targetSize.x < 1 || targetSize.y < 1 || targetSize == currentSize)
+            if (targetSize.X < 1 || targetSize.Y < 1 || targetSize == currentSize)
             {
                 newSize = currentSize;
                 return texture;
@@ -563,11 +563,11 @@ namespace Progrimage
             {
                 // Scale to fit and maintain aspect ratio
                 scale = currentSize / (double2)targetSize;
-                if (scale.x > scale.y) newSize.y = (int)Math.Round(currentSize.y / scale.x, MidpointRounding.AwayFromZero);
-                else newSize.x = (int)Math.Round(currentSize.x / scale.y, MidpointRounding.AwayFromZero);
+                if (scale.X > scale.Y) newSize.Y = (int)Math.Round(currentSize.Y / scale.X, MidpointRounding.AwayFromZero);
+                else newSize.X = (int)Math.Round(currentSize.X / scale.Y, MidpointRounding.AwayFromZero);
             }
             scale = newSize / (double2)currentSize;
-            float[] newTexture = new float[newSize.x * newSize.y];
+            float[] newTexture = new float[newSize.X * newSize.Y];
 
             // Downscale with a modified Box algorithm that treats edge pixels as non-full pixels for fractional coordinates
             // Upscale with bilinear sampling
@@ -576,43 +576,43 @@ namespace Progrimage
             int2 unscaledSize1 = currentSize - 1;
 
             int2 size = newSize; // Can't use out variables in Parallel.For()
-			Parallel.For(0, newSize.y, y =>
+			Parallel.For(0, newSize.Y, y =>
             {
-                int yw = y * size.x;
-                for (int x = 0; x < size.x; x++)
+                int yw = y * size.X;
+                for (int x = 0; x < size.X; x++)
                 {
-                    double xd = x / scale.x; // x in the original image's scale
-                    double yd = y / scale.y; // y in the original image's scale
-                    int x1 = Math.Min((int)Math.Floor(xd), unscaledSize1.x); // Left bound floored
-                    int y1 = Math.Min((int)Math.Floor(yd), unscaledSize1.y); // Top bound floord
+                    double xd = x / scale.X; // x in the original image's scale
+                    double yd = y / scale.Y; // y in the original image's scale
+                    int x1 = Math.Min((int)Math.Floor(xd), unscaledSize1.X); // Left bound floored
+                    int y1 = Math.Min((int)Math.Floor(yd), unscaledSize1.Y); // Top bound floord
                     int x2, y2;
                     double right, bottom;
 
-                    if (scale.x > 1)
+                    if (scale.X > 1)
                     {
                         // Scale x up
-                        x2 = Math.Min((int)Math.Ceiling(xd), unscaledSize1.x); // Right bound ceiled
+                        x2 = Math.Min((int)Math.Ceiling(xd), unscaledSize1.X); // Right bound ceiled
                         right = xd == x2 ? 1 : (1 - x2 + xd); // Right color multiplier
                     }
                     else
                     {
                         // Scale x down
-                        double x_ = xd + boxSize1.x;
-                        x2 = Math.Min((int)Math.Ceiling(x_), unscaledSize1.x); // Right bound ceiled
+                        double x_ = xd + boxSize1.X;
+                        x2 = Math.Min((int)Math.Ceiling(x_), unscaledSize1.X); // Right bound ceiled
                         right = x_ == x2 ? 1 : (1 - x2 + x_); // Right color multiplier
                     }
 
-                    if (scale.y > 1)
+                    if (scale.Y > 1)
                     {
                         // Scale y up
-                        y2 = Math.Min((int)Math.Ceiling(yd), unscaledSize1.y); // Bottom bound ceiled
+                        y2 = Math.Min((int)Math.Ceiling(yd), unscaledSize1.Y); // Bottom bound ceiled
                         bottom = yd == y2 ? 1 : (1 - y2 + yd); // Bottom color multiplier
                     }
                     else
                     {
                         // Scale y down
-                        double y_ = yd + boxSize1.y;
-                        y2 = Math.Min((int)Math.Ceiling(y_), unscaledSize1.y); // Bottom bound ceiled
+                        double y_ = yd + boxSize1.Y;
+                        y2 = Math.Min((int)Math.Ceiling(y_), unscaledSize1.Y); // Bottom bound ceiled
                         bottom = y_ == y2 ? 1 : (1 - y2 + y_); // Bottom color multiplier
                     }
 
@@ -620,17 +620,17 @@ namespace Progrimage
                     double top = yd == y1 ? 1 : (1 - yd + y1); // Top color multiplier
 
                     // Bilinear sample on the corners
-                    double pixel = texture[x1 + y1 * currentSize.x] * left * top + // Top left pixel
-						texture[x1 + y2 * currentSize.x] * left * bottom +         // Bottom left pixel
-						texture[x2 + y1 * currentSize.x] * right * top +           // Top right pixel
-						texture[x2 + y2 * currentSize.x] * right * bottom;         // Bottom right pixel
+                    double pixel = texture[x1 + y1 * currentSize.X] * left * top + // Top left pixel
+						texture[x1 + y2 * currentSize.X] * left * bottom +         // Bottom left pixel
+						texture[x2 + y1 * currentSize.X] * right * top +           // Top right pixel
+						texture[x2 + y2 * currentSize.X] * right * bottom;         // Bottom right pixel
                     double weight = left * top + left * bottom + right * top + right * bottom;          // Sum up the weights
 
                     // Box sample for downscaling
                     // Sample full insides
                     for (int y_ = y1 + 1; y_ < y2; y_++)
                     {
-                        int yw_ = y_ * currentSize.x;
+                        int yw_ = y_ * currentSize.X;
                         for (int x_ = x1 + 1; x_ < x2; x_++)
                         {
                             pixel += texture[x_ + yw_];
@@ -641,16 +641,16 @@ namespace Progrimage
                     // Sample top and bottom edge
                     for (int x_ = x1 + 1; x_ < x2; x_++)
                     {
-                        pixel += texture[x_ + y1 * currentSize.x] * top +
-							texture[x_ + y2 * currentSize.x] * bottom;
+                        pixel += texture[x_ + y1 * currentSize.X] * top +
+							texture[x_ + y2 * currentSize.X] * bottom;
                     }
                     weight += Math.Max(x2 - x1 - 1, 0) * (top + bottom);
 
                     // Sample left and right edge
                     for (int y_ = y1 + 1; y_ < y2; y_++)
                     {
-                        pixel += texture[x1 + y_ * currentSize.x] * left +
-							texture[x2 + y_ * currentSize.x] * right;
+                        pixel += texture[x1 + y_ * currentSize.X] * left +
+							texture[x2 + y_ * currentSize.X] * right;
                     }
                     weight += Math.Max(y2 - y1 - 1, 0) * (left + right);
 
@@ -666,19 +666,19 @@ namespace Progrimage
             int2 ipos = Math2.Round(pos);
             double2 posFrac = ipos - pos;
             ipos -= _maskMinBound;
-			double xAdd = posFrac.x - ipos.x;
+			double xAdd = posFrac.X - ipos.X;
 
 			int2 min = Math2.Max(ipos - 1, 0);
             int2 max = Math2.Min(min + _brushSize, _maskSize - 1);
 
-            for (int y = min.y; y <= max.y; y++)
+            for (int y = min.Y; y <= max.Y; y++)
             {
-                int yw = y * _maskSize.x;
-                double yPixel = y - ipos.y + posFrac.y;
+                int yw = y * _maskSize.X;
+                double yPixel = y - ipos.Y + posFrac.Y;
 
-                for (int x = min.x; x <= max.x; x++)
+                for (int x = min.X; x <= max.X; x++)
                 {
-                    if (_brushState.IsPencil) _mask[x + yw] = Math.Max(_mask[x + yw], GetPixel(x - ipos.x, y - ipos.y));
+                    if (_brushState.IsPencil) _mask[x + yw] = Math.Max(_mask[x + yw], GetPixel(x - ipos.X, y - ipos.Y));
 					else _mask[x + yw] += GetPixel(x + xAdd, yPixel, true);
                 }
             }
@@ -689,19 +689,19 @@ namespace Progrimage
 			int2 ipos = Math2.Round(pos);
 			double2 posFrac = ipos - pos;
 			ipos -= _maskMinBound;
-            double xAdd = posFrac.x - ipos.x;
+            double xAdd = posFrac.X - ipos.X;
 
 			int2 min = Math2.Max(ipos - 1, 0);
 			int2 max = Math2.Min(min + _brushSize, _maskSize - 1);
 
-            for (int y = min.y; y <= max.y; y++)
+            for (int y = min.Y; y <= max.Y; y++)
             {
-                int yw = y * _maskSize.x;
-                double yPixel = y - ipos.y + posFrac.y;
+                int yw = y * _maskSize.X;
+                double yPixel = y - ipos.Y + posFrac.Y;
 
-                for (int x = min.x; x <= max.x; x++)
+                for (int x = min.X; x <= max.X; x++)
                 {
-                    if (_brushState.IsPencil) _mask[x + yw] = Math.Max(_mask[x + yw], GetPixel(x - ipos.x, y - ipos.y));
+                    if (_brushState.IsPencil) _mask[x + yw] = Math.Max(_mask[x + yw], GetPixel(x - ipos.X, y - ipos.Y));
                     else _mask[x + yw] += GetPixel(x + xAdd, yPixel, false);
                 }
             }
@@ -713,8 +713,8 @@ namespace Progrimage
             {
                 int ix = (int)x;
                 int iy = (int)y;
-                if (ix < 0 || iy < 0 || ix >= _brushSize.x || iy >= _brushSize.y) return 0;
-                return _brushTexture[ix + iy * _brushSize.x];
+                if (ix < 0 || iy < 0 || ix >= _brushSize.X || iy >= _brushSize.Y) return 0;
+                return _brushTexture[ix + iy * _brushSize.X];
             }
 
             // Corner pixel coordinates
@@ -730,16 +730,16 @@ namespace Progrimage
 			if (yFrac < 0) yFrac++;
 
 			// Coordinates out of bounds
-			bool x1_0 = x1 < 0 || x1 >= _brushSize.x;
-            bool x2_0 = x2 < 0 || x2 >= _brushSize.x;
-            bool y1_0 = y1 < 0 || y1 >= _brushSize.y;
-            bool y2_0 = y2 < 0 || y2 >= _brushSize.y;
+			bool x1_0 = x1 < 0 || x1 >= _brushSize.X;
+            bool x2_0 = x2 < 0 || x2 >= _brushSize.X;
+            bool y1_0 = y1 < 0 || y1 >= _brushSize.Y;
+            bool y2_0 = y2 < 0 || y2 >= _brushSize.Y;
 
             // Get corner pixel values
-            float pixel00 = (x1_0 || y1_0) ? 0f : _brushTexture[x1 + y1 * _brushSize.x];
-            float pixel01 = (x1_0 || y2_0) ? 0f : _brushTexture[x1 + y2 * _brushSize.x];
-            float pixel10 = (x2_0 || y1_0) ? 0f : _brushTexture[x2 + y1 * _brushSize.x];
-            float pixel11 = (x2_0 || y2_0) ? 0f : _brushTexture[x2 + y2 * _brushSize.x];
+            float pixel00 = (x1_0 || y1_0) ? 0f : _brushTexture[x1 + y1 * _brushSize.X];
+            float pixel01 = (x1_0 || y2_0) ? 0f : _brushTexture[x1 + y2 * _brushSize.X];
+            float pixel10 = (x2_0 || y1_0) ? 0f : _brushTexture[x2 + y1 * _brushSize.X];
+            float pixel11 = (x2_0 || y2_0) ? 0f : _brushTexture[x2 + y2 * _brushSize.X];
 
             // Interpolate
             double top = pixel00 * (1 - xFrac) + pixel10 * xFrac;
@@ -749,10 +749,10 @@ namespace Progrimage
             if (!normalize) return (float)pixel;
 
 			// Get normalizer pixel values
-            pixel00 = (x1_0 || y1_0) ? 0f : _normTexture[x1 + y1 * _brushSize.x];
-            pixel01 = (x1_0 || y2_0) ? 0f : _normTexture[x1 + y2 * _brushSize.x];
-            pixel10 = (x2_0 || y1_0) ? 0f : _normTexture[x2 + y1 * _brushSize.x];
-            pixel11 = (x2_0 || y2_0) ? 0f : _normTexture[x2 + y2 * _brushSize.x];
+            pixel00 = (x1_0 || y1_0) ? 0f : _normTexture[x1 + y1 * _brushSize.X];
+            pixel01 = (x1_0 || y2_0) ? 0f : _normTexture[x1 + y2 * _brushSize.X];
+            pixel10 = (x2_0 || y1_0) ? 0f : _normTexture[x2 + y1 * _brushSize.X];
+            pixel11 = (x2_0 || y2_0) ? 0f : _normTexture[x2 + y2 * _brushSize.X];
 
             // Interpolate
             top = pixel00 * (1 - xFrac) + pixel10 * xFrac;
@@ -795,11 +795,11 @@ namespace Progrimage
             int2 overlapMax = Math2.Min(newMax, _maskMaxBound);
             int2 overlapSize = overlapMax - overlapMin + 1;
 
-            float[] newMask = new float[newSize.x * newSize.y];
+            float[] newMask = new float[newSize.X * newSize.Y];
 
             // Copy mask data to new mask
-            for (int y = 0; y < overlapSize.y; y++)
-                Array.Copy(_mask, curOffset.x + (y + curOffset.y) * _maskSize.x, newMask, newOffset.x + (y + newOffset.y) * newSize.x, overlapSize.x);
+            for (int y = 0; y < overlapSize.Y; y++)
+                Array.Copy(_mask, curOffset.X + (y + curOffset.Y) * _maskSize.X, newMask, newOffset.X + (y + newOffset.Y) * newSize.X, overlapSize.X);
 
             _maskMinBound = newMin;
             _maskMaxBound = newMax;

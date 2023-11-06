@@ -107,9 +107,9 @@ namespace Progrimage.Tools
 			if (Program.IsShiftPressed)
 			{
 				double2 pos_ = pos;
-				if (Math.Abs(pos.x - _drawingLine.Start.x) > Math.Abs(pos.y - _drawingLine.Start.y))
-					pos_.y = _drawingLine.Start.y;
-				else pos_.x = _drawingLine.Start.x;
+				if (Math.Abs(pos.X - _drawingLine.Start.X) > Math.Abs(pos.Y - _drawingLine.Start.Y))
+					pos_.Y = _drawingLine.Start.Y;
+				else pos_.X = _drawingLine.Start.X;
 				_drawingLine.Stop = pos_;
 			}
 			else _drawingLine.Stop = pos;

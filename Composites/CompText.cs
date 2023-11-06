@@ -60,7 +60,7 @@ namespace Progrimage.Composites
         {
             if (WrappedText.Length == 1) yield break;
             int2 size = new int2(
-                MaxBound.x - MinBound.x + 1,
+                MaxBound.X - MinBound.X + 1,
                 WrappedHeight
             );
 
@@ -74,7 +74,7 @@ namespace Progrimage.Composites
 
 			result.ExpandToContain(MinBound + result.Pos, size);
             int2 pos = MinBound - result.Pos;
-			result.Mutate(op => op.DrawText(WrappedText, Font, Color, new PointF(pos.x, pos.y)));
+			result.Mutate(op => op.DrawText(WrappedText, Font, Color, new PointF(pos.X, pos.Y)));
         }
         #endregion
 
@@ -162,7 +162,7 @@ namespace Progrimage.Composites
 
 			LetterRect box = line[lineCharIndex];
             if (LastMoveDir == -1 && lineIndex != -1 && lineCharIndex + 1 == LetterBoxes[lineIndex].Count && lineIndex + 1 < LetterBoxes.Count)
-                pos = new int2(0, box.Pos.y + box.Height);
+                pos = new int2(0, box.Pos.Y + box.Height);
             else pos = box.Pos + new int2(box.CharWidth, 0);
 
             return local ? pos : (pos + MinBound);
@@ -173,7 +173,7 @@ namespace Progrimage.Composites
         private List<LetterRect> GenerateLetterRects(string line, bool lastLineHadBreak, float lineHeight, TextOptions textOptions)
         {
 			List<LetterRect> rects = new(line.Length + (lastLineHadBreak ? 1 : 0));
-			int maxWidth = MaxBound.x - MinBound.x + 1;
+			int maxWidth = MaxBound.X - MinBound.X + 1;
 			int x = 0;
 			int y = Math2.Round(lineHeight * LetterBoxes.Count);
 			int height = Math2.Round(lineHeight * (LetterBoxes.Count + 1)) - y;
@@ -220,7 +220,7 @@ namespace Progrimage.Composites
         private void WrapText()
         {
             var textOptions = new TextOptions(Font);
-            int maxWidth = MaxBound.x - MinBound.x + 1;
+            int maxWidth = MaxBound.X - MinBound.X + 1;
 
             var textSplit = Text.Split('\n');
 			List<Line> lines = new(textSplit.Length);

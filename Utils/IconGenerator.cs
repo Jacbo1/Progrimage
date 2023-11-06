@@ -22,18 +22,18 @@ namespace Progrimage.Utils
 
         public static void MakeRectTool()
         {
-			//using (var img = new Image<A8>(size.x, size.y))
-			using var img = new Image<La16>(size.x, size.y);
+			//using (var img = new Image<A8>(size.X, size.Y))
+			using var img = new Image<La16>(size.X, size.Y);
 			var _thickness = 25;
 			int2 size_ = size * 3 / 4;
 			int2 pos = (size - size_) / 2;
 			img.Mutate(i =>
 			{
 				i.Clear(new Color(new Argb32(0, 0, 0, 0)));
-				i.Fill(color, new Rectangle(pos.x, pos.y, size_.x, _thickness)); // Top
-				i.Fill(color, new Rectangle(pos.x, pos.y + size_.y - _thickness, size_.x, _thickness)); // Bottom
-				i.Fill(color, new Rectangle(pos.x, pos.y + _thickness, _thickness, size_.y - _thickness * 2)); // Left
-				i.Fill(color, new Rectangle(pos.x + size_.x - _thickness, pos.y + _thickness, _thickness, size_.y - _thickness * 2)); // Right
+				i.Fill(color, new Rectangle(pos.X, pos.Y, size_.X, _thickness)); // Top
+				i.Fill(color, new Rectangle(pos.X, pos.Y + size_.Y - _thickness, size_.X, _thickness)); // Bottom
+				i.Fill(color, new Rectangle(pos.X, pos.Y + _thickness, _thickness, size_.Y - _thickness * 2)); // Left
+				i.Fill(color, new Rectangle(pos.X + size_.X - _thickness, pos.Y + _thickness, _thickness, size_.Y - _thickness * 2)); // Right
 			});
 			Directory.CreateDirectory(OutputDir);
 			//Util.SaveA8Image(img, OutputDir + "rect2.png", false);
@@ -42,14 +42,14 @@ namespace Progrimage.Utils
 
         public static void MakeOvalTool()
         {
-            using var img = new Image<La16>(size.x, size.y);
+            using var img = new Image<La16>(size.X, size.Y);
             var _thickness = 25;
             int2 size_ = size * 3 / 4;
             int2 pos = (size - size_) / 2;
             var center = size / 2.0;
             img.Mutate(i =>
             {
-                i.Draw(color, _thickness, new EllipsePolygon((float)center.x, (float)center.y, size.x - _thickness, size.y - _thickness));
+                i.Draw(color, _thickness, new EllipsePolygon((float)center.X, (float)center.Y, size.X - _thickness, size.Y - _thickness));
             });
             Directory.CreateDirectory(OutputDir);
             img.SaveAsPng(OutputDir + "oval.png", new PngEncoder() { ColorType = PngColorType.GrayscaleWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression });
@@ -82,11 +82,11 @@ namespace Progrimage.Utils
 
         public static void MakeAddScriptTool()
         {
-            using (var img = new Image<Argb32>(size.x, size.y))
+            using (var img = new Image<Argb32>(size.X, size.Y))
             {
-                var font = SystemFonts.CreateFont("Consolas", size.y);
+                var font = SystemFonts.CreateFont("Consolas", size.Y);
 
-                //Console.WriteLine("Size: " + size.y);
+                //Console.WriteLine("Size: " + size.Y);
                 //Console.WriteLine("Size 2: " + font.Size);
                 //Console.WriteLine("Line height: " + (font.FontMetrics.LineHeight * font.Size / font.FontMetrics.UnitsPerEm));
                 //return;
@@ -98,14 +98,14 @@ namespace Progrimage.Utils
                 //    Origin = size / 2
                 //};
                 var glyphs = TextBuilder.GenerateGlyphs("</>", textOptions);
-                glyphs = glyphs.Scale(size.x / glyphs.Bounds.Width);
+                glyphs = glyphs.Scale(size.X / glyphs.Bounds.Width);
                 glyphs = glyphs.Translate(((size - new double2(glyphs.Bounds.Width, glyphs.Bounds.Height)) / 2 - new double2(glyphs.Bounds.X, glyphs.Bounds.Y)).ToPointF());
                 img.Mutate(i =>
                 {
                     i.Fill(color, glyphs);
                     //i.DrawText(textOptions, "</>", color);
-                    //i.Fill(color, new Rectangle(0, (size.y - thickness) / 2, size.x, thickness));
-                    //i.Fill(color, new Rectangle((size.x - thickness) / 2, 0, thickness, size.y));
+                    //i.Fill(color, new Rectangle(0, (size.Y - thickness) / 2, size.X, thickness));
+                    //i.Fill(color, new Rectangle((size.X - thickness) / 2, 0, thickness, size.Y));
                 });
                 Directory.CreateDirectory(OutputDir);
                 img.SaveAsPng(OutputDir + "add_script_tool.png", new PngEncoder() { ColorType = PngColorType.GrayscaleWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression, BitDepth = PngBitDepth.Bit1 });
@@ -114,7 +114,7 @@ namespace Progrimage.Utils
 
         public static void MakeEyeIcon()
         {
-            //using var img = new Image<La16>(size.x, size.y);
+            //using var img = new Image<La16>(size.X, size.Y);
             //var color = Color.White;
             //var thickness = 25;
             //int2 size_ = size * 3 / 4;
@@ -124,9 +124,9 @@ namespace Progrimage.Utils
             //double arcLength = 180 - startAng;
             //img.Mutate(op =>
             //{
-            //    op.Draw(Color.White, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.x, (float)(0.15 * size.y)), new SizeF((float)center.x, (float)center.x), 0, (float)startAng, (float)arcLength)));
-            //    op.Draw(Color.Gray, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.x, (float)((1 - 0.15) * size.y)), new SizeF((float)center.x, (float)center.x), 0, (float)(startAng + 180), (float)arcLength)));
-            //    op.Fill(color, new EllipsePolygon((float)center.x, (float)center.y, size.x * 0.1f, size.y * 0.1f));
+            //    op.Draw(Color.White, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.X, (float)(0.15 * size.Y)), new SizeF((float)center.X, (float)center.X), 0, (float)startAng, (float)arcLength)));
+            //    op.Draw(Color.Gray, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.X, (float)((1 - 0.15) * size.Y)), new SizeF((float)center.X, (float)center.X), 0, (float)(startAng + 180), (float)arcLength)));
+            //    op.Fill(color, new EllipsePolygon((float)center.X, (float)center.Y, size.X * 0.1f, size.Y * 0.1f));
             //});
             //Directory.CreateDirectory(OutputDir);
             //img.SaveAsPng(OutputDir + "eye_open.png", new PngEncoder() { ColorType = PngColorType.GrayscaleWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression });
@@ -140,13 +140,13 @@ namespace Progrimage.Utils
             double arcLength = 180 - 2 * startAng;
             double yShift = 0.35 * thickness;
 
-            using (var img = new Image<La16>(size.x, size.y))
+            using (var img = new Image<La16>(size.X, size.Y))
             {
                 img.Mutate(op =>
                 {
-                    op.Draw(color, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.x, (float)(0.15 * size.y - yShift)), new SizeF((float)center.x, (float)center.y), 0, (float)startAng, (float)arcLength)));
-                    op.Draw(color, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.x, (float)((1 - 0.15) * size.y + yShift)), new SizeF((float)center.x, (float)center.y), 0, (float)(startAng + 180), (float)arcLength)));
-                    op.Fill(color, new EllipsePolygon((float)center.x, (float)center.y, size.x * 0.15f, size.y * 0.15f));
+                    op.Draw(color, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.X, (float)(0.15 * size.Y - yShift)), new SizeF((float)center.X, (float)center.Y), 0, (float)startAng, (float)arcLength)));
+                    op.Draw(color, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.X, (float)((1 - 0.15) * size.Y + yShift)), new SizeF((float)center.X, (float)center.Y), 0, (float)(startAng + 180), (float)arcLength)));
+                    op.Fill(color, new EllipsePolygon((float)center.X, (float)center.Y, size.X * 0.15f, size.Y * 0.15f));
                     op.Crop(new Rectangle(32, 32, 192, 192));
     
                 });
@@ -154,18 +154,18 @@ namespace Progrimage.Utils
                 img.SaveAsPng(OutputDir + "visible.png", new PngEncoder() { ColorType = PngColorType.GrayscaleWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression });
             }
 
-            using (var img = new Image<La16>(size.x, size.y))
+            using (var img = new Image<La16>(size.X, size.Y))
             {
                 color = Color.LightGray;
                 const double MULT = 0.75;
-                double xOffset = size.x * (1 - MULT) * 2 / 3;
+                double xOffset = size.X * (1 - MULT) * 2 / 3;
                 img.Mutate(op =>
                 {
                     op.Clear(Color.Transparent);
-                    op.Draw(color, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.x, (float)(0.15 * size.y - yShift)), new SizeF((float)center.x, (float)center.y), 0, (float)startAng, (float)arcLength)));
-                    op.Draw(color, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.x, (float)((1 - 0.15) * size.y + yShift)), new SizeF((float)center.x, (float)center.y), 0, (float)(startAng + 180), (float)arcLength)));
-                    op.Fill(color, new EllipsePolygon((float)center.x, (float)center.y, size.x * 0.15f, size.y * 0.15f));
-                    op.DrawLines(color, thickness, new PointF((float)xOffset, (float)(center.y + MULT * 0.35 * size.y)), new PointF(size.x - (float)xOffset, (float)(center.y - MULT * 0.35 * size.y)));
+                    op.Draw(color, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.X, (float)(0.15 * size.Y - yShift)), new SizeF((float)center.X, (float)center.Y), 0, (float)startAng, (float)arcLength)));
+                    op.Draw(color, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.X, (float)((1 - 0.15) * size.Y + yShift)), new SizeF((float)center.X, (float)center.Y), 0, (float)(startAng + 180), (float)arcLength)));
+                    op.Fill(color, new EllipsePolygon((float)center.X, (float)center.Y, size.X * 0.15f, size.Y * 0.15f));
+                    op.DrawLines(color, thickness, new PointF((float)xOffset, (float)(center.Y + MULT * 0.35 * size.Y)), new PointF(size.X - (float)xOffset, (float)(center.Y - MULT * 0.35 * size.Y)));
                     op.Crop(new Rectangle(32, 32, 192, 192));
                 });
                 img.SaveAsPng(OutputDir + "not_visible.png", new PngEncoder() { ColorType = PngColorType.GrayscaleWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression });
@@ -177,25 +177,25 @@ namespace Progrimage.Utils
             const int RESCALE = 8;
             int2 newSize = size * RESCALE;
             double2 center = (newSize - 1) * 0.5;
-            double r2 = center.x * center.x;
+            double r2 = center.X * center.X;
 
-            using var img = new Image<L8>(newSize.x, newSize.y);
-            for (int y = 0; y < newSize.y; y++)
+            using var img = new Image<L8>(newSize.X, newSize.Y);
+            for (int y = 0; y < newSize.Y; y++)
             {
                 var row = img.DangerousGetPixelRowMemory(y).Span;
-                for (int x = 0; x < newSize.x; x++)
+                for (int x = 0; x < newSize.X; x++)
                 {
                     row[x].PackedValue = new int2(x, y).DistanceSqr(center) > r2 ? (byte)0 : byte.MaxValue;
                 }
             }
 
-            img.Mutate(op => op.Resize(size.x, size.y, KnownResamplers.Box));
+            img.Mutate(op => op.Resize(size.X, size.Y, KnownResamplers.Box));
             img.SaveAsPng(OutputDir + "brush_circle.png", new PngEncoder() { ColorType = PngColorType.Grayscale, CompressionLevel = PngCompressionLevel.BestCompression });
         }
 
         public static void MakeDeleteIcon()
         {
-			using var img = new Image<La16>(size.x, size.y);
+			using var img = new Image<La16>(size.X, size.Y);
             double thickness = size.Min * 0.1;
             double distMult = (size.Min * 0.5 * Math.Sqrt(2) - thickness * 0.5) / size.Length();
             double2 center = (size - 1) * 0.5;
@@ -217,15 +217,15 @@ namespace Progrimage.Utils
 
         public static void MakeAddIcon()
         {
-			using var img = new Image<La16>(size.x, size.y);
+			using var img = new Image<La16>(size.X, size.Y);
             float thickness = size.Min * 0.1f;
             double2 center = (size - 1) * 0.5;
             double2[] points =
             {
-                new(0, center.y),
-                new(size.x, center.y),
-                new(center.x, 0),
-                new(center.x, size.y)
+                new(0, center.Y),
+                new(size.X, center.Y),
+                new(center.X, 0),
+                new(center.X, size.Y)
             };
             img.Mutate(op =>
             {
@@ -237,12 +237,12 @@ namespace Progrimage.Utils
 
         public static void MakeLineToolIcon()
         {
-			using var img = new Image<La16>(size.x, size.y);
+			using var img = new Image<La16>(size.X, size.Y);
 			double thickness = size.Min * 0.1;
 			double2 center = (size - 1) * 0.5;
 			double2 distMult = (size * 0.5 * Math.Sqrt(2) - thickness * 0.5) / size.Length();
 			double2 diag = size * distMult;
-            diag.x = -diag.x;
+            diag.X = -diag.X;
 
 			img.Mutate(op =>
 			{
@@ -253,11 +253,11 @@ namespace Progrimage.Utils
 
         public static void MakeCropIcon()
         {
-			using var img = new Image<La16>(size.x, size.y);
+			using var img = new Image<La16>(size.X, size.Y);
             int2 length = size / 2;
             int2 thickness = size / 10;
-            int2 horizontal = new int2(length.x, thickness.y);
-            int2 vertical = new int2(thickness.x, length.y);
+            int2 horizontal = new int2(length.X, thickness.Y);
+            int2 vertical = new int2(thickness.X, length.Y);
 			img.Mutate(i =>
 			{
 				i.Clear(new Color(new Argb32(0, 0, 0, 0)));
@@ -271,11 +271,11 @@ namespace Progrimage.Utils
 
         public static void MakeTextIcon()
         {
-			using var img = new Image<La16>(size.x, size.y);
-			var font = SystemFonts.CreateFont("Times New Roman", size.y);
+			using var img = new Image<La16>(size.X, size.Y);
+			var font = SystemFonts.CreateFont("Times New Roman", size.Y);
 			var textOptions = new TextOptions(font);
 			var glyphs = TextBuilder.GenerateGlyphs("A", textOptions);
-			glyphs = glyphs.Scale(size.x / glyphs.Bounds.Width);
+			glyphs = glyphs.Scale(size.X / glyphs.Bounds.Width);
 			glyphs = glyphs.Translate(((size - new double2(glyphs.Bounds.Width, glyphs.Bounds.Height)) / 2 - new double2(glyphs.Bounds.X, glyphs.Bounds.Y)).ToPointF());
 			img.Mutate(i =>
 			{
@@ -287,7 +287,7 @@ namespace Progrimage.Utils
 
         public static void MakeQuadraticCurveIcon()
         {
-            using var img = new Image<La16>(size.x, size.y);
+            using var img = new Image<La16>(size.X, size.Y);
             img.Mutate(i =>
             {
 				float thickness = size.Min * 0.1f;
@@ -295,8 +295,8 @@ namespace Progrimage.Utils
 
                 double2 padding = thickness;
                 double2 a = padding;
-                double2 b = new(size.x - padding.x - 1, (size.y - 1) * 0.5);
-                double2 c = new(padding.x, size.y - 1 - padding.y);
+                double2 b = new(size.X - padding.X - 1, (size.Y - 1) * 0.5);
+                double2 c = new(padding.X, size.Y - 1 - padding.Y);
                 double dashLength = a.Distance(b) / 10;
                 double gapLength = dashLength;
 
@@ -316,19 +316,19 @@ namespace Progrimage.Utils
 
 public static void MakeCubicCurveIcon()
 {
-    using var img = new Image<La16>(size.x, size.y);
+    using var img = new Image<La16>(size.X, size.Y);
     img.Mutate(i =>
     {
         float thickness = size.Min * 0.1f;
         i.Clear(new Color(new Argb32(0, 0, 0, 0)));
 
         double2 padding = thickness;
-        double left = padding.x;
-        double right = size.x - padding.x - 1;
+        double left = padding.X;
+        double right = size.X - padding.X - 1;
         double2 a = padding;
-        double2 b = new(right, (size.y - 1) / 3.0);
-        double2 c = new(left, (size.y - 1) * 2 / 3.0);
-        double2 d = new(right, size.y - 1 - padding.y);
+        double2 b = new(right, (size.Y - 1) / 3.0);
+        double2 c = new(left, (size.Y - 1) * 2 / 3.0);
+        double2 d = new(right, size.Y - 1 - padding.Y);
         double dashLength = a.Distance(b) / 10;
         double gapLength = dashLength;
 
@@ -384,7 +384,7 @@ public static void MakeCubicCurveIcon()
             while (length <= pathLength - dashLength)
             {
                 double2 next = pos + dashDelta;
-                context.DrawLines(color, thickness, new PointF((float)pos.x, (float)pos.y), new PointF((float)next.x, (float)next.y));
+                context.DrawLines(color, thickness, new PointF((float)pos.X, (float)pos.Y), new PointF((float)next.X, (float)next.Y));
                 pos = next + gapDelta;
                 length += dashLength + gapLength;
             }
@@ -392,11 +392,11 @@ public static void MakeCubicCurveIcon()
             if (length >= pathLength) return;
 
             double2 next_ = pos + dashDelta * (pathLength - length) / dashLength;
-            context.DrawLines(color, thickness, new PointF((float)pos.x, (float)pos.y), new PointF((float)next_.x, (float)next_.y));
+            context.DrawLines(color, thickness, new PointF((float)pos.X, (float)pos.Y), new PointF((float)next_.X, (float)next_.Y));
         }
 
-		private static Rectangle Rectangle(int2 pos, int2 size) => new(pos.x, pos.y, size.x, size.y);
-		private static Rectangle Rectangle(int x, int y, int2 size) => new(x, y, size.x, size.y);
-		private static Rectangle Rectangle(int2 pos, int width, int height) => new(pos.x, pos.y, width, height);
+		private static Rectangle Rectangle(int2 pos, int2 size) => new(pos.X, pos.Y, size.X, size.Y);
+		private static Rectangle Rectangle(int x, int y, int2 size) => new(x, y, size.X, size.Y);
+		private static Rectangle Rectangle(int2 pos, int width, int height) => new(pos.X, pos.Y, width, height);
 	}
 }

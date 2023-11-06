@@ -76,7 +76,7 @@ namespace Progrimage.Composites
             if (Layer.CompositeResult.Image is null)
             {
                 // Null texture
-                using Image<Rgb24> temp = Util.GetTransparencyChecker(maxSize.x, maxSize.y, (int)(4 * MainWindow.UIScale));
+                using Image<Rgb24> temp = Util.GetTransparencyChecker(maxSize.X, maxSize.Y, (int)(4 * MainWindow.UIScale));
                 ThumbnailSize = maxSize;
                 Thumbnail.Size = maxSize;
                 Util.DrawImageToTexture2D(Thumbnail.Texture, temp);
@@ -88,10 +88,10 @@ namespace Progrimage.Composites
             ThumbnailSize = thumbnailSize;
             Thumbnail.Size = thumbnailSize;
 
-            using (Image<Rgb24> temp = Util.GetTransparencyChecker(thumbnailSize.x, thumbnailSize.y, (int)(4 * MainWindow.UIScale)))
+            using (Image<Rgb24> temp = Util.GetTransparencyChecker(thumbnailSize.X, thumbnailSize.Y, (int)(4 * MainWindow.UIScale)))
             {
                 using Image<Argb32> img = Layer.CompositeResult.Image.Clone();
-                img.Mutate(x => x.Resize(thumbnailSize.x, thumbnailSize.y));
+                img.Mutate(x => x.Resize(thumbnailSize.X, thumbnailSize.Y));
                 int2 pos = (maxSize - thumbnailSize) / 2;
                 temp.DrawOver(img, pos);
                 Util.DrawImageToTexture2D(Thumbnail.Texture, temp);

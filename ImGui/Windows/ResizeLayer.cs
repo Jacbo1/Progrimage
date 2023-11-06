@@ -79,7 +79,7 @@ namespace ProgrimageImGui.Windows
 			if (valid)
 			{
 				int2 size = (int2)newSize;
-				ImGui.Text($"({layer.Width}, {layer.Height}) => ({size.x}, {size.y})");
+				ImGui.Text($"({layer.Width}, {layer.Height}) => ({size.X}, {size.Y})");
 			}
 			else ImGui.Text("Cannot apply");
 
@@ -92,7 +92,7 @@ namespace ProgrimageImGui.Windows
 				UndoManager.AddUndo(new UndoRegion(layer, layer.Pos, layer.Size));
 				int2 size = (int2)newSize;
 				if (layer.Image.Image is null) layer.Size = size;
-				else layer.Image.Mutate(op => op.Resize(size.x, size.y));
+				else layer.Image.Mutate(op => op.Resize(size.X, size.Y));
 				layer.Changed();
 				Show = false;
 			}

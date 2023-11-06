@@ -62,7 +62,7 @@ namespace Progrimage.DrawingShapes
             if (Fill)
             {
                 // Filled rectangle
-                context.Fill(Color, new RectangleF((float)Pos.x, (float)Pos.y, (float)Size.x, (float)Size.y));
+                context.Fill(Color, new RectangleF((float)Pos.X, (float)Pos.Y, (float)Size.X, (float)Size.Y));
                 return;
             }
 
@@ -70,20 +70,20 @@ namespace Progrimage.DrawingShapes
             if (ExtendInwards)
             {
                 // Extend inwards so the outline doesn't make it bigger
-                context.Fill(Color, new RectangleF((float)Pos.x, (float)Pos.y, (float)Size.x, (float)Thickness)); // Top
-                context.Fill(Color, new RectangleF((float)Pos.x, (float)(Pos.y + Size.y - Thickness), (float)Size.x, (float)Thickness)); // Bottom
-                context.Fill(Color, new RectangleF((float)Pos.x, (float)(Pos.y + Thickness), (float)Thickness, (float)(Size.y - Thickness * 2))); // Left
-                context.Fill(Color, new RectangleF((float)(Pos.x + Size.x - Thickness), (float)(Pos.y + Thickness), (float)Thickness, (float)(Size.y - Thickness * 2))); // Right
+                context.Fill(Color, new RectangleF((float)Pos.X, (float)Pos.Y, (float)Size.X, (float)Thickness)); // Top
+                context.Fill(Color, new RectangleF((float)Pos.X, (float)(Pos.Y + Size.Y - Thickness), (float)Size.X, (float)Thickness)); // Bottom
+                context.Fill(Color, new RectangleF((float)Pos.X, (float)(Pos.Y + Thickness), (float)Thickness, (float)(Size.Y - Thickness * 2))); // Left
+                context.Fill(Color, new RectangleF((float)(Pos.X + Size.X - Thickness), (float)(Pos.Y + Thickness), (float)Thickness, (float)(Size.Y - Thickness * 2))); // Right
                 return;
             }
 
             // Extend outwards so the outline makes it bigger
             double2 pos2 = Pos - Thickness;
             double2 size2 = Size + Thickness * 2;
-            context.Fill(Color, new RectangleF((float)pos2.x, (float)pos2.y, (float)size2.x, (float)Thickness)); // Top
-            context.Fill(Color, new RectangleF((float)pos2.x, (float)(Pos.y + Size.y), (float)size2.x, (float)Thickness)); // Bottom
-            context.Fill(Color, new RectangleF((float)pos2.x, (float)Pos.y, (float)Thickness, (float)Size.y)); // Left
-            context.Fill(Color, new RectangleF((float)(Pos.x + Size.x), (float)Pos.y, (float)Thickness, (float)Size.y)); // Right
+            context.Fill(Color, new RectangleF((float)pos2.X, (float)pos2.Y, (float)size2.X, (float)Thickness)); // Top
+            context.Fill(Color, new RectangleF((float)pos2.X, (float)(Pos.Y + Size.Y), (float)size2.X, (float)Thickness)); // Bottom
+            context.Fill(Color, new RectangleF((float)pos2.X, (float)Pos.Y, (float)Thickness, (float)Size.Y)); // Left
+            context.Fill(Color, new RectangleF((float)(Pos.X + Size.X), (float)Pos.Y, (float)Thickness, (float)Size.Y)); // Right
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Progrimage.DrawingShapes
         /// <returns></returns>
         public Rectangle GetBounds()
         {
-            return (Fill || ExtendInwards) ? new Rectangle((int)Pos.x, (int)Pos.y, (int)Size.x, (int)Size.y) : new Rectangle((int)(Pos.x - Thickness), (int)(Pos.y - Thickness), (int)(Size.x + Thickness * 2), (int)(Size.y + Thickness * 2));
+            return (Fill || ExtendInwards) ? new Rectangle((int)Pos.X, (int)Pos.Y, (int)Size.X, (int)Size.Y) : new Rectangle((int)(Pos.X - Thickness), (int)(Pos.Y - Thickness), (int)(Size.X + Thickness * 2), (int)(Size.Y + Thickness * 2));
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Progrimage.DrawingShapes
             if (Fill)
             {
                 // Filled rectangle
-                context.Fill(Color, new RectangleF((float)pos.x, (float)pos.y, (float)size.x, (float)size.y));
+                context.Fill(Color, new RectangleF((float)pos.X, (float)pos.Y, (float)size.X, (float)size.Y));
                 return;
             }
 
@@ -121,20 +121,20 @@ namespace Progrimage.DrawingShapes
             if (ExtendInwards)
             {
                 // Extend inwards so the outline doesn't make it bigger
-                context.Fill(Color, new RectangleF((float)pos.x, (float)pos.y, (float)size.x, (float)thickness)); // Top
-                context.Fill(Color, new RectangleF((float)pos.x, (float)(pos.y + size.y - thickness), (float)size.x, (float)thickness)); // Bottom
-                context.Fill(Color, new RectangleF((float)pos.x, (float)(pos.y + thickness), (float)thickness, (float)(size.y - thickness * 2))); // Left
-                context.Fill(Color, new RectangleF((float)(pos.x + size.x - thickness), (float)(pos.y + thickness), (float)thickness, (float)(size.y - thickness * 2))); // Right
+                context.Fill(Color, new RectangleF((float)pos.X, (float)pos.Y, (float)size.X, (float)thickness)); // Top
+                context.Fill(Color, new RectangleF((float)pos.X, (float)(pos.Y + size.Y - thickness), (float)size.X, (float)thickness)); // Bottom
+                context.Fill(Color, new RectangleF((float)pos.X, (float)(pos.Y + thickness), (float)thickness, (float)(size.Y - thickness * 2))); // Left
+                context.Fill(Color, new RectangleF((float)(pos.X + size.X - thickness), (float)(pos.Y + thickness), (float)thickness, (float)(size.Y - thickness * 2))); // Right
                 return;
             }
 
             // Extend outwards so the outline makes it bigger
             double2 pos2 = pos - thickness;
             double2 size2 = size + thickness * 2;
-            context.Fill(Color, new RectangleF((float)pos2.x, (float)pos2.y, (float)size2.x, (float)thickness)); // Top
-            context.Fill(Color, new RectangleF((float)pos2.x, (float)(pos.y + size.y), (float)size2.x, (float)thickness)); // Bottom
-            context.Fill(Color, new RectangleF((float)pos2.x, (float)pos.y, (float)thickness, (float)size.y)); // Left
-            context.Fill(Color, new RectangleF((float)(pos.x + size.x), (float)pos.y, (float)thickness, (float)size.y)); // Right
+            context.Fill(Color, new RectangleF((float)pos2.X, (float)pos2.Y, (float)size2.X, (float)thickness)); // Top
+            context.Fill(Color, new RectangleF((float)pos2.X, (float)(pos.Y + size.Y), (float)size2.X, (float)thickness)); // Bottom
+            context.Fill(Color, new RectangleF((float)pos2.X, (float)pos.Y, (float)thickness, (float)size.Y)); // Left
+            context.Fill(Color, new RectangleF((float)(pos.X + size.X), (float)pos.Y, (float)thickness, (float)size.Y)); // Right
         }
     }
 }

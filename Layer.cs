@@ -193,12 +193,12 @@ namespace Progrimage
             ThumbnailTex.Size = thumbnailSize;
 
             _thumbnail?.Dispose();
-            _thumbnail = Util.GetTransparencyChecker(thumbnailSize.x, thumbnailSize.y, (int)(4 * MainWindow.UIScale));
+            _thumbnail = Util.GetTransparencyChecker(thumbnailSize.X, thumbnailSize.Y, (int)(4 * MainWindow.UIScale));
             
             if (Image.Image is not null)
             {
                 using var img = Image.Image.Clone();
-                img.Mutate(x => x.Resize(thumbnailSize.x, thumbnailSize.y));
+                img.Mutate(x => x.Resize(thumbnailSize.X, thumbnailSize.Y));
                 _thumbnail.DrawOver(img, int2.Zero);
             }
 

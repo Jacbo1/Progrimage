@@ -42,13 +42,13 @@ namespace Progrimage.Selectors
                 int2 point = int2.Zero;
                 switch (i)
                 {
-                    case 0: point = new(center.x, min.y); break;
-                    case 1: point = new(center.x, max.y); break;
-                    case 2: point = new(min.x, center.y); break;
-                    case 3: point = new(max.x, center.y); break;
+                    case 0: point = new(center.X, min.Y); break;
+                    case 1: point = new(center.X, max.Y); break;
+                    case 2: point = new(min.X, center.Y); break;
+                    case 3: point = new(max.X, center.Y); break;
                     case 4: point = min; break;
-                    case 5: point = new(max.x, min.y); break;
-                    case 6: point = new(min.x, max.y); break;
+                    case 5: point = new(max.X, min.Y); break;
+                    case 6: point = new(min.X, max.Y); break;
                     case 7: point = max; break;
                 }
 
@@ -65,17 +65,17 @@ namespace Progrimage.Selectors
             {
                 // Check entire sides
                 // Check top and bottom
-                if (MainWindow.MousePosScreen.x >= min.x && MainWindow.MousePosScreen.x <= max.x)
+                if (MainWindow.MousePosScreen.X >= min.X && MainWindow.MousePosScreen.X <= max.X)
                 {
                     // Top
-                    if (Math.Abs(MainWindow.MousePosScreen.y - min.y) <= Defs.CURSOR_CHANGE_RADIUS)
+                    if (Math.Abs(MainWindow.MousePosScreen.Y - min.Y) <= Defs.CURSOR_CHANGE_RADIUS)
                     {
                         closestDir = ResizeDir.Up;
                         goto DIR_FOUND;
                     }
 
                     // Bottom
-                    if (Math.Abs(MainWindow.MousePosScreen.y - max.y) <= Defs.CURSOR_CHANGE_RADIUS)
+                    if (Math.Abs(MainWindow.MousePosScreen.Y - max.Y) <= Defs.CURSOR_CHANGE_RADIUS)
                     {
                         closestDir = ResizeDir.Down;
                         goto DIR_FOUND;
@@ -83,17 +83,17 @@ namespace Progrimage.Selectors
                 }
 
                 // Check left and right
-                if (MainWindow.MousePosScreen.y >= min.y && MainWindow.MousePosScreen.y <= max.y)
+                if (MainWindow.MousePosScreen.Y >= min.Y && MainWindow.MousePosScreen.Y <= max.Y)
                 {
                     // Left
-                    if (Math.Abs(MainWindow.MousePosScreen.x - min.x) <= Defs.CURSOR_CHANGE_RADIUS)
+                    if (Math.Abs(MainWindow.MousePosScreen.X - min.X) <= Defs.CURSOR_CHANGE_RADIUS)
                     {
                         closestDir = ResizeDir.Left;
                         goto DIR_FOUND;
                     }
 
                     // Right
-                    if (Math.Abs(MainWindow.MousePosScreen.x - max.x) <= Defs.CURSOR_CHANGE_RADIUS)
+                    if (Math.Abs(MainWindow.MousePosScreen.X - max.X) <= Defs.CURSOR_CHANGE_RADIUS)
                     {
                         closestDir = ResizeDir.Right;
                         goto DIR_FOUND;

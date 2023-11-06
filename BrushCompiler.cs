@@ -52,7 +52,7 @@ namespace Progrimage
 			// accumulation across them to use as a normalizing value
 			object lockObject = new object();
 			Progress = 0;
-			float[] minValues = new float[_imageSize.x * _imageSize.y];
+			float[] minValues = new float[_imageSize.X * _imageSize.Y];
 			for (int i = 0; i < minValues.Length; i++)
 				minValues[i] = float.MaxValue;
 			double cornerAng = _imageSize.GetAngle();
@@ -60,14 +60,14 @@ namespace Progrimage
 			int stepsCompleted = 0;
 			Parallel.For(0, _angleSteps, angStep =>
 			{
-				float[] canvas = new float[_imageSize.x * _imageSize.y];
+				float[] canvas = new float[_imageSize.X * _imageSize.Y];
 				double angle = Math.PI * 2 * angStep / _angleSteps - Math.PI;
 				double2 dir = double2.FromAngle(angle);
 				double mult;
-				if (-cornerAng <= angle && angle <= cornerAng) mult = _imageSize.x / dir.x;
-				else if (Math.PI - cornerAng <= angle || angle <= cornerAng - Math.PI) mult = -_imageSize.x / dir.x;
-				else if (cornerAng <= angle && angle <= Math.PI - cornerAng) mult = _imageSize.y / dir.y;
-				else mult = -_imageSize.y / dir.y;
+				if (-cornerAng <= angle && angle <= cornerAng) mult = _imageSize.X / dir.X;
+				else if (Math.PI - cornerAng <= angle || angle <= cornerAng - Math.PI) mult = -_imageSize.X / dir.X;
+				else if (cornerAng <= angle && angle <= Math.PI - cornerAng) mult = _imageSize.Y / dir.Y;
+				else mult = -_imageSize.Y / dir.Y;
 
 				double2 start = halfSize + dir * mult;
 				double2 end = halfSize + dir * -mult;
@@ -102,8 +102,8 @@ namespace Progrimage
 
 			using FileStream stream = File.Open(@"Assets\Textures\Brushes\" + _fileName + ".norm", FileMode.Create);
 			using var zipStream = new GZipStream(stream, CompressionLevel.SmallestSize);
-			zipStream.Write(BitConverter.GetBytes(_imageSize.x), 0, 4);
-			zipStream.Write(BitConverter.GetBytes(_imageSize.y), 0, 4);
+			zipStream.Write(BitConverter.GetBytes(_imageSize.X), 0, 4);
+			zipStream.Write(BitConverter.GetBytes(_imageSize.Y), 0, 4);
 			for (int i = 0; i < minValues.Length; i++)
 			{
 				zipStream.Write(BitConverter.GetBytes((minValues[i] == 0 || minValues[i] == float.MaxValue) ? 1f : _pixels[i] / minValues[i]), 0, 4);
@@ -116,17 +116,17 @@ namespace Progrimage
 		{
 			int2 ipos = Math2.Round(pos);
 			double2 posFrac = ipos - pos;
-			double xAdd = posFrac.x - ipos.x;
+			double xAdd = posFrac.X - ipos.X;
 
 			int2 min = Math2.Max(ipos - 1, 0);
 			int2 max = Math2.Min(min + _imageSize, _imageSize - 1);
 
-			for (int y = min.y; y <= max.y; y++)
+			for (int y = min.Y; y <= max.Y; y++)
 			{
-				int yw = y * _imageSize.x;
-				double yPixel = y - ipos.y + posFrac.y;
+				int yw = y * _imageSize.X;
+				double yPixel = y - ipos.Y + posFrac.Y;
 
-				for (int x = min.x; x <= max.x; x++)
+				for (int x = min.X; x <= max.X; x++)
 					maxValues[x + yw] += GetBrushPixel(x + xAdd, yPixel);
 			}
 		}
@@ -140,16 +140,16 @@ namespace Progrimage
 			int y2 = (int)Math.Ceiling(y);
 
 			// Coordinates out of bounds
-			bool x1_0 = x1 < 0 || x1 >= _imageSize.x;
-			bool x2_0 = x2 < 0 || x2 >= _imageSize.x;
-			bool y1_0 = y1 < 0 || y1 >= _imageSize.y;
-			bool y2_0 = y2 < 0 || y2 >= _imageSize.y;
+			bool x1_0 = x1 < 0 || x1 >= _imageSize.X;
+			bool x2_0 = x2 < 0 || x2 >= _imageSize.X;
+			bool y1_0 = y1 < 0 || y1 >= _imageSize.Y;
+			bool y2_0 = y2 < 0 || y2 >= _imageSize.Y;
 
 			// Get corner pixel values
-			float pixel00 = (x1_0 || y1_0) ? 0f : _pixels[x1 + y1 * _imageSize.x];
-			float pixel01 = (x1_0 || y2_0) ? 0f : _pixels[x1 + y2 * _imageSize.x];
-			float pixel10 = (x2_0 || y1_0) ? 0f : _pixels[x2 + y1 * _imageSize.x];
-			float pixel11 = (x2_0 || y2_0) ? 0f : _pixels[x2 + y2 * _imageSize.x];
+			float pixel00 = (x1_0 || y1_0) ? 0f : _pixels[x1 + y1 * _imageSize.X];
+			float pixel01 = (x1_0 || y2_0) ? 0f : _pixels[x1 + y2 * _imageSize.X];
+			float pixel10 = (x2_0 || y1_0) ? 0f : _pixels[x2 + y1 * _imageSize.X];
+			float pixel11 = (x2_0 || y2_0) ? 0f : _pixels[x2 + y2 * _imageSize.X];
 
 			double xFrac = x % 1;
 			double yFrac = y % 1;
@@ -168,7 +168,7 @@ namespace Progrimage
 			// Scale to fit in the new size but maintain aspect ratio
 			int2 newSize = Math2.Round(this._imageSize * scale);
 			double2 scale_ = newSize / (double2)this._imageSize;
-			float[] scaledPixels = new float[newSize.x * newSize.y];
+			float[] scaledPixels = new float[newSize.X * newSize.Y];
 
 			// Downscale with a modified Box algorithm that treats edge pixels as non-full pixels for fractional coordinates
 			// Upscale with bilinear sampling
@@ -176,43 +176,43 @@ namespace Progrimage
 			double2 boxSize1 = 1 / scale_ - 1;
 			int2 unscaledSize1 = _imageSize - 1;
 
-			Parallel.For(0, newSize.y, y =>
+			Parallel.For(0, newSize.Y, y =>
 			{
-				int yw = y * newSize.x;
-				for (int x = 0; x < newSize.x; x++)
+				int yw = y * newSize.X;
+				for (int x = 0; x < newSize.X; x++)
 				{
-					double xd = x / scale_.x; // x in the original image's scale
-					double yd = y / scale_.y; // y in the original image's scale
-					int x1 = Math.Min((int)Math.Floor(xd), unscaledSize1.x); // Left bound floored
-					int y1 = Math.Min((int)Math.Floor(yd), unscaledSize1.y); // Top bound floord
+					double xd = x / scale_.X; // x in the original image's scale
+					double yd = y / scale_.Y; // y in the original image's scale
+					int x1 = Math.Min((int)Math.Floor(xd), unscaledSize1.X); // Left bound floored
+					int y1 = Math.Min((int)Math.Floor(yd), unscaledSize1.Y); // Top bound floord
 					int x2, y2;
 					double right, bottom;
 
-					if (scale_.x > 1)
+					if (scale_.X > 1)
 					{
 						// Scale x up
-						x2 = Math.Min((int)Math.Ceiling(xd), unscaledSize1.x); // Right bound ceiled
+						x2 = Math.Min((int)Math.Ceiling(xd), unscaledSize1.X); // Right bound ceiled
 						right = xd == x2 ? 1 : (1 - x2 + xd); // Right color multiplier
 					}
 					else
 					{
 						// Scale x down
-						double x_ = xd + boxSize1.x;
-						x2 = Math.Min((int)Math.Ceiling(x_), unscaledSize1.x); // Right bound ceiled
+						double x_ = xd + boxSize1.X;
+						x2 = Math.Min((int)Math.Ceiling(x_), unscaledSize1.X); // Right bound ceiled
 						right = x_ == x2 ? 1 : (1 - x2 + x_); // Right color multiplier
 					}
 
-					if (scale_.y > 1)
+					if (scale_.Y > 1)
 					{
 						// Scale y up
-						y2 = Math.Min((int)Math.Ceiling(yd), unscaledSize1.y); // Bottom bound ceiled
+						y2 = Math.Min((int)Math.Ceiling(yd), unscaledSize1.Y); // Bottom bound ceiled
 						bottom = yd == y2 ? 1 : (1 - y2 + yd); // Bottom color multiplier
 					}
 					else
 					{
 						// Scale y down
-						double y_ = yd + boxSize1.y;
-						y2 = Math.Min((int)Math.Ceiling(y_), unscaledSize1.y); // Bottom bound ceiled
+						double y_ = yd + boxSize1.Y;
+						y2 = Math.Min((int)Math.Ceiling(y_), unscaledSize1.Y); // Bottom bound ceiled
 						bottom = y_ == y2 ? 1 : (1 - y2 + y_); // Bottom color multiplier
 					}
 
@@ -220,17 +220,17 @@ namespace Progrimage
 					double top = yd == y1 ? 1 : (1 - yd + y1); // Top color multiplier
 
 					// Bilinear sample on the corners
-					double pixel = _pixels[x1 + y1 * _imageSize.x] * left * top + // Top left pixel
-						_pixels[x1 + y2 * _imageSize.x] * left * bottom +         // Bottom left pixel
-						_pixels[x2 + y1 * _imageSize.x] * right * top +           // Top right pixel
-						_pixels[x2 + y2 * _imageSize.x] * right * bottom;         // Bottom right pixel
+					double pixel = _pixels[x1 + y1 * _imageSize.X] * left * top + // Top left pixel
+						_pixels[x1 + y2 * _imageSize.X] * left * bottom +         // Bottom left pixel
+						_pixels[x2 + y1 * _imageSize.X] * right * top +           // Top right pixel
+						_pixels[x2 + y2 * _imageSize.X] * right * bottom;         // Bottom right pixel
 					double weight = left * top + left * bottom + right * top + right * bottom;          // Sum up the weights
 
 					// Box sample for downscaling
 					// Sample full insides
 					for (int y_ = y1 + 1; y_ < y2; y_++)
 					{
-						int yw_ = y_ * _imageSize.x;
+						int yw_ = y_ * _imageSize.X;
 						for (int x_ = x1 + 1; x_ < x2; x_++)
 						{
 							pixel += _pixels[x_ + yw_];
@@ -241,16 +241,16 @@ namespace Progrimage
 					// Sample top and bottom edge
 					for (int x_ = x1 + 1; x_ < x2; x_++)
 					{
-						pixel += _pixels[x_ + y1 * _imageSize.x] * top +
-							_pixels[x_ + y2 * _imageSize.x] * bottom;
+						pixel += _pixels[x_ + y1 * _imageSize.X] * top +
+							_pixels[x_ + y2 * _imageSize.X] * bottom;
 					}
 					weight += Math.Max(x2 - x1 - 1, 0) * (top + bottom);
 
 					// Sample left and right edge
 					for (int y_ = y1 + 1; y_ < y2; y_++)
 					{
-						pixel += _pixels[x1 + y_ * _imageSize.x] * left +
-							_pixels[x2 + y_ * _imageSize.x] * right;
+						pixel += _pixels[x1 + y_ * _imageSize.X] * left +
+							_pixels[x2 + y_ * _imageSize.X] * right;
 					}
 					weight += Math.Max(y2 - y1 - 1, 0) * (left + right);
 

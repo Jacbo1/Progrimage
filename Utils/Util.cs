@@ -148,37 +148,37 @@ namespace Progrimage.Utils
         ///// <returns>Blended color</returns>
         //public static int4 BlendColors(int4 a, int4 b)
         //{
-        //    if (b.w == 255 || a.w == 0) return b; // No need to blend alpha
+        //    if (b.W == 255 || a.W == 0) return b; // No need to blend alpha
 
-        //    double aAlpha = a.w / 255.0;
-        //    double bAlpha = b.w / 255.0;
+        //    double aAlpha = a.W / 255.0;
+        //    double bAlpha = b.W / 255.0;
         //    double alpha1 = 1 - bAlpha;
         //    double denom = bAlpha + aAlpha * alpha1;
         //    if (denom == 0) return a;
         //    double alphaMult = aAlpha * alpha1;
         //    return new int4(
-        //        (int)Math.Round((b.x * bAlpha + a.x * alphaMult) / denom, MidpointRounding.AwayFromZero),
-        //        (int)Math.Round((b.y * bAlpha + a.y * alphaMult) / denom, MidpointRounding.AwayFromZero),
-        //        (int)Math.Round((b.z * bAlpha + a.z * alphaMult) / denom, MidpointRounding.AwayFromZero),
-        //        (int)Math.Round(b.w + a.w * alpha1, MidpointRounding.AwayFromZero));
+        //        (int)Math.Round((b.X * bAlpha + a.X * alphaMult) / denom, MidpointRounding.AwayFromZero),
+        //        (int)Math.Round((b.Y * bAlpha + a.Y * alphaMult) / denom, MidpointRounding.AwayFromZero),
+        //        (int)Math.Round((b.Z * bAlpha + a.Z * alphaMult) / denom, MidpointRounding.AwayFromZero),
+        //        (int)Math.Round(b.W + a.W * alpha1, MidpointRounding.AwayFromZero));
         //}
 
         public static int4 BlendColorsErase(int4 a, int4 b)
         {
-            if (b.w == 0) return a;
+            if (b.W == 0) return a;
 
-            double srcAlpha = a.w / 255.0;
-            int colorAlpha = 255 - b.w;
+            double srcAlpha = a.W / 255.0;
+            int colorAlpha = 255 - b.W;
             double alpha1 = 1 - srcAlpha;
             double denom = srcAlpha + colorAlpha / 255.0 * alpha1;
             if (denom == 0) return a;
 
             double alphaMult = colorAlpha * alpha1;
             return new int4(
-                (int)Math.Round((b.x * alphaMult + a.x * srcAlpha) / denom, MidpointRounding.AwayFromZero),
-                (int)Math.Round((b.y * alphaMult + a.y * srcAlpha) / denom, MidpointRounding.AwayFromZero),
-                (int)Math.Round((b.z * alphaMult + a.z * srcAlpha) / denom, MidpointRounding.AwayFromZero),
-                (int)Math.Round(colorAlpha * alpha1 + a.w, MidpointRounding.AwayFromZero));
+                (int)Math.Round((b.X * alphaMult + a.X * srcAlpha) / denom, MidpointRounding.AwayFromZero),
+                (int)Math.Round((b.Y * alphaMult + a.Y * srcAlpha) / denom, MidpointRounding.AwayFromZero),
+                (int)Math.Round((b.Z * alphaMult + a.Z * srcAlpha) / denom, MidpointRounding.AwayFromZero),
+                (int)Math.Round(colorAlpha * alpha1 + a.W, MidpointRounding.AwayFromZero));
         }
 
 		/// <summary>
@@ -339,13 +339,13 @@ namespace Progrimage.Utils
         /// <param name="target">Target Size</param>
         public static int2 ScaleToFit(int2 size, int2 target, bool scaleUp = true)
         {
-            if (!scaleUp && size.x <= target.x && size.y <= target.y) return size;
+            if (!scaleUp && size.X <= target.X && size.Y <= target.Y) return size;
 
             // Resize
-            double xscale = size.x / (double)target.x;
-            double yscale = size.y / (double)target.y;
-            if (xscale > yscale) return new int2(target.x, (int)Math.Round(size.y / xscale, MidpointRounding.AwayFromZero));
-            else return new int2((int)Math.Round(size.x / yscale, MidpointRounding.AwayFromZero), target.y);
+            double xscale = size.X / (double)target.X;
+            double yscale = size.Y / (double)target.Y;
+            if (xscale > yscale) return new int2(target.X, (int)Math.Round(size.Y / xscale, MidpointRounding.AwayFromZero));
+            else return new int2((int)Math.Round(size.X / yscale, MidpointRounding.AwayFromZero), target.Y);
         }
 
         /// <summary>
@@ -405,16 +405,16 @@ namespace Progrimage.Utils
         {
             if (img is null)
             {
-                img = new(size.x, size.y);
+                img = new(size.X, size.Y);
                 if (color is null) return;
 				img.Mutate(i => i.Clear((Color)color));
 				return;
             }
 
-            if (img.Width != size.x || img.Height != size.y)
+            if (img.Width != size.X || img.Height != size.Y)
             {
                 img.Dispose();
-                img = new(size.x, size.y);
+                img = new(size.X, size.Y);
 				if (color is null) return;
 				img.Mutate(i => i.Clear((Color)color));
 				return;
@@ -452,29 +452,29 @@ namespace Progrimage.Utils
         public static bool Overlaps(this IImageProcessingContext context, int2 pos, int2 size)
         {
             Size contextSize = context.GetCurrentSize();
-            return pos + size > int2.Zero  && pos.x < contextSize.Width && pos.y < contextSize.Height;
+            return pos + size > int2.Zero  && pos.X < contextSize.Width && pos.Y < contextSize.Height;
         }
 
         public static bool Overlaps(this IImageProcessingContext context, int2 pos1, int2 pos2, int2 size)
         {
             Size contextSize = context.GetCurrentSize();
-            return pos1 < pos2 + size && pos2.x < pos1.x + contextSize.Width && pos2.y < pos1.y + contextSize.Height;
+            return pos1 < pos2 + size && pos2.X < pos1.X + contextSize.Width && pos2.Y < pos1.Y + contextSize.Height;
         }
 
         public static bool Overlaps(this IImageProcessingContext context, int2 pos, Image img)
         {
             Size contextSize = context.GetCurrentSize();
-            return pos.x + img.Width > 0 && pos.y + img.Height > 0 && pos.x < contextSize.Width && pos.y < contextSize.Height;
+            return pos.X + img.Width > 0 && pos.Y + img.Height > 0 && pos.X < contextSize.Width && pos.Y < contextSize.Height;
         }
 
         public static bool Overlaps(this Image img, int2 pos, int2 size)
         {
-            return pos + size > int2.Zero  && pos.x < img.Width && pos.y < img.Height;
+            return pos + size > int2.Zero  && pos.X < img.Width && pos.Y < img.Height;
         }
 
         public static bool Overlaps(this Image target, int2 pos, Image img)
         {
-            return pos.x + img.Width > 0 && pos.y + img.Height > 0 && pos.x < target.Width && pos.y < target.Height;
+            return pos.X + img.Width > 0 && pos.Y + img.Height > 0 && pos.X < target.Width && pos.Y < target.Height;
         }
 
         public static void SetMouseCursor() => SetMouseCursor(_currentCusor);
@@ -639,7 +639,7 @@ namespace Progrimage.Utils
         public static void DrawImageSafe(this IImageProcessingContext context, Image img, int2 pos)
         {
             if (!context.Overlaps(pos, img)) return;
-            context.DrawImage(img, new Point(pos.x, pos.y), 1);
+            context.DrawImage(img, new Point(pos.X, pos.Y), 1);
         }
 
         /// <summary>
@@ -656,7 +656,7 @@ namespace Progrimage.Utils
             if (image is null)
             {
                 // Image is null
-                image = new(regionSize.x, regionSize.y);
+                image = new(regionSize.X, regionSize.Y);
                 imagePos = regionPos;
                 imageSize = regionSize;
                 return true;
@@ -828,11 +828,11 @@ namespace Progrimage.Utils
 
         public static int2 Size(this Image img) => new int2(img.Width, img.Height);
 
-        public static Size ToSize(this int2 n) => new Size(n.x, n.y);
+        public static Size ToSize(this int2 n) => new Size(n.X, n.Y);
 
-        public static Point ToPoint(this int2 n) => new Point(n.x, n.y);
+        public static Point ToPoint(this int2 n) => new Point(n.X, n.Y);
 
-        public static PointF ToPointF(this double2 n) => new PointF((float)n.x, (float)n.y);
+        public static PointF ToPointF(this double2 n) => new PointF((float)n.X, (float)n.Y);
 
         public static int2 ToInt2(this Vector2 v) => new int2((int)Math.Round(v.X, MidpointRounding.AwayFromZero), (int)Math.Round(v.Y, MidpointRounding.AwayFromZero));
 

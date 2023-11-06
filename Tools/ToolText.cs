@@ -159,7 +159,7 @@ namespace Progrimage.Tools
                                 {
                                     // Get current x coordinate of cursor
                                     _holdCursorX = true;
-                                    _cursorX = CompText.GetCursorPos(_textPos).x;
+                                    _cursorX = CompText.GetCursorPos(_textPos).X;
                                 }
 
                                 lineNum--;
@@ -167,7 +167,7 @@ namespace Progrimage.Tools
 								_textPos = indexShifted ? -1 : 0;
 								for (int j = 0; j < CompText.LetterBoxes[lineNum].Count; j++)
                                 {
-                                    int dist = Math.Abs(CompText.GetCursorPos(j, true, lineNum).x - _cursorX);
+                                    int dist = Math.Abs(CompText.GetCursorPos(j, true, lineNum).X - _cursorX);
                                     if (dist > minDist) break;
 
                                     minDist = dist;
@@ -190,7 +190,7 @@ namespace Progrimage.Tools
 								{
 									// Get current x coordinate of cursor
 									_holdCursorX = true;
-									_cursorX = CompText.GetCursorPos(_textPos).x;
+									_cursorX = CompText.GetCursorPos(_textPos).X;
 								}
 
 								lineNum++;
@@ -198,7 +198,7 @@ namespace Progrimage.Tools
 								_textPos = indexShifted ? -1 : 0;
 								for (int j = 0; j < CompText.LetterBoxes[lineNum].Count; j++)
 								{
-									int dist = Math.Abs(CompText.GetCursorPos(j, true, lineNum).x - _cursorX);
+									int dist = Math.Abs(CompText.GetCursorPos(j, true, lineNum).X - _cursorX);
 									if (dist > minDist) break;
 
 									minDist = dist;
@@ -412,7 +412,7 @@ namespace Progrimage.Tools
                 if (_overlayShapeSet is not null)
                 {
 					DrawingRect cursor = (DrawingRect)_overlayShapeSet.Shapes[1];
-                    cursor.Size.y = _prevFontSize;
+                    cursor.Size.Y = _prevFontSize;
                     _overlayShapeSet.Shapes[1] = cursor;
 				}
                 _holdCursorX = false;

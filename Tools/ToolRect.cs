@@ -121,9 +121,9 @@ namespace Progrimage.Tools
             if (Program.IsShiftPressed)
             {
                 // Make square
-				if (Math.Abs(pos.x - _corner.x) > Math.Abs(pos.y - _corner.y))
-					pos.y = _corner.y + Math.Abs(pos.x - _corner.x) * Math.Sign(pos.y - _corner.y);
-				else pos.x = _corner.x + Math.Abs(pos.y - _corner.y) * Math.Sign(pos.x - _corner.x);
+				if (Math.Abs(pos.X - _corner.X) > Math.Abs(pos.Y - _corner.Y))
+					pos.Y = _corner.Y + Math.Abs(pos.X - _corner.X) * Math.Sign(pos.Y - _corner.Y);
+				else pos.X = _corner.X + Math.Abs(pos.Y - _corner.Y) * Math.Sign(pos.X - _corner.X);
 			}
 
             int2 min = Math2.Min(pos, _corner);

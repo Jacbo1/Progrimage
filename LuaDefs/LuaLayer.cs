@@ -57,7 +57,7 @@ namespace Progrimage.LuaDefs
 
         public int y
         {
-            get => image.x;
+            get => image.y;
             set => image.y = value;
         }
         #endregion

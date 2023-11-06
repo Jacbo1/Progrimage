@@ -133,7 +133,7 @@ namespace Progrimage.LuaDefs
 		public LuaTable getPixel(LuaTable pos)
 		{
 			int2 ipos = LuaManager.ToInt2(pos);
-			return getPixel(ipos.x, ipos.y);
+			return getPixel(ipos.X, ipos.Y);
 		}
 
 		public void setPixel(int x, int y, LuaTable pixel)
@@ -145,7 +145,7 @@ namespace Progrimage.LuaDefs
 		public void setPixel(LuaTable pos, LuaTable pixel)
 		{
 			int2 ipos = LuaManager.ToInt2(pos);
-			setPixel(ipos.x, ipos.y, pixel);
+			setPixel(ipos.X, ipos.Y, pixel);
 		}
 
 		public LuaImage getSubimage(LuaTable pos, LuaTable size) => new LuaImage(Image.Image?.GetSubimage(LuaManager.ToInt2(pos), LuaManager.ToInt2(size)));
@@ -163,14 +163,14 @@ namespace Progrimage.LuaDefs
 		{
 			double2 dpos = LuaManager.ToDouble2(pos);
 			double2 dsize = LuaManager.ToDouble2(size);
-			expandToContain(dpos.x, dpos.y, dsize.x, dsize.y);
+			expandToContain(dpos.X, dpos.Y, dsize.X, dsize.Y);
 		}
 
 		public void resize(int width, int height) => Image.Mutate(op => op.Resize(width, height));
 		public void resize(LuaTable size)
 		{
 			int2 isize = LuaManager.ToInt2(size);
-			resize(isize.x, isize.y);
+			resize(isize.X, isize.Y);
 		}
 
 		public void resize(int width, int height, string sampler)
@@ -206,7 +206,7 @@ namespace Progrimage.LuaDefs
 		public void resize(LuaTable size, string sampler)
 		{
 			int2 isize = LuaManager.ToInt2(size);
-			resize(isize.x, isize.y, sampler);
+			resize(isize.X, isize.Y, sampler);
 		}
 
 		public void dispose() => Image.Dispose();
@@ -220,7 +220,7 @@ namespace Progrimage.LuaDefs
 		public void drawImage(LuaImage overlay, LuaTable pos, bool expand = false)
 		{
 			int2 ipos = LuaManager.ToInt2(pos);
-			drawImage(overlay, ipos.x, ipos.y, expand);
+			drawImage(overlay, ipos.X, ipos.Y, expand);
 		}
 
 		public void drawImage(LuaImage overlay, int x, int y, bool expand = false)
@@ -236,7 +236,7 @@ namespace Progrimage.LuaDefs
         public void drawReplace(LuaImage overlay, LuaTable pos, bool expand = false)
         {
             int2 ipos = LuaManager.ToInt2(pos);
-            drawReplace(overlay, ipos.x, ipos.y, expand);
+            drawReplace(overlay, ipos.X, ipos.Y, expand);
         }
 
         public void drawReplace(LuaImage overlay, int x, int y, bool expand = false)
@@ -252,7 +252,7 @@ namespace Progrimage.LuaDefs
         public void drawMask(LuaImage overlay, LuaTable pos)
         {
             int2 ipos = LuaManager.ToInt2(pos);
-            drawMask(overlay, ipos.x, ipos.y);
+            drawMask(overlay, ipos.X, ipos.Y);
         }
 
         public void drawMask(LuaImage overlay, int x, int y)
@@ -274,10 +274,10 @@ namespace Progrimage.LuaDefs
 				{
                     ref var pixel = ref row[x];
 
-					pixel.R = (byte)Math.Clamp(pixel.R * col.x / byte.MaxValue, 0, 255);
-					pixel.G = (byte)Math.Clamp(pixel.G * col.y / byte.MaxValue, 0, 255);
-					pixel.B = (byte)Math.Clamp(pixel.B * col.z / byte.MaxValue, 0, 255);
-					pixel.A = (byte)Math.Clamp(pixel.A * col.w / byte.MaxValue, 0, 255);
+					pixel.R = (byte)Math.Clamp(pixel.R * col.X / byte.MaxValue, 0, 255);
+					pixel.G = (byte)Math.Clamp(pixel.G * col.Y / byte.MaxValue, 0, 255);
+					pixel.B = (byte)Math.Clamp(pixel.B * col.Z / byte.MaxValue, 0, 255);
+					pixel.A = (byte)Math.Clamp(pixel.A * col.W / byte.MaxValue, 0, 255);
                 }
 			});
 		}
@@ -288,7 +288,7 @@ namespace Progrimage.LuaDefs
 		{
 			int2 ipos = LuaManager.ToInt2(pos);
 			int2 isize = LuaManager.ToInt2(size);
-			clear(color, ipos.x, ipos.y, isize.x, isize.y);
+			clear(color, ipos.X, ipos.Y, isize.X, isize.Y);
 		}
 		public void clear(LuaTable color) => clear(color, 0, 0, Image.Width, Image.Height);
 		public void clear() => clear(Color.Transparent, 0, 0, Image.Width, Image.Height);
@@ -307,7 +307,7 @@ namespace Progrimage.LuaDefs
 		{
 			double2 startPos = LuaManager.ToDouble2(start);
 			double2 endPos = LuaManager.ToDouble2(end);
-			drawLine(color, thickness, startPos.x, startPos.y, endPos.x, endPos.y);
+			drawLine(color, thickness, startPos.X, startPos.Y, endPos.X, endPos.Y);
 		}
 
 		public void drawRect(LuaTable color, double thickness, double x, double y, double width, double height)
@@ -319,7 +319,7 @@ namespace Progrimage.LuaDefs
 		{
 			double2 dpos = LuaManager.ToDouble2(pos);
 			double2 dsize = LuaManager.ToDouble2(size);
-			drawRect(color, thickness, dpos.x, dpos.y, dsize.x, dsize.y);
+			drawRect(color, thickness, dpos.X, dpos.Y, dsize.X, dsize.Y);
 		}
 
 		public void fillRect(LuaTable color, double x, double y, double width, double height)
@@ -331,7 +331,7 @@ namespace Progrimage.LuaDefs
 		{
 			double2 dpos = LuaManager.ToDouble2(pos);
 			double2 dsize = LuaManager.ToDouble2(size);
-			fillRect(color, dpos.x, dpos.y, dsize.x, dsize.y);
+			fillRect(color, dpos.X, dpos.Y, dsize.X, dsize.Y);
 		}
 
 		public void drawOval(LuaTable color, double thickness, double x, double y, double width, double height)
@@ -343,7 +343,7 @@ namespace Progrimage.LuaDefs
 		{
 			double2 dpos = LuaManager.ToDouble2(pos);
 			double2 dsize = LuaManager.ToDouble2(size);
-			drawOval(color, thickness, dpos.x, dpos.y, dsize.x, dsize.y);
+			drawOval(color, thickness, dpos.X, dpos.Y, dsize.X, dsize.Y);
 		}
 
 		public void fillOval(LuaTable color, double x, double y, double width, double height)
@@ -355,7 +355,7 @@ namespace Progrimage.LuaDefs
 		{
 			double2 dpos = LuaManager.ToDouble2(pos);
 			double2 dsize = LuaManager.ToDouble2(size);
-			fillOval(color, dpos.x, dpos.y, dsize.x, dsize.y);
+			fillOval(color, dpos.X, dpos.Y, dsize.X, dsize.Y);
 		}
 
 		public void drawQuadraticCurve(LuaTable color, double thickness, LuaTable p1, LuaTable p2, LuaTable p3)
@@ -377,7 +377,7 @@ namespace Progrimage.LuaDefs
 			{
 				valEnum.MoveNext();
 				double2 point = LuaManager.ToDouble2((LuaTable)valEnum.Current);
-				pointfs[i] = new PointF((float)point.x, (float)point.y);
+				pointfs[i] = new PointF((float)point.X, (float)point.Y);
 			}
 			Image.Mutate(op => op.DrawPolygon(LuaManager.ToColor(color).ToArgb32(), (float)thickness, pointfs));
 		}
@@ -391,7 +391,7 @@ namespace Progrimage.LuaDefs
 			{
 				valEnum.MoveNext();
 				double2 point = LuaManager.ToDouble2((LuaTable)valEnum.Current);
-				pointfs[i] = new PointF((float)point.x, (float)point.y);
+				pointfs[i] = new PointF((float)point.X, (float)point.Y);
 			}
 			Image.Mutate(op => op.FillPolygon(LuaManager.ToColor(color).ToArgb32(), pointfs));
 		}
@@ -400,7 +400,7 @@ namespace Progrimage.LuaDefs
 		{
 			double2 dcenter = LuaManager.ToDouble2(center);
 			double2 dradius = LuaManager.ToDouble2(radius);
-			Image.Mutate(op => op.Draw(LuaManager.ToColor(color).ToArgb32(), (float)thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)dcenter.x, (float)dcenter.y), new SizeF((float)dradius.x, (float)dradius.y), 0, (float)startAng, (float)angDelta))));
+			Image.Mutate(op => op.Draw(LuaManager.ToColor(color).ToArgb32(), (float)thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)dcenter.X, (float)dcenter.Y), new SizeF((float)dradius.X, (float)dradius.Y), 0, (float)startAng, (float)angDelta))));
 		}
 
 		public void blur()

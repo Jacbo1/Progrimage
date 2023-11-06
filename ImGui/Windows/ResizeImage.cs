@@ -25,8 +25,8 @@ namespace ProgrimageImGui.Windows
 
 			if (!_wasShowing)
 			{
-				_widthInput = Program.ActiveInstance.CanvasSize.x.ToString();
-				_heightInput = Program.ActiveInstance.CanvasSize.y.ToString();
+				_widthInput = Program.ActiveInstance.CanvasSize.X.ToString();
+				_heightInput = Program.ActiveInstance.CanvasSize.Y.ToString();
 			}
 
 			const int TARGET_TEXT_WIDTH = 50;
@@ -60,13 +60,13 @@ namespace ProgrimageImGui.Windows
 				int2 canvasSize = Program.ActiveInstance.CanvasSize;
 				if (oldWidthString != _widthInput && width is not null)
 				{
-					height = (int)Math.Round((int)width / (double)canvasSize.x * canvasSize.y, MidpointRounding.AwayFromZero);
+					height = (int)Math.Round((int)width / (double)canvasSize.X * canvasSize.Y, MidpointRounding.AwayFromZero);
 					_heightInput = ((int)height).ToString();
 				}
 
 				if (oldHeightString != _heightInput && height is not null)
 				{
-					width = (int)Math.Round((int)height / (double)canvasSize.y * canvasSize.x, MidpointRounding.AwayFromZero);
+					width = (int)Math.Round((int)height / (double)canvasSize.Y * canvasSize.X, MidpointRounding.AwayFromZero);
 					_widthInput = ((int)width).ToString();
 				}
 			}
@@ -79,7 +79,7 @@ namespace ProgrimageImGui.Windows
 			{
 				int2 canvasSize = Program.ActiveInstance.CanvasSize;
 				int2 size = (int2)newSize;
-				ImGui.Text($"({canvasSize.x}, {canvasSize.y}) => ({size.x}, {size.y})");
+				ImGui.Text($"({canvasSize.X}, {canvasSize.Y}) => ({size.X}, {size.Y})");
 			}
 			else ImGui.Text("Cannot apply");
 
@@ -106,7 +106,7 @@ namespace ProgrimageImGui.Windows
 					else
 					{
 						// Default scaling
-						layer.Image.Mutate(op => op.Resize(layerSize.x, layerSize.y));
+						layer.Image.Mutate(op => op.Resize(layerSize.X, layerSize.Y));
 					}
 					layer.Pos = Math2.Round(layer.Pos * scale);
 					layer.Changed();

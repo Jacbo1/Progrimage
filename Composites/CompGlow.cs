@@ -26,8 +26,8 @@ namespace Progrimage.Composites
         {
             DisposalDelegate = null;
             _maxIterations = 0;
-            int w = result.Size.x / 2;
-            int h = result.Size.y / 2;
+            int w = result.Size.X / 2;
+            int h = result.Size.Y / 2;
             while (w != 0 && h != 0)
             {
                 _maxIterations++;
@@ -62,7 +62,7 @@ namespace Progrimage.Composites
                     var img = last.Clone();
                     int2 size = sizes[i] / 2;
                     sizes[i + 1] = size;
-                    img.Mutate(x => x.Resize(size.x, size.y, KnownResamplers.Box));
+                    img.Mutate(x => x.Resize(size.X, size.Y, KnownResamplers.Box));
                     images[i] = img;
                     last = img;
 
@@ -78,10 +78,10 @@ namespace Progrimage.Composites
                     Image<Argb32> next = images[Math.Max(i - 1, 0)];
 
                     // Scale up
-                    cur.Mutate(x => x.Resize(nextSize.x, nextSize.y));
+                    cur.Mutate(x => x.Resize(nextSize.X, nextSize.Y));
 
                     // Blur with padding for the blur to extend onto
-                    Image<Argb32> temp = new(nextSizePlusBlur.x, nextSizePlusBlur.y);
+                    Image<Argb32> temp = new(nextSizePlusBlur.X, nextSizePlusBlur.Y);
                     temp.DrawReplace(cur, _blurRadius);
                     temp.Mutate(x => x.GaussianBlur(_blurSigma));
                     cur.Dispose();
@@ -116,8 +116,8 @@ namespace Progrimage.Composites
         {
             // Calculate maximum amount of iterations
             _maxIterations = 0;
-            int w = result.Size.x / 2;
-            int h = result.Size.y / 2;
+            int w = result.Size.X / 2;
+            int h = result.Size.Y / 2;
             while (w != 0 && h != 0)
             {
                 _maxIterations++;

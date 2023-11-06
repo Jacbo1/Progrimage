@@ -88,7 +88,7 @@ namespace Progrimage.Selectors
 				_image?.Dispose();
                 if (_layer.Image.Image is null)
                 {
-                    _image = new Image<Argb32>(size.x, size.y);
+                    _image = new Image<Argb32>(size.X, size.Y);
 
                     if (_drawImageInOverlay && Overlay.Shapes.Count != 0)
                     {
@@ -153,13 +153,13 @@ namespace Progrimage.Selectors
         {
             if (layer.Image.Image is null) return; // No texture
 
-            Rectangle region = new Rectangle(_min.x, _min.y, _max.x - _min.x + 1, _max.y - _min.y + 1);
-            Rectangle bounds = new Rectangle(layer.Pos.x, layer.Pos.y, layer.Size.x, layer.Size.y);
+            Rectangle region = new Rectangle(_min.X, _min.Y, _max.X - _min.X + 1, _max.Y - _min.Y + 1);
+            Rectangle bounds = new Rectangle(layer.Pos.X, layer.Pos.Y, layer.Size.X, layer.Size.Y);
 
             if (!region.IntersectsWith(bounds)) return; // Layer does not overlap with selection
 
             region = Util.Clamp(region, bounds);
-            region.Offset(-layer.Pos.x, -layer.Pos.y);
+            region.Offset(-layer.Pos.X, -layer.Pos.Y);
 
             // Draw the Layer selection to _image
             layer.Image.Mutate(i => i.Clear(Color.Transparent, region));

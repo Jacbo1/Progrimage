@@ -106,7 +106,7 @@ namespace Progrimage.Tools
 			{
 				// Sample image
 				int2 relative = pos - sampleImage.Pos;
-				baseColor = sampleImage.Image[relative.x, relative.y];
+				baseColor = sampleImage.Image[relative.X, relative.Y];
 			}
 
 			double threshold = 260100.0 * _threshold * _threshold;
@@ -167,9 +167,9 @@ namespace Progrimage.Tools
 
 					// Check pixel
 					pos = _checkPoints.Pop();
-					if (_checked[pos.x, pos.y]) continue; // Already checked this point
-					_checked[pos.x, pos.y] = true;
-					Argb32 pixel = sampleImage.Image[pos.x, pos.y];
+					if (_checked[pos.X, pos.Y]) continue; // Already checked this point
+					_checked[pos.X, pos.Y] = true;
+					Argb32 pixel = sampleImage.Image[pos.X, pos.Y];
 					int r = pixel.R - baseColor.R;
 					int g = pixel.G - baseColor.G;
 					int b = pixel.B - baseColor.B;
@@ -178,7 +178,7 @@ namespace Progrimage.Tools
 
 					// Apply change
 					int2 sourcePos = pos + sampleImage.Pos - source.Pos;
-					pixel = source.Image![pos.x, pos.y];
+					pixel = source.Image![pos.X, pos.Y];
 					if (_replacePixels) pixel = color;
 					else if (_erase)
 					{
@@ -191,15 +191,15 @@ namespace Progrimage.Tools
 						pixel = Util.Blend(pixel, color);
 					}
 
-					source.Image![pos.x, pos.y] = pixel;
+					source.Image![pos.X, pos.Y] = pixel;
 
 					if (!_contiguous) continue;
 
 					// Push neighboring pixels
-					if (pos.x > 0) _checkPoints.Push(new int2(pos.x - 1, pos.y));
-                    if (pos.x < xMax) _checkPoints.Push(new int2(pos.x + 1, pos.y));
-                    if (pos.y > 0) _checkPoints.Push(new int2(pos.x, pos.y - 1));
-					if (pos.y < yMax) _checkPoints.Push(new int2(pos.x, pos.y + 1));
+					if (pos.X > 0) _checkPoints.Push(new int2(pos.X - 1, pos.Y));
+                    if (pos.X < xMax) _checkPoints.Push(new int2(pos.X + 1, pos.Y));
+                    if (pos.Y > 0) _checkPoints.Push(new int2(pos.X, pos.Y - 1));
+					if (pos.Y < yMax) _checkPoints.Push(new int2(pos.X, pos.Y + 1));
 				}
 			}
 

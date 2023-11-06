@@ -59,7 +59,7 @@ namespace Progrimage.Tools
 			_toolMarqueSelect = instance.GetTool<ToolMarqueSelect>()!;
 
 			int2 minBound = new int2(int.MaxValue, 0);
-			int2 maxBound = new int2(int.MinValue, Program.ActiveInstance.CanvasSize.y - 1);
+			int2 maxBound = new int2(int.MinValue, Program.ActiveInstance.CanvasSize.Y - 1);
 
 			// Autocrop based on transparency
 			using var img = Program.ActiveInstance.LayerManager.Merge().Image;
@@ -69,43 +69,43 @@ namespace Progrimage.Tools
 				var row = img.DangerousGetPixelRowMemory(y).Span;
 
 				// Get min x
-				for (int x = 0; x < (getY ? img.Width : Math.Min(minBound.x, img.Width)); x++)
+				for (int x = 0; x < (getY ? img.Width : Math.Min(minBound.X, img.Width)); x++)
 				{
 					if (row[x].A == 0) continue;
 
 					if (getY)
 					{
-						minBound.y = y;
+						minBound.Y = y;
 						getY = false;
 					}
-					minBound.x = Math.Min(minBound.x, x);
+					minBound.X = Math.Min(minBound.X, x);
 					break;
 				}
 
 				// Get max x
-				for (int x = img.Width - 1; x > Math.Max(0, maxBound.x); x--)
+				for (int x = img.Width - 1; x > Math.Max(0, maxBound.X); x--)
 				{
 					if (row[x].A == 0) continue;
 
-					maxBound.x = Math.Max(maxBound.x, x);
+					maxBound.X = Math.Max(maxBound.X, x);
 					break;
 				}
 			}
 
 			// Get max y
-			for (int y = img.Height - 1; y >= minBound.y; y--)
+			for (int y = img.Height - 1; y >= minBound.Y; y--)
 			{
 				var row = img.DangerousGetPixelRowMemory(y).Span;
 				for (int x = 0; x < img.Width; x++)
 				{
 					if (row[x].A == 0) continue;
-					maxBound.y = y;
+					maxBound.Y = y;
 					goto MAX_Y_END;
 				}
 			}
 		MAX_Y_END:
 
-			if (minBound.x != int.MaxValue)
+			if (minBound.X != int.MaxValue)
 			{
 				// Auto-cropped
 				bool oldDragging = MainWindow.IsDragging;
@@ -178,22 +178,22 @@ namespace Progrimage.Tools
 
 			var rect = (DrawingRect)_overlay.Shapes[0];
 			rect.Pos = double2.Zero;
-			rect.Size = new double2(selection.Min.x, Program.ActiveInstance.CanvasSize.y);
+			rect.Size = new double2(selection.Min.X, Program.ActiveInstance.CanvasSize.Y);
 			_overlay.Shapes[0] = rect;
 
 			rect = (DrawingRect)_overlay.Shapes[1];
-			rect.Pos = new double2(selection.Max.x + 1, 0);
-			rect.Size = new double2(Program.ActiveInstance.CanvasSize.x - selection.Max.x - 1, Program.ActiveInstance.CanvasSize.y);
+			rect.Pos = new double2(selection.Max.X + 1, 0);
+			rect.Size = new double2(Program.ActiveInstance.CanvasSize.X - selection.Max.X - 1, Program.ActiveInstance.CanvasSize.Y);
 			_overlay.Shapes[1] = rect;
 
 			rect = (DrawingRect)_overlay.Shapes[2];
-			rect.Pos = new double2(selection.Min.x, 0);
-			rect.Size = new double2(selection.Max.x - selection.Min.x + 1, selection.Min.y);
+			rect.Pos = new double2(selection.Min.X, 0);
+			rect.Size = new double2(selection.Max.X - selection.Min.X + 1, selection.Min.Y);
 			_overlay.Shapes[2] = rect;
 
 			rect = (DrawingRect)_overlay.Shapes[3];
-			rect.Pos = new double2(selection.Min.x, selection.Max.y + 1);
-			rect.Size = new double2(selection.Max.x - selection.Min.x + 1, Program.ActiveInstance.CanvasSize.y - selection.Max.y - 1);
+			rect.Pos = new double2(selection.Min.X, selection.Max.Y + 1);
+			rect.Size = new double2(selection.Max.X - selection.Min.X + 1, Program.ActiveInstance.CanvasSize.Y - selection.Max.Y - 1);
 			_overlay.Shapes[3] = rect;
 
 			Program.ActiveInstance.OverlayChanged();

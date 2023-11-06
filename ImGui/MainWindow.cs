@@ -331,7 +331,7 @@ namespace Progrimage
         {
             int2 oldCanvasMin = CanvasMin;
             int2 oldCanvasMax = CanvasMax;
-            CanvasMax.y = Height - 1;
+            CanvasMax.Y = Height - 1;
             JobQueue.UpdateTime();
             Util.SetMouseCursor();
             Queue<Events> eventHandlersTrigged = new();
@@ -435,7 +435,7 @@ namespace Progrimage
             return new TexPair(new Texture2D(GraphicsDevice, width, height, false, format));
         }
 
-        public static TexPair CreateTexture(int2 size, SurfaceFormat format = SurfaceFormat.ColorSRgb) => CreateTexture(size.x, size.y, format);
+        public static TexPair CreateTexture(int2 size, SurfaceFormat format = SurfaceFormat.ColorSRgb) => CreateTexture(size.X, size.Y, format);
 
         #region Private Methods
         private void DrawMenuBar()
@@ -496,7 +496,7 @@ namespace Progrimage
                     layer.Changed();
                     if (Program.ActiveInstance.LayerManager.Layers.Count == 1)
                     {
-                        Program.ActiveInstance.CanvasSize = new int2(Program.ActiveInstance.CanvasSize.y, Program.ActiveInstance.CanvasSize.x);
+                        Program.ActiveInstance.CanvasSize = new int2(Program.ActiveInstance.CanvasSize.Y, Program.ActiveInstance.CanvasSize.X);
                     }
                 }
                 if (ImGui.MenuItem("Rotate Left 90 Degrees", Program.ActiveInstance?.ActiveLayer?.Image?.Image is not null))
@@ -506,7 +506,7 @@ namespace Progrimage
                     layer.Changed();
                     if (Program.ActiveInstance.LayerManager.Layers.Count == 1)
                     {
-                        Program.ActiveInstance.CanvasSize = new int2(Program.ActiveInstance.CanvasSize.y, Program.ActiveInstance.CanvasSize.x);
+                        Program.ActiveInstance.CanvasSize = new int2(Program.ActiveInstance.CanvasSize.Y, Program.ActiveInstance.CanvasSize.X);
                     }
                 }
                 if (ImGui.MenuItem("Rotate 180 Degrees", Program.ActiveInstance?.ActiveLayer?.Image?.Image is not null))
@@ -685,7 +685,7 @@ namespace Progrimage
             // Draw button to create new lua tool
             Draw(Program.ActiveInstance.ToolCreateScript);
 
-            CanvasMin.x = (int)ImGui.GetWindowWidth();
+            CanvasMin.X = (int)ImGui.GetWindowWidth();
 			MouseOverCanvasWindow &= !ImGui.IsWindowHovered();
 			ImGui.EndChild();
 
@@ -720,7 +720,7 @@ namespace Progrimage
                 ImGui.Text(string.Format("Application average {0:F3} ms/frame ({1:F1} FPS)", 1000f / ImGui.GetIO().Framerate, ImGui.GetIO().Framerate));
             }
 
-            CanvasMin.y = _quickBarHeight + (int)ImGui.GetWindowHeight() + 1;
+            CanvasMin.Y = _quickBarHeight + (int)ImGui.GetWindowHeight() + 1;
 			MouseOverCanvasWindow &= !ImGui.IsWindowHovered();
 			ImGui.EndChild();
             ChildBg = childbg;
@@ -864,7 +864,7 @@ namespace Progrimage
             var childbg = ChildBg;
             ChildBg = ColorManager.CustomColorsSRGB[(int)CustomColor.ToolPanel];
 
-            CanvasMax.x = (int)(ImGui.GetWindowWidth() - panelWidth);
+            CanvasMax.X = (int)(ImGui.GetWindowWidth() - panelWidth);
             ImGui.SetNextWindowPos(new Vector2(ImGui.GetWindowWidth() - panelWidth, y));
             ImGui.BeginChild("right panel", new Vector2(panelWidth, height));
 
@@ -892,7 +892,7 @@ namespace Progrimage
             //var cellPadding = CellPadding;
             //CellPadding.Y = 100;
 
-            float thumbnailWidth = (float)(LayerThumbnailSize.x * _uiScale);
+            float thumbnailWidth = (float)(LayerThumbnailSize.X * _uiScale);
             float halfThumbnailWidth = thumbnailWidth * 0.5f;
             ImGui.BeginChild("layer list");
 
@@ -900,7 +900,7 @@ namespace Progrimage
             if (ImGui.ImageButton("add layer", AddIcon.Ptr, Defs.LayerButtonSize))
                 Program.ActiveInstance.CreateLayer(); // Clicked
 
-            Vector2 itemSize = new Vector2(ImGui.GetWindowWidth(), LayerThumbnailSize.y);
+            Vector2 itemSize = new Vector2(ImGui.GetWindowWidth(), LayerThumbnailSize.Y);
 
 			List<Layer> layers = Program.ActiveInstance.LayerManager.Layers;
             for (int i = 0; i < layers.Count; i++)
@@ -1101,7 +1101,7 @@ namespace Progrimage
             float width = (float)(ImGui.GetWindowWidth() - 150 * _uiScale - (30 * _uiScale));
             float height = ImGui.GetFontSize() * 1.5f;
             List<string> strings = new List<string>();
-            strings.Add($"Cursor Pos: ({MousePosCanvas.x}x, {MousePosCanvas.y}y)");
+            strings.Add($"Cursor Pos: ({MousePosCanvas.X}x, {MousePosCanvas.Y}y)");
             if (Program.ActiveInstance.ActiveLayer is not null)
             {
                 Layer layer = Program.ActiveInstance.ActiveLayer;
@@ -1111,7 +1111,7 @@ namespace Progrimage
             if (Program.ActiveInstance.Selection is not null)
             {
                 var selection = Program.ActiveInstance.Selection;
-				strings.Add($"Selection: [({selection.Pos.x}x, {selection.Pos.y}y) ({selection.Max.x - selection.Min.x + 1}w, {selection.Max.y - selection.Min.y + 1}h)]");
+				strings.Add($"Selection: [({selection.Pos.X}x, {selection.Pos.Y}y) ({selection.Max.X - selection.Min.X + 1}w, {selection.Max.Y - selection.Min.Y + 1}h)]");
 			}
 
 			foreach (var interactable in Program.ActiveInstance.GetInteractables())
@@ -1160,7 +1160,7 @@ namespace Progrimage
                 const float FONT_SIZE = ITEM_HEIGHT * 0.5f;
                 const float ITEM_CENTER = ITEM_HEIGHT * 0.5f;
                 const float TEXT_X = 5;
-				Rectangle spacerRect = new Rectangle(0, 0, selectorSize.x, ITEM_SPACING);
+				Rectangle spacerRect = new Rectangle(0, 0, selectorSize.X, ITEM_SPACING);
 
 				var separatorColor = new IS.Color(ColorManager.CustomColorsRGB[(int)CustomColor.FontPickerSeparator]);
 				var textColor = new IS.Color(ColorManager.CustomColorsRGB[(int)CustomColor.FontPickerText]);
@@ -1168,14 +1168,14 @@ namespace Progrimage
 				for (int i = _fontPickerScroll / (ITEM_HEIGHT + ITEM_SPACING); i < families.Length; i++)
                 {
                     int y = (ITEM_HEIGHT + ITEM_SPACING) * i - _fontPickerScroll;
-                    if (y >= selectorSize.y) break;
+                    if (y >= selectorSize.Y) break;
 
                     FontFamily family = families[i];
 
-					if (mousePos.x >= 0 && mousePos.x < selectorSize.x && mousePos.y >= y && mousePos.y < y + ITEM_HEIGHT)
+					if (mousePos.X >= 0 && mousePos.X < selectorSize.X && mousePos.Y >= y && mousePos.Y < y + ITEM_HEIGHT)
 					{
 						// Hovering item;
-						op.Fill(new IS.Color(ColorManager.CustomColorsRGB[(int)CustomColor.FontPickerHover]), new Rectangle(0, y, selectorSize.x, ITEM_HEIGHT));
+						op.Fill(new IS.Color(ColorManager.CustomColorsRGB[(int)CustomColor.FontPickerHover]), new Rectangle(0, y, selectorSize.X, ITEM_HEIGHT));
 
 						if (ImGui.IsMouseClicked(ImGuiMouseButton.Left))
 						{
@@ -1200,7 +1200,7 @@ namespace Progrimage
 			Util.DrawImageToTexture2D(_fontPickerTexture!, _fontPickerImage!);
             ImGui.Image(_fontPickerTexture, selectorSize);
 
-            if (ImGui.IsItemHovered()) _fontPickerScroll = Math.Clamp(_fontPickerScroll - (int)IO.MouseWheel * 35, 0, (families.Length - 1) * (ITEM_HEIGHT + ITEM_SPACING) + ITEM_HEIGHT - selectorSize.y);
+            if (ImGui.IsItemHovered()) _fontPickerScroll = Math.Clamp(_fontPickerScroll - (int)IO.MouseWheel * 35, 0, (families.Length - 1) * (ITEM_HEIGHT + ITEM_SPACING) + ITEM_HEIGHT - selectorSize.Y);
 		}
 
         private static void DrawCreateLuaCompositePopup()

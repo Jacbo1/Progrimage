@@ -24,7 +24,7 @@ namespace Progrimage.DrawingShapes
 
         public Rectangle GetBounds()
         {
-            return new Rectangle((int)Pos.x, (int)Pos.y, Image.Width, Image.Height);
+            return new Rectangle((int)Pos.X, (int)Pos.Y, Image.Width, Image.Height);
         }
 
         public int2 GetSize()
@@ -37,7 +37,7 @@ namespace Progrimage.DrawingShapes
             int2 pos = Util.CanvasToRender(Pos);
             int2 size = Math2.Max(1, Util.CanvasToRender(Pos + new int2(Image.Width, Image.Height)) - pos);
             using var temp = Image.Clone();
-            temp.Mutate(op => op.Resize(size.x, size.y));
+            temp.Mutate(op => op.Resize(size.X, size.Y));
             context.DrawImageSafe(temp, pos);
         }
     }

@@ -113,23 +113,23 @@ namespace Progrimage.Tools
             {
                 case ResizeDir.Up:
                     // Drag top middle
-                    selection.Min = new int2(selection.Min.x, Math.Min(_resizeStartMax.y, mousePos.y));
-                    selection.Max = new int2(selection.Max.x, Math.Max(_resizeStartMax.y, mousePos.y));
+                    selection.Min = new int2(selection.Min.X, Math.Min(_resizeStartMax.Y, mousePos.Y));
+                    selection.Max = new int2(selection.Max.X, Math.Max(_resizeStartMax.Y, mousePos.Y));
                     break;
                 case ResizeDir.Down:
                     // Drag bottom middle
-                    selection.Min = new int2(selection.Min.x, Math.Min(_resizeStartMin.y, mousePos.y));
-                    selection.Max = new int2(selection.Max.x, Math.Max(_resizeStartMin.y, mousePos.y));
+                    selection.Min = new int2(selection.Min.X, Math.Min(_resizeStartMin.Y, mousePos.Y));
+                    selection.Max = new int2(selection.Max.X, Math.Max(_resizeStartMin.Y, mousePos.Y));
                     break;
                 case ResizeDir.Left:
                     // Drag left middle
-                    selection.Min = new int2(Math.Min(_resizeStartMax.x, mousePos.x), selection.Min.y);
-                    selection.Max = new int2(Math.Max(_resizeStartMax.x, mousePos.x), selection.Max.y);
+                    selection.Min = new int2(Math.Min(_resizeStartMax.X, mousePos.X), selection.Min.Y);
+                    selection.Max = new int2(Math.Max(_resizeStartMax.X, mousePos.X), selection.Max.Y);
                     break;
                 case ResizeDir.Right:
                     // Drag right middle
-                    selection.Min = new int2(Math.Min(_resizeStartMin.x, mousePos.x), selection.Min.y);
-                    selection.Max = new int2(Math.Max(_resizeStartMin.x, mousePos.x), selection.Max.y);
+                    selection.Min = new int2(Math.Min(_resizeStartMin.X, mousePos.X), selection.Min.Y);
+                    selection.Max = new int2(Math.Max(_resizeStartMin.X, mousePos.X), selection.Max.Y);
                     break;
                 case ResizeDir.UpLeft:
                     // Drag top left
@@ -138,13 +138,13 @@ namespace Progrimage.Tools
                     break;
                 case ResizeDir.UpRight:
                     // Drag top right
-                    selection.Min = new int2(Math.Min(_resizeStartMin.x, mousePos.x), Math.Min(_resizeStartMax.y, mousePos.y));
-                    selection.Max = new int2(Math.Max(_resizeStartMin.x, mousePos.x), Math.Max(_resizeStartMax.y, mousePos.y));
+                    selection.Min = new int2(Math.Min(_resizeStartMin.X, mousePos.X), Math.Min(_resizeStartMax.Y, mousePos.Y));
+                    selection.Max = new int2(Math.Max(_resizeStartMin.X, mousePos.X), Math.Max(_resizeStartMax.Y, mousePos.Y));
                     break;
                 case ResizeDir.DownLeft:
                     // Drag bottom left
-                    selection.Min = new int2(Math.Min(_resizeStartMax.x, mousePos.x), Math.Min(_resizeStartMin.y, mousePos.y));
-                    selection.Max = new int2(Math.Max(_resizeStartMax.x, mousePos.x), Math.Max(_resizeStartMin.y, mousePos.y));
+                    selection.Min = new int2(Math.Min(_resizeStartMax.X, mousePos.X), Math.Min(_resizeStartMin.Y, mousePos.Y));
+                    selection.Max = new int2(Math.Max(_resizeStartMax.X, mousePos.X), Math.Max(_resizeStartMin.Y, mousePos.Y));
                     break;
                 case ResizeDir.DownRight:
                     // Drag bottom right

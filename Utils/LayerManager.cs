@@ -58,8 +58,8 @@ namespace Progrimage.Utils
             return image;
         }
 
-        public PositionedImage<Argb32> Merge() => Merge(Layers, 0, 0, _instance.CanvasSize.x, _instance.CanvasSize.y);
-        public PositionedImage<Argb32> Merge(int2 pos, int2 size) => Merge(Layers, pos.x, pos.y, size.x, size.y);
+        public PositionedImage<Argb32> Merge() => Merge(Layers, 0, 0, _instance.CanvasSize.X, _instance.CanvasSize.Y);
+        public PositionedImage<Argb32> Merge(int2 pos, int2 size) => Merge(Layers, pos.X, pos.Y, size.X, size.Y);
 
         public void DrawTexture2D(Xna.Texture2D tex, Image<Rgb24> background, List<Layer>? layers = null)
         {

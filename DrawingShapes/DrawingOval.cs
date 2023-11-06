@@ -59,13 +59,13 @@ namespace Progrimage.DrawingShapes
         /// <param name="context"></param>
         public void Draw(IImageProcessingContext context)
         {
-            float centerx = (float)(Pos.x + Size.x * 0.5);
-            float centery = (float)(Pos.y + Size.y * 0.5);
+            float centerx = (float)(Pos.X + Size.X * 0.5);
+            float centery = (float)(Pos.Y + Size.Y * 0.5);
 
             if (Fill)
             {
                 // Filled oval
-                context.Fill(Color, new EllipsePolygon(centerx, centery, (float)Size.x, (float)Size.y));
+                context.Fill(Color, new EllipsePolygon(centerx, centery, (float)Size.X, (float)Size.Y));
                 return;
             }
 
@@ -73,13 +73,13 @@ namespace Progrimage.DrawingShapes
             if (ExtendInwards)
             {
                 // Extend inwards so the outline doesn't make it bigger
-                if (Size.x - Thickness >= 1 && Size.y - Thickness >= 1)
-                    context.Draw(Color, (float)Thickness, new EllipsePolygon(centerx, centery, (float)(Size.x - Thickness), (float)(Size.y - Thickness)));
+                if (Size.X - Thickness >= 1 && Size.Y - Thickness >= 1)
+                    context.Draw(Color, (float)Thickness, new EllipsePolygon(centerx, centery, (float)(Size.X - Thickness), (float)(Size.Y - Thickness)));
                 return;
             }
 
             // Extend outwards so the outline makes it bigger
-            context.Draw(Color, (float)Thickness, new EllipsePolygon(centerx, centery, (float)Size.x, (float)Size.y));
+            context.Draw(Color, (float)Thickness, new EllipsePolygon(centerx, centery, (float)Size.X, (float)Size.Y));
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Progrimage.DrawingShapes
         /// <returns></returns>
         public Rectangle GetBounds()
         {
-            return (Fill || ExtendInwards) ? new Rectangle((int)Pos.x, (int)Pos.y, (int)Size.x, (int)Size.y) : new Rectangle((int)(Pos.x - Thickness), (int)(Pos.y - Thickness), (int)(Size.x + Thickness * 2), (int)(Size.y + Thickness * 2));
+            return (Fill || ExtendInwards) ? new Rectangle((int)Pos.X, (int)Pos.Y, (int)Size.X, (int)Size.Y) : new Rectangle((int)(Pos.X - Thickness), (int)(Pos.Y - Thickness), (int)(Size.X + Thickness * 2), (int)(Size.Y + Thickness * 2));
         }
 
         /// <summary>
@@ -104,13 +104,13 @@ namespace Progrimage.DrawingShapes
         {
             double2 pos = Util.CanvasToRenderDouble(Pos);
             double2 size = Size * Program.ActiveInstance.Zoom;
-            float centerx = (float)(pos.x + size.x * 0.5);
-            float centery = (float)(pos.y + size.y * 0.5);
+            float centerx = (float)(pos.X + size.X * 0.5);
+            float centery = (float)(pos.Y + size.Y * 0.5);
 
             if (Fill)
             {
                 // Filled oval
-                context.Fill(Color, new EllipsePolygon(centerx, centery, (float)size.x, (float)size.y));
+                context.Fill(Color, new EllipsePolygon(centerx, centery, (float)size.X, (float)size.Y));
                 return;
             }
 
@@ -120,13 +120,13 @@ namespace Progrimage.DrawingShapes
             if (ExtendInwards)
             {
                 // Extend inwards so the outline doesn't make it bigger
-                if (size.x - thickness >= 1 && size.y - thickness >= 1)
-                    context.Draw(Color, thickness, new EllipsePolygon(centerx, centery, (float)(size.x - thickness), (float)(size.y - thickness)));
+                if (size.X - thickness >= 1 && size.Y - thickness >= 1)
+                    context.Draw(Color, thickness, new EllipsePolygon(centerx, centery, (float)(size.X - thickness), (float)(size.Y - thickness)));
                 return;
             }
 
             // Extend outwards so the outline makes it bigger
-            context.Draw(Color, thickness, new EllipsePolygon(centerx, centery, (float)size.x, (float)size.y));
+            context.Draw(Color, thickness, new EllipsePolygon(centerx, centery, (float)size.X, (float)size.Y));
         }
     }
 }

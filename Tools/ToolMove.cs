@@ -75,7 +75,7 @@ namespace Progrimage.Tools
                     switch (_resizeDir)
                     {
                         case ResizeDir.DownLeft:
-                        case ResizeDir.UpRight: dir.x = -dir.x; break;
+                        case ResizeDir.UpRight: dir.X = -dir.X; break;
                         case ResizeDir.DownRight:
                         case ResizeDir.UpLeft: break;
                         default: skip = true; break;
@@ -100,11 +100,11 @@ namespace Progrimage.Tools
                 int2 lastMousePos = MainWindow.LastMousePosCanvas;
                 if (Program.IsShiftPressed)
                 {
-                    if (Math.Abs(pos.x - _mouseDownPos.x) > Math.Abs(pos.y - _mouseDownPos.y)) pos.y = _mouseDownPos.y;
-                    else pos.x = _mouseDownPos.x;
+                    if (Math.Abs(pos.X - _mouseDownPos.X) > Math.Abs(pos.Y - _mouseDownPos.Y)) pos.Y = _mouseDownPos.Y;
+                    else pos.X = _mouseDownPos.X;
 
-                    if (Math.Abs(lastMousePos.x - _mouseDownPos.x) > Math.Abs(lastMousePos.y - _mouseDownPos.y)) lastMousePos.y = _mouseDownPos.y;
-                    else lastMousePos.x = _mouseDownPos.x;
+                    if (Math.Abs(lastMousePos.X - _mouseDownPos.X) > Math.Abs(lastMousePos.Y - _mouseDownPos.Y)) lastMousePos.Y = _mouseDownPos.Y;
+                    else lastMousePos.X = _mouseDownPos.X;
                 }
 
                 if (_movingSelection)
@@ -153,9 +153,9 @@ namespace Progrimage.Tools
                 switch (_resizeDir)
                 {
                     case ResizeDir.DownRight: _mouseDownPos = selection.Min; break;
-                    case ResizeDir.DownLeft: _mouseDownPos = new int2(selection.Max.x, selection.Min.y); break;
+                    case ResizeDir.DownLeft: _mouseDownPos = new int2(selection.Max.X, selection.Min.Y); break;
                     case ResizeDir.UpLeft: _mouseDownPos = selection.Max; break;
-                    case ResizeDir.UpRight: _mouseDownPos = new int2(selection.Min.x, selection.Max.y); break;
+                    case ResizeDir.UpRight: _mouseDownPos = new int2(selection.Min.X, selection.Max.Y); break;
                 }
 
                 _resizeStartMin = selection.Min;
@@ -237,9 +237,9 @@ namespace Progrimage.Tools
         public string[] DrawBottomBar()
         {
             if (!_moving) return new string[] { };
-            if (_movingSelection) return new[] { $"Move: ({Program.ActiveInstance.Selection!.Pos.x}x, {Program.ActiveInstance.Selection!.Pos.y}y)" };
+            if (_movingSelection) return new[] { $"Move: ({Program.ActiveInstance.Selection!.Pos.X}x, {Program.ActiveInstance.Selection!.Pos.Y}y)" };
             if (Program.ActiveInstance.ActiveLayer is null) return new string[] { };
-            return new[] { $"Move: ({Program.ActiveInstance.ActiveLayer.Pos.x}x, {Program.ActiveInstance.ActiveLayer.Pos.y}y)" };
+            return new[] { $"Move: ({Program.ActiveInstance.ActiveLayer.Pos.X}x, {Program.ActiveInstance.ActiveLayer.Pos.Y}y)" };
         }
 
         public void PreSelectionChanged()
@@ -276,53 +276,53 @@ namespace Progrimage.Tools
             {
                 case ResizeDir.Up:
                     // Drag top middle
-                    _resizeFlipV = (mousePos.y > _resizeStartMax.y) ^ _prevResizeFlipV;
-                    selection.Min = new int2(selection.Min.x, Math.Min(_resizeStartMax.y, mousePos.y));
-                    selection.Max = new int2(selection.Max.x, Math.Max(_resizeStartMax.y, mousePos.y));
+                    _resizeFlipV = (mousePos.Y > _resizeStartMax.Y) ^ _prevResizeFlipV;
+                    selection.Min = new int2(selection.Min.X, Math.Min(_resizeStartMax.Y, mousePos.Y));
+                    selection.Max = new int2(selection.Max.X, Math.Max(_resizeStartMax.Y, mousePos.Y));
                     break;
                 case ResizeDir.Down:
                     // Drag bottom middle
-                    _resizeFlipV = (mousePos.y < _resizeStartMin.y) ^ _prevResizeFlipV;
-                    selection.Min = new int2(selection.Min.x, Math.Min(_resizeStartMin.y, mousePos.y));
-                    selection.Max = new int2(selection.Max.x, Math.Max(_resizeStartMin.y, mousePos.y));
+                    _resizeFlipV = (mousePos.Y < _resizeStartMin.Y) ^ _prevResizeFlipV;
+                    selection.Min = new int2(selection.Min.X, Math.Min(_resizeStartMin.Y, mousePos.Y));
+                    selection.Max = new int2(selection.Max.X, Math.Max(_resizeStartMin.Y, mousePos.Y));
                     break;
                 case ResizeDir.Left:
                     // Drag left middle
-                    _resizeFlipH = (mousePos.x > _resizeStartMax.x) ^ _prevResizeFlipH;
-                    selection.Min = new int2(Math.Min(_resizeStartMax.x, mousePos.x), selection.Min.y);
-                    selection.Max = new int2(Math.Max(_resizeStartMax.x, mousePos.x), selection.Max.y);
+                    _resizeFlipH = (mousePos.X > _resizeStartMax.X) ^ _prevResizeFlipH;
+                    selection.Min = new int2(Math.Min(_resizeStartMax.X, mousePos.X), selection.Min.Y);
+                    selection.Max = new int2(Math.Max(_resizeStartMax.X, mousePos.X), selection.Max.Y);
                     break;
                 case ResizeDir.Right:
                     // Drag right middle
-                    _resizeFlipH = (mousePos.x < _resizeStartMin.x) ^ _prevResizeFlipH;
-                    selection.Min = new int2(Math.Min(_resizeStartMin.x, mousePos.x), selection.Min.y);
-                    selection.Max = new int2(Math.Max(_resizeStartMin.x, mousePos.x), selection.Max.y);
+                    _resizeFlipH = (mousePos.X < _resizeStartMin.X) ^ _prevResizeFlipH;
+                    selection.Min = new int2(Math.Min(_resizeStartMin.X, mousePos.X), selection.Min.Y);
+                    selection.Max = new int2(Math.Max(_resizeStartMin.X, mousePos.X), selection.Max.Y);
                     break;
                 case ResizeDir.UpLeft:
                     // Drag top left
-                    _resizeFlipH = (mousePos.x > _resizeStartMax.x) ^ _prevResizeFlipH;
-                    _resizeFlipV = (mousePos.y > _resizeStartMax.y) ^ _prevResizeFlipV;
+                    _resizeFlipH = (mousePos.X > _resizeStartMax.X) ^ _prevResizeFlipH;
+                    _resizeFlipV = (mousePos.Y > _resizeStartMax.Y) ^ _prevResizeFlipV;
                     selection.Min = Math2.Min(_resizeStartMax, mousePos);
                     selection.Max = Math2.Max(_resizeStartMax, mousePos);
                     break;
                 case ResizeDir.UpRight:
                     // Drag top right
-                    _resizeFlipH = (mousePos.x < _resizeStartMin.x) ^ _prevResizeFlipH;
-                    _resizeFlipV = (mousePos.y > _resizeStartMax.y) ^ _prevResizeFlipV;
-                    selection.Min = new int2(Math.Min(_resizeStartMin.x, mousePos.x), Math.Min(_resizeStartMax.y, mousePos.y));
-                    selection.Max = new int2(Math.Max(_resizeStartMin.x, mousePos.x), Math.Max(_resizeStartMax.y, mousePos.y));
+                    _resizeFlipH = (mousePos.X < _resizeStartMin.X) ^ _prevResizeFlipH;
+                    _resizeFlipV = (mousePos.Y > _resizeStartMax.Y) ^ _prevResizeFlipV;
+                    selection.Min = new int2(Math.Min(_resizeStartMin.X, mousePos.X), Math.Min(_resizeStartMax.Y, mousePos.Y));
+                    selection.Max = new int2(Math.Max(_resizeStartMin.X, mousePos.X), Math.Max(_resizeStartMax.Y, mousePos.Y));
                     break;
                 case ResizeDir.DownLeft:
                     // Drag bottom left
-                    _resizeFlipH = (mousePos.x > _resizeStartMax.x) ^ _prevResizeFlipH;
-                    _resizeFlipV = (mousePos.y < _resizeStartMin.y) ^ _prevResizeFlipV;
-                    selection.Min = new int2(Math.Min(_resizeStartMax.x, mousePos.x), Math.Min(_resizeStartMin.y, mousePos.y));
-                    selection.Max = new int2(Math.Max(_resizeStartMax.x, mousePos.x), Math.Max(_resizeStartMin.y, mousePos.y));
+                    _resizeFlipH = (mousePos.X > _resizeStartMax.X) ^ _prevResizeFlipH;
+                    _resizeFlipV = (mousePos.Y < _resizeStartMin.Y) ^ _prevResizeFlipV;
+                    selection.Min = new int2(Math.Min(_resizeStartMax.X, mousePos.X), Math.Min(_resizeStartMin.Y, mousePos.Y));
+                    selection.Max = new int2(Math.Max(_resizeStartMax.X, mousePos.X), Math.Max(_resizeStartMin.Y, mousePos.Y));
                     break;
                 case ResizeDir.DownRight:
                     // Drag bottom right
-                    _resizeFlipH = (mousePos.x < _resizeStartMin.x) ^ _prevResizeFlipH;
-                    _resizeFlipV = (mousePos.y < _resizeStartMin.y) ^ _prevResizeFlipV;
+                    _resizeFlipH = (mousePos.X < _resizeStartMin.X) ^ _prevResizeFlipH;
+                    _resizeFlipV = (mousePos.Y < _resizeStartMin.Y) ^ _prevResizeFlipV;
                     selection.Min = Math2.Min(_resizeStartMin, mousePos);
                     selection.Max = Math2.Max(_resizeStartMin, mousePos);
                     break;
@@ -353,7 +353,7 @@ namespace Progrimage.Tools
 
             img.Mutate(i =>
             {
-                i.Resize(size.x, size.y, KnownResamplers.Triangle);
+                i.Resize(size.X, size.Y, KnownResamplers.Triangle);
                 if (_resizeFlipH) i.Flip(FlipMode.Horizontal); // Flip horizontal
                 if (_resizeFlipV) i.Flip(FlipMode.Vertical); // Flip vertical
             });

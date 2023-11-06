@@ -44,10 +44,10 @@ namespace Progrimage.DrawingShapes
 
 		public void Draw(IImageProcessingContext context)
 		{
-			PointF a = new PointF((float)Points[0].x, (float)Points[0].y);
-			PointF b = new PointF((float)Points[1].x, (float)Points[1].y);
-			PointF c = new PointF((float)Points[2].x, (float)Points[2].y);
-			PointF d = new PointF((float)Points[3].x, (float)Points[3].y);
+			PointF a = new PointF((float)Points[0].X, (float)Points[0].Y);
+			PointF b = new PointF((float)Points[1].X, (float)Points[1].Y);
+			PointF c = new PointF((float)Points[2].X, (float)Points[2].Y);
+			PointF d = new PointF((float)Points[3].X, (float)Points[3].Y);
 			context.Draw(Color, Thickness, new PathBuilder().AddCubicBezier(a, b, c, d).Build());
 		}
 
@@ -57,27 +57,27 @@ namespace Progrimage.DrawingShapes
 			double2 p1 = Util.CanvasToRenderDouble(Points[1]);
 			double2 p2 = Util.CanvasToRenderDouble(Points[2]);
 			double2 p3 = Util.CanvasToRenderDouble(Points[3]);
-			PointF a = new PointF((float)p0.x, (float)p0.y);
-			PointF b = new PointF((float)p1.x, (float)p1.y);
-			PointF c = new PointF((float)p2.x, (float)p2.y);
-			PointF d = new PointF((float)p3.x, (float)p3.y);
+			PointF a = new PointF((float)p0.X, (float)p0.Y);
+			PointF b = new PointF((float)p1.X, (float)p1.Y);
+			PointF c = new PointF((float)p2.X, (float)p2.Y);
+			PointF d = new PointF((float)p3.X, (float)p3.Y);
 			context.Draw(Color, Thickness, new PathBuilder().AddCubicBezier(a, b, c, d).Build());
 		}
 
 		public SixLabors.ImageSharp.Rectangle GetBounds()
 		{
 			(int2 pos, int2 size) = GetSizeAndMin();
-			return new SixLabors.ImageSharp.Rectangle(pos.x, pos.y, size.x, size.y);
+			return new SixLabors.ImageSharp.Rectangle(pos.X, pos.Y, size.X, size.Y);
 		}
 
 		public int2 GetSize() => GetSizeAndMin().Item2;
 
 		private (int2, int2) GetSizeAndMin()
 		{
-			PointF a = new PointF((float)Points[0].x, (float)Points[0].y);
-			PointF b = new PointF((float)Points[1].x, (float)Points[1].y);
-			PointF c = new PointF((float)Points[2].x, (float)Points[2].y);
-			PointF d = new PointF((float)Points[3].x, (float)Points[3].y);
+			PointF a = new PointF((float)Points[0].X, (float)Points[0].Y);
+			PointF b = new PointF((float)Points[1].X, (float)Points[1].Y);
+			PointF c = new PointF((float)Points[2].X, (float)Points[2].Y);
+			PointF d = new PointF((float)Points[3].X, (float)Points[3].Y);
 			var bounds = new PathBuilder().AddCubicBezier(a, b, c, d).Build().Bounds;
 
 			int2 min = Math2.FloorToInt(new double2(bounds.X, bounds.Y) - Thickness);

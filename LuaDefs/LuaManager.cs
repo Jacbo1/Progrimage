@@ -205,7 +205,7 @@ namespace Progrimage.LuaDefs
         #region Vector
         public LuaTable CreateVector2(double2 n)
         {
-            return (LuaTable)_createVector2Func?.Call(n.x, n.y)?.First();
+            return (LuaTable)_createVector2Func?.Call(n.X, n.Y)?.First();
 		}
 
         public LuaTable CreateVector2(double x, double y)
@@ -215,7 +215,7 @@ namespace Progrimage.LuaDefs
 
         public LuaTable CreateVector3(double3 n)
         {
-            return (LuaTable)_createVector3Func?.Call(n.x, n.y, n.z)?.First();
+            return (LuaTable)_createVector3Func?.Call(n.X, n.Y, n.Z)?.First();
 		}
 
         public LuaTable CreateVector3(double x, double y, double z)
@@ -225,7 +225,7 @@ namespace Progrimage.LuaDefs
 
         public LuaTable CreateVector4(double4 n)
         {
-            return (LuaTable)_createVector4Func?.Call(n.x, n.y, n.z, n.w)?.First();
+            return (LuaTable)_createVector4Func?.Call(n.X, n.Y, n.Z, n.W)?.First();
 		}
 
         public LuaTable CreateVector4(double x, double y, double z, double w)
@@ -240,24 +240,24 @@ namespace Progrimage.LuaDefs
             if (!values.MoveNext()) return c;
 
             // R
-            c.x = Util.ToDouble(values.Current);
+            c.X = Util.ToDouble(values.Current);
             if (values.MoveNext())
             {
                 // G
-                c.y = Util.ToDouble(values.Current);
+                c.Y = Util.ToDouble(values.Current);
                 if (values.MoveNext())
                 {
                     // B
-                    c.z = Util.ToDouble(values.Current);
-                    c.w = values.MoveNext() ? Util.ToDouble(values.Current) : 255;
+                    c.Z = Util.ToDouble(values.Current);
+                    c.W = values.MoveNext() ? Util.ToDouble(values.Current) : 255;
                 }
-                else c.w = 255; // No B
+                else c.W = 255; // No B
             }
             else
             {
                 // No G
-                c.y = c.z = c.x;
-                c.w = 255;
+                c.Y = c.Z = c.X;
+                c.W = 255;
             }
 
             return c;
@@ -269,9 +269,9 @@ namespace Progrimage.LuaDefs
             var values = vec.Values.GetEnumerator();
             if (!values.MoveNext()) return v; // No X
 
-            v.x = Util.ToDouble(values.Current); // X
-            if (values.MoveNext()) v.y = Util.ToDouble(values.Current); // Y
-            else v.y = v.x; // No Y
+            v.X = Util.ToDouble(values.Current); // X
+            if (values.MoveNext()) v.Y = Util.ToDouble(values.Current); // Y
+            else v.Y = v.X; // No Y
 
             return v;
         }
@@ -282,9 +282,9 @@ namespace Progrimage.LuaDefs
             var values = vec.Values.GetEnumerator();
             if (!values.MoveNext()) return v; // No X
 
-            v.x = Util.ToInt(values.Current); // X
-            if (values.MoveNext()) v.y = Util.ToInt(values.Current); // Y
-            else v.y = v.x; // No Y
+            v.X = Util.ToInt(values.Current); // X
+            if (values.MoveNext()) v.Y = Util.ToInt(values.Current); // Y
+            else v.Y = v.X; // No Y
 
             return v;
         }

@@ -31,9 +31,9 @@ namespace Progrimage.Composites
 				for (int x = 0; x < result.Image.Width; x++)
 				{
 					double3 hsv = RGBtoHSV(row[x]);
-					hsv.x = (hsv.x + H) % 360;
-					hsv.y = Math.Clamp(hsv.y + S, 0, 1);
-					hsv.z = Math.Clamp(hsv.z + V, 0, 1);
+					hsv.X = (hsv.X + H) % 360;
+					hsv.Y = Math.Clamp(hsv.Y + S, 0, 1);
+					hsv.Z = Math.Clamp(hsv.Z + V, 0, 1);
 					row[x] = HSVtoRGB(hsv, row[x].A);
 				}
 			});
@@ -94,10 +94,10 @@ namespace Progrimage.Composites
 
 		private static Argb32 HSVtoRGB(double3 src, byte alpha)
 		{
-			double c = src.z * src.y;
-			double x = c * (1 - Math.Abs((src.x / 60 % 2) - 1));
+			double c = src.Z * src.Y;
+			double x = c * (1 - Math.Abs((src.X / 60 % 2) - 1));
 
-			double3 rgb = Math2.Round(255 * (src.z - c + ((int)(src.x / 60) switch
+			double3 rgb = Math2.Round(255 * (src.Z - c + ((int)(src.X / 60) switch
 			{
 				0 => new double3(c, x, 0),
 				1 => new double3(x, c, 0),
@@ -108,9 +108,9 @@ namespace Progrimage.Composites
 			})));
 
 			return new Argb32(
-					(byte)Math.Clamp(rgb.x, 0, 255),
-					(byte)Math.Clamp(rgb.y, 0, 255),
-					(byte)Math.Clamp(rgb.z, 0, 255),
+					(byte)Math.Clamp(rgb.X, 0, 255),
+					(byte)Math.Clamp(rgb.Y, 0, 255),
+					(byte)Math.Clamp(rgb.Z, 0, 255),
 					alpha);
 		}
 		#endregion

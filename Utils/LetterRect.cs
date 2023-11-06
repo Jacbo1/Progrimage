@@ -14,8 +14,8 @@ namespace Progrimage.Utils
             get => new int2(X, Y);
             set
             {
-                X = value.x;
-                Y = value.y;
+                X = value.X;
+                Y = value.Y;
             }
         }
 
@@ -24,8 +24,8 @@ namespace Progrimage.Utils
             get => new int2(Width, Height);
             set
             {
-                Width = value.x;
-                Height = value.y;
+                Width = value.X;
+                Height = value.Y;
             }
         }
 
@@ -55,8 +55,8 @@ namespace Progrimage.Utils
 
         public LetterRect(int2 pos, int width, int height, int charWidth)
         {
-            X = pos.x;
-            Y = pos.y;
+            X = pos.X;
+            Y = pos.Y;
             Width = width;
             Height = height;
             CenterX = X + Width / 2;
@@ -67,18 +67,18 @@ namespace Progrimage.Utils
         {
             X = x;
             Y = y;
-            Width = size.x;
-            Height = size.y;
+            Width = size.X;
+            Height = size.Y;
             CenterX = X + Width / 2;
             CharWidth = charWidth;
         }
 
         public LetterRect(int2 pos, int2 size, int charWidth)
         {
-            X = pos.x;
-            Y = pos.y;
-            Width = size.x;
-            Height = size.y;
+            X = pos.X;
+            Y = pos.Y;
+            Width = size.X;
+            Height = size.Y;
             CenterX = X + Width / 2;
             CharWidth = charWidth;
         }
@@ -92,12 +92,12 @@ namespace Progrimage.Utils
 
         public bool Contains(int2 pos)
         {
-            return pos.x >= X && pos.y >= Y && pos.x < X + Width && pos.y < Y + Height;
+            return pos.X >= X && pos.Y >= Y && pos.X < X + Width && pos.Y < Y + Height;
         }
 
         public bool OnLeft(int2 pos)
         {
-            return CenterX > pos.x;
+            return CenterX > pos.X;
         }
 
         public bool Overlaps(LetterRect rect)

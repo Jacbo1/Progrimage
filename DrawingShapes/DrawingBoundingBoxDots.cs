@@ -48,13 +48,13 @@ namespace Progrimage.DrawingShapes
                 int2 point = int2.Zero;
                 switch (j)
                 {
-                    case 0: point = new(center.x, min.y); break;
-                    case 1: point = new(center.x, max.y); break;
-                    case 2: point = new(min.x, center.y); break;
-                    case 3: point = new(max.x, center.y); break;
+                    case 0: point = new(center.X, min.Y); break;
+                    case 1: point = new(center.X, max.Y); break;
+                    case 2: point = new(min.X, center.Y); break;
+                    case 3: point = new(max.X, center.Y); break;
                     case 4: point = min; break;
-                    case 5: point = new(max.x, min.y); break;
-                    case 6: point = new(min.x, max.y); break;
+                    case 5: point = new(max.X, min.Y); break;
+                    case 6: point = new(min.X, max.Y); break;
                     case 7: point = max; break;
                 }
 
@@ -67,7 +67,7 @@ namespace Progrimage.DrawingShapes
         public Rectangle GetBounds()
         {
             int2 size = Max - Min + 1;
-            return new Rectangle(Min.x, Min.y, size.x, size.y);
+            return new Rectangle(Min.X, Min.Y, size.X, size.Y);
         }
 
         public int2 GetSize() => Max - Min + 1;
@@ -95,13 +95,13 @@ namespace Progrimage.DrawingShapes
 				int2 point = int2.Zero;
 				switch (i)
 				{
-					case 0: point = new(center.x, min.y); break;
-					case 1: point = new(center.x, max.y); break;
-					case 2: point = new(min.x, center.y); break;
-					case 3: point = new(max.x, center.y); break;
+					case 0: point = new(center.X, min.Y); break;
+					case 1: point = new(center.X, max.Y); break;
+					case 2: point = new(min.X, center.Y); break;
+					case 3: point = new(max.X, center.Y); break;
 					case 4: point = min; break;
-					case 5: point = new(max.x, min.y); break;
-					case 6: point = new(min.x, max.y); break;
+					case 5: point = new(max.X, min.Y); break;
+					case 6: point = new(min.X, max.Y); break;
 					case 7: point = max; break;
 				}
 
@@ -119,17 +119,17 @@ namespace Progrimage.DrawingShapes
 			{
 				// Check edges
 				// Check top and bottom
-				if (MainWindow.MousePosScreen.x >= min.x && MainWindow.MousePosScreen.x <= max.x)
+				if (MainWindow.MousePosScreen.X >= min.X && MainWindow.MousePosScreen.X <= max.X)
 				{
 					// Top
-					if (Math.Abs(MainWindow.MousePosScreen.y - min.y) <= Defs.CURSOR_CHANGE_RADIUS)
+					if (Math.Abs(MainWindow.MousePosScreen.Y - min.Y) <= Defs.CURSOR_CHANGE_RADIUS)
 					{
 						closestDir = edgeMoves ? ResizeDir.Move : ResizeDir.Up;
 						goto DIR_FOUND;
 					}
 
 					// Bottom
-					if (Math.Abs(MainWindow.MousePosScreen.y - max.y) <= Defs.CURSOR_CHANGE_RADIUS)
+					if (Math.Abs(MainWindow.MousePosScreen.Y - max.Y) <= Defs.CURSOR_CHANGE_RADIUS)
 					{
 						closestDir = edgeMoves ? ResizeDir.Move : ResizeDir.Down;
 						goto DIR_FOUND;
@@ -137,17 +137,17 @@ namespace Progrimage.DrawingShapes
 				}
 
 				// Check left and right
-				if (MainWindow.MousePosScreen.y >= min.y && MainWindow.MousePosScreen.y <= max.y)
+				if (MainWindow.MousePosScreen.Y >= min.Y && MainWindow.MousePosScreen.Y <= max.Y)
 				{
 					// Left
-					if (Math.Abs(MainWindow.MousePosScreen.x - min.x) <= Defs.CURSOR_CHANGE_RADIUS)
+					if (Math.Abs(MainWindow.MousePosScreen.X - min.X) <= Defs.CURSOR_CHANGE_RADIUS)
 					{
 						closestDir = edgeMoves ? ResizeDir.Move : ResizeDir.Left;
 						goto DIR_FOUND;
 					}
 
 					// Right
-					if (Math.Abs(MainWindow.MousePosScreen.x - max.x) <= Defs.CURSOR_CHANGE_RADIUS)
+					if (Math.Abs(MainWindow.MousePosScreen.X - max.X) <= Defs.CURSOR_CHANGE_RADIUS)
 					{
 						closestDir = edgeMoves ? ResizeDir.Move : ResizeDir.Right;
 						goto DIR_FOUND;
@@ -190,23 +190,23 @@ namespace Progrimage.DrawingShapes
 			{
 				case ResizeDir.Up:
 					// Drag top middle
-					Min = new int2(Min.x, Math.Min(resizeStartMax.y, mousePos.y));
-					Max = new int2(Max.x, Math.Max(resizeStartMax.y, mousePos.y));
+					Min = new int2(Min.X, Math.Min(resizeStartMax.Y, mousePos.Y));
+					Max = new int2(Max.X, Math.Max(resizeStartMax.Y, mousePos.Y));
 					break;
 				case ResizeDir.Down:
 					// Drag bottom middle
-					Min = new int2(Min.x, Math.Min(resizeStartMin.y, mousePos.y));
-					Max = new int2(Max.x, Math.Max(resizeStartMin.y, mousePos.y));
+					Min = new int2(Min.X, Math.Min(resizeStartMin.Y, mousePos.Y));
+					Max = new int2(Max.X, Math.Max(resizeStartMin.Y, mousePos.Y));
 					break;
 				case ResizeDir.Left:
 					// Drag left middle
-					Min = new int2(Math.Min(resizeStartMax.x, mousePos.x), Min.y);
-					Max = new int2(Math.Max(resizeStartMax.x, mousePos.x), Max.y);
+					Min = new int2(Math.Min(resizeStartMax.X, mousePos.X), Min.Y);
+					Max = new int2(Math.Max(resizeStartMax.X, mousePos.X), Max.Y);
 					break;
 				case ResizeDir.Right:
 					// Drag right middle
-					Min = new int2(Math.Min(resizeStartMin.x, mousePos.x), Min.y);
-					Max = new int2(Math.Max(resizeStartMin.x, mousePos.x), Max.y);
+					Min = new int2(Math.Min(resizeStartMin.X, mousePos.X), Min.Y);
+					Max = new int2(Math.Max(resizeStartMin.X, mousePos.X), Max.Y);
 					break;
 				case ResizeDir.UpLeft:
 					// Drag top left
@@ -215,13 +215,13 @@ namespace Progrimage.DrawingShapes
 					break;
 				case ResizeDir.UpRight:
 					// Drag top right
-					Min = new int2(Math.Min(resizeStartMin.x, mousePos.x), Math.Min(resizeStartMax.y, mousePos.y));
-					Max = new int2(Math.Max(resizeStartMin.x, mousePos.x), Math.Max(resizeStartMax.y, mousePos.y));
+					Min = new int2(Math.Min(resizeStartMin.X, mousePos.X), Math.Min(resizeStartMax.Y, mousePos.Y));
+					Max = new int2(Math.Max(resizeStartMin.X, mousePos.X), Math.Max(resizeStartMax.Y, mousePos.Y));
 					break;
 				case ResizeDir.DownLeft:
 					// Drag bottom left
-					Min = new int2(Math.Min(resizeStartMax.x, mousePos.x), Math.Min(resizeStartMin.y, mousePos.y));
-					Max = new int2(Math.Max(resizeStartMax.x, mousePos.x), Math.Max(resizeStartMin.y, mousePos.y));
+					Min = new int2(Math.Min(resizeStartMax.X, mousePos.X), Math.Min(resizeStartMin.Y, mousePos.Y));
+					Max = new int2(Math.Max(resizeStartMax.X, mousePos.X), Math.Max(resizeStartMin.Y, mousePos.Y));
 					break;
 				case ResizeDir.DownRight:
 					// Drag bottom right

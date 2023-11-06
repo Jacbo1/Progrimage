@@ -151,7 +151,7 @@ namespace Progrimage
                 _canvasSize = value;
                 _transparencyBg?.Dispose();
                 _checkerSize = (int)(8 * MainWindow.UIScale);
-				_transparencyBg = Util.GetTransparencyChecker(_canvasSize.x + _checkerSize * 2, _canvasSize.y + _checkerSize * 2, _checkerSize).CloneAs<Argb32>();
+				_transparencyBg = Util.GetTransparencyChecker(_canvasSize.X + _checkerSize * 2, _canvasSize.Y + _checkerSize * 2, _checkerSize).CloneAs<Argb32>();
                 Zoom = _zoom;
 				_changed = true;
             }
@@ -226,7 +226,7 @@ namespace Progrimage
             if (CanvasSize > maxSize)
             {
                 // Set initial zoom
-                double ratio = Math.Min(maxSize.x / (double)CanvasSize.x, maxSize.y / (double)CanvasSize.y);
+                double ratio = Math.Min(maxSize.X / (double)CanvasSize.X, maxSize.Y / (double)CanvasSize.Y);
                 Zoom = ratio * 0.85;
             }
             else Zoom = _zoom;
@@ -321,8 +321,8 @@ namespace Progrimage
                     });
 
                     int2 checkerOffset = Math2.Round(MainWindow.CanvasOrigin / _zoom) % (_checkerSize * 2);
-                    if (checkerOffset.x < 0) checkerOffset.x += _checkerSize * 2;
-                    if (checkerOffset.y < 0) checkerOffset.y += _checkerSize * 2;
+                    if (checkerOffset.X < 0) checkerOffset.X += _checkerSize * 2;
+                    if (checkerOffset.Y < 0) checkerOffset.Y += _checkerSize * 2;
                     _renderedImage?.Dispose();
                     _renderedImage = _transparencyBg.GetSubimage(checkerOffset, _canvasSize);
                     _renderedImage.DrawOver(img, int2.Zero);
@@ -335,7 +335,7 @@ namespace Progrimage
 				int2 pixMaxScaled = max - MainWindow.CanvasOrigin;
                 _renderOffset = pixMinScaled;
                 _renderSize = pixMaxScaled - pixMinScaled + 1;
-                if (_renderSize.x <= 0 || _renderSize.y <= 0)
+                if (_renderSize.X <= 0 || _renderSize.Y <= 0)
                 {
                     tex.Size = 1;
                     offscreen = true;
@@ -382,13 +382,13 @@ namespace Progrimage
                     int2 point = int2.Zero;
                     switch (j)
                     {
-                        case 0: point = new(center.x, min_.y); break;
-                        case 1: point = new(center.x, max_.y); break;
-                        case 2: point = new(min_.x, center.y); break;
-                        case 3: point = new(max_.x, center.y); break;
+                        case 0: point = new(center.X, min_.Y); break;
+                        case 1: point = new(center.X, max_.Y); break;
+                        case 2: point = new(min_.X, center.Y); break;
+                        case 3: point = new(max_.X, center.Y); break;
                         case 4: point = min_; break;
-                        case 5: point = new(max_.x, min_.y); break;
-                        case 6: point = new(min_.x, max_.y); break;
+                        case 5: point = new(max_.X, min_.Y); break;
+                        case 6: point = new(min_.X, max_.Y); break;
                         case 7: point = max_; break;
                     }
 
@@ -419,7 +419,7 @@ namespace Progrimage
         public void GetZoomBounds(out double ratio, out double minZoom, out double maxZoom)
         {
             int2 maxSize = Math2.Max(MainWindow.CanvasMax - MainWindow.CanvasMin + 1, 1);
-            ratio = Math.Min(maxSize.x / (double)CanvasSize.x, maxSize.y / (double)CanvasSize.y);
+            ratio = Math.Min(maxSize.X / (double)CanvasSize.X, maxSize.Y / (double)CanvasSize.Y);
             minZoom = Math.Min(1, ratio * 0.1f);
             maxZoom = Math.Max(ratio * 2, 10);
         }
@@ -445,16 +445,16 @@ namespace Progrimage
             }
 
 			RT_pixMin = scaledMin / scale;
-			Image<Argb32> scaledImage = new(croppedSize.x, croppedSize.y);
+			Image<Argb32> scaledImage = new(croppedSize.X, croppedSize.Y);
 			if (_zoom > 1)
             {
                 // Scale up using nearest neighbor
-                Parallel.For(scaledMin.y, scaledMax.y + 1, y =>
+                Parallel.For(scaledMin.Y, scaledMax.Y + 1, y =>
                 {
-                    Span<Argb32> destRow = scaledImage.DangerousGetPixelRowMemory(y - scaledMin.y).Span;
-                    Span<Argb32> srcRow = image.DangerousGetPixelRowMemory((int)(y / scale.y)).Span;
-                    for (int x = scaledMin.x; x <= scaledMax.x; x++)
-                        destRow[x - scaledMin.x] = srcRow[(int)(x / scale.x)];
+                    Span<Argb32> destRow = scaledImage.DangerousGetPixelRowMemory(y - scaledMin.Y).Span;
+                    Span<Argb32> srcRow = image.DangerousGetPixelRowMemory((int)(y / scale.Y)).Span;
+                    for (int x = scaledMin.X; x <= scaledMax.X; x++)
+                        destRow[x - scaledMin.X] = srcRow[(int)(x / scale.X)];
                 });
                 return scaledImage;
             }
@@ -462,26 +462,26 @@ namespace Progrimage
 			// Scale down using modified box sampling
 			double2 boxSize1 = 1 / scale - 1;
 			int2 unscaledSize1 = imageSize - 1;
-			Parallel.For(scaledMin.y, scaledMax.y + 1, y =>
+			Parallel.For(scaledMin.Y, scaledMax.Y + 1, y =>
             {
-                Span<Argb32> destRow = scaledImage.DangerousGetPixelRowMemory(y - scaledMin.y).Span;
-                double yd = y / scale.y; // y in the original image's scale
-                int y1 = Math.Min((int)Math.Floor(yd), unscaledSize1.y); // Top bound floord
+                Span<Argb32> destRow = scaledImage.DangerousGetPixelRowMemory(y - scaledMin.Y).Span;
+                double yd = y / scale.Y; // y in the original image's scale
+                int y1 = Math.Min((int)Math.Floor(yd), unscaledSize1.Y); // Top bound floord
                 double top = yd == y1 ? 1 : (1 - yd + y1); // Top color multiplier
                 Span<Argb32> rowY1 = image.DangerousGetPixelRowMemory(y1).Span;
 
-                double y_2 = yd + boxSize1.y;
-                int y2 = Math.Min((int)Math.Ceiling(y_2), unscaledSize1.y); // Bottom bound ceiled
+                double y_2 = yd + boxSize1.Y;
+                int y2 = Math.Min((int)Math.Ceiling(y_2), unscaledSize1.Y); // Bottom bound ceiled
                 double bottom = y_2 == y2 ? 1 : (1 - y2 + y_2); // Bottom color multiplier
                 int innerHeight = Math.Max(y2 - y1 - 1, 0);
                 Span<Argb32> rowY2 = image.DangerousGetPixelRowMemory(y2).Span;
 
-                for (int x = scaledMin.x; x <= scaledMax.x; x++)
+                for (int x = scaledMin.X; x <= scaledMax.X; x++)
                 {
-                    double xd = x / scale.x; // x in the original image's scale
-                    int x1 = Math.Min((int)Math.Floor(xd), unscaledSize1.x); // Left bound floored
-                    double x_2 = xd + boxSize1.x;
-                    int x2 = Math.Min((int)Math.Ceiling(x_2), unscaledSize1.x); // Right bound ceiled
+                    double xd = x / scale.X; // x in the original image's scale
+                    int x1 = Math.Min((int)Math.Floor(xd), unscaledSize1.X); // Left bound floored
+                    double x_2 = xd + boxSize1.X;
+                    int x2 = Math.Min((int)Math.Ceiling(x_2), unscaledSize1.X); // Right bound ceiled
                     double right = x_2 == x2 ? 1 : (1 - x2 + x_2); // Right color multiplier
                     double left = xd == x1 ? 1 : (1 - xd + x1); // Left color multiplier
 					int innerWidth = Math.Max(x2 - x1 - 1, 0);
@@ -514,7 +514,7 @@ namespace Progrimage
                             image[x2, y_].ToDouble4() * right;
                     }
 
-                    destRow[x - scaledMin.x] = (pixel / (tlMult + trMult + blMult + brMult + innerWidth * (top + bottom) + innerHeight * (left + right) + innerWidth * innerHeight)).ToArgb32();
+                    destRow[x - scaledMin.X] = (pixel / (tlMult + trMult + blMult + brMult + innerWidth * (top + bottom) + innerHeight * (left + right) + innerWidth * innerHeight)).ToArgb32();
                 }
             });
 

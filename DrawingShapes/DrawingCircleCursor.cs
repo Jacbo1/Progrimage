@@ -42,10 +42,10 @@ namespace Progrimage.DrawingShapes
 
 			if (!Util.Overlaps(context, min, isize)) return; // Does not overlap
 
-			using var tempImage = new Image<L8>(isize.x, isize.y);
-			if (size.x - THICKNESS <= 0 || size.y - THICKNESS <= 0)
-				tempImage.Mutate(op => op.Draw(Color.White, THICKNESS, new EllipsePolygon((float)(pos.x - min.x), (float)(pos.y - min.y), (float)size.x, (float)size.y)));
-			else tempImage.Mutate(op => op.Draw(Color.White, THICKNESS, new EllipsePolygon((float)(pos.x - min.x), (float)(pos.y - min.y), (float)(size.x - THICKNESS), (float)(size.y - THICKNESS))));
+			using var tempImage = new Image<L8>(isize.X, isize.Y);
+			if (size.X - THICKNESS <= 0 || size.Y - THICKNESS <= 0)
+				tempImage.Mutate(op => op.Draw(Color.White, THICKNESS, new EllipsePolygon((float)(pos.X - min.X), (float)(pos.Y - min.Y), (float)size.X, (float)size.Y)));
+			else tempImage.Mutate(op => op.Draw(Color.White, THICKNESS, new EllipsePolygon((float)(pos.X - min.X), (float)(pos.Y - min.Y), (float)(size.X - THICKNESS), (float)(size.Y - THICKNESS))));
 
 			int2 imageSize = new int2(image.Width, image.Height);
 			int2 imageOffset = Math2.Max(-min, 0);
@@ -53,18 +53,18 @@ namespace Progrimage.DrawingShapes
 			int2 overlapMin = Math2.Max(min, 0);
 			int2 overlapMax = Math2.Min(max, imageSize - 1);
 			int2 overlapSize = overlapMax - overlapMin + 1;
-			for (int y = 0; y < overlapSize.y; y++)
+			for (int y = 0; y < overlapSize.Y; y++)
 			{
-				var imageRow = image.DangerousGetPixelRowMemory(y + strokeOffset.y).Span;
-				var tempRow = tempImage.DangerousGetPixelRowMemory(y + imageOffset.y).Span;
+				var imageRow = image.DangerousGetPixelRowMemory(y + strokeOffset.Y).Span;
+				var tempRow = tempImage.DangerousGetPixelRowMemory(y + imageOffset.Y).Span;
 
-				for (int x = 0; x < overlapSize.x; x++)
+				for (int x = 0; x < overlapSize.X; x++)
 				{
-					if (tempRow[x + imageOffset.x].PackedValue == 0) continue;
+					if (tempRow[x + imageOffset.X].PackedValue == 0) continue;
 					const float BRIGHTNESS = 255 * 0.25f;
-					float lerp = tempRow[x + imageOffset.x].PackedValue / 255f;
+					float lerp = tempRow[x + imageOffset.X].PackedValue / 255f;
 					float ilerp = 1 - lerp;
-					ref var pixel = ref imageRow[x + strokeOffset.x];
+					ref var pixel = ref imageRow[x + strokeOffset.X];
 					pixel.R = (byte)Math.Min(Math.Round(pixel.R * ilerp + (255 - pixel.R + BRIGHTNESS) * lerp), 255);
 					pixel.G = (byte)Math.Min(Math.Round(pixel.G * ilerp + (255 - pixel.G + BRIGHTNESS) * lerp), 255);
 					pixel.B = (byte)Math.Min(Math.Round(pixel.B * ilerp + (255 - pixel.B + BRIGHTNESS) * lerp), 255);

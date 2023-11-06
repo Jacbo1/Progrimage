@@ -29,7 +29,7 @@ namespace Progrimage.DrawingShapes
 			int2 min = Math2.FloorToInt(Pos - size);
 			int2 max = Math2.CeilingToInt(Pos + size);
 			size = max - min + 1;
-			return new Rectangle(min.x, min.y, size.x, size.y);
+			return new Rectangle(min.X, min.Y, size.X, size.Y);
 		}
 
 		public int2 GetSize()

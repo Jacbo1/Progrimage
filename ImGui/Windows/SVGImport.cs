@@ -80,7 +80,7 @@ namespace ProgrimageImGui.Windows
 			if (valid)
 			{
 				int2 size = (int2)newSize;
-				ImGui.Text($"({_svgWidth}x{_svgHeight}) => ({size.x}x{size.y})");
+				ImGui.Text($"({_svgWidth}x{_svgHeight}) => ({size.X}x{size.Y})");
 			}
 			else ImGui.Text("Cannot apply");
 
@@ -91,7 +91,7 @@ namespace ProgrimageImGui.Windows
 			if (ImGui.Button("Import", new Vector2(windowWidth * 0.5f, itemHeight)) && newSize is not null)
 			{
 				int2 size = (int2)newSize;
-				using Bitmap? bmp = Util.LoadSVG(_path, size.x, size.y, false);
+				using Bitmap? bmp = Util.LoadSVG(_path, size.X, size.Y, false);
 				if (bmp != null)
 				{
 					Console.WriteLine("a");
@@ -106,7 +106,7 @@ namespace ProgrimageImGui.Windows
 			if (ImGui.Button("Cancel", new Vector2(windowWidth * 0.5f, itemHeight)))
 				Show = false;
 
-			ImGui.Indent((ImGui.GetWindowWidth() - _texture.Size.x) / 2);
+			ImGui.Indent((ImGui.GetWindowWidth() - _texture.Size.X) / 2);
 			ImGui.Image(_texture, _texture.Size);
 
 			mouseOverCanvasWindow &= !ImGui.IsWindowHovered();
@@ -131,7 +131,7 @@ namespace ProgrimageImGui.Windows
 			_hasThumbnail = true;
 
 			// Draw bitmap to texture
-			Color[] pixels = new Color[_texture.Size.x * _texture.Size.y];
+			Color[] pixels = new Color[_texture.Size.X * _texture.Size.Y];
 			LockedBitmap bitmap = new LockedBitmap(image);
 			using LockedBitmap opaque = new LockedBitmap(image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 

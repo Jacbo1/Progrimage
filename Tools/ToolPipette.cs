@@ -40,8 +40,8 @@ namespace Progrimage.Tools
 			if (_sampleAllLayers)
 			{
 				Image<Argb32> image = instance.RenderToImage();
-				if (mousePos.x < 0 || mousePos.y < 0 || mousePos.x >= image.Width || mousePos.y >= image.Height) return;
-				color = image[mousePos.x, mousePos.y];
+				if (mousePos.X < 0 || mousePos.Y < 0 || mousePos.X >= image.Width || mousePos.Y >= image.Height) return;
+				color = image[mousePos.X, mousePos.Y];
 				image.Dispose();
 			}
 			else
@@ -50,8 +50,8 @@ namespace Progrimage.Tools
 				Layer layer = instance.ActiveLayer;
 				Image<Argb32> image = layer.Image.Image!;
 				mousePos -= layer.Pos;
-				if (mousePos.x < 0 || mousePos.y < 0 || mousePos.x >= image.Width || mousePos.y >= image.Height) color = new Argb32(0, 0, 0, 0);
-				else color = image[mousePos.x, mousePos.y];
+				if (mousePos.X < 0 || mousePos.Y < 0 || mousePos.X >= image.Width || mousePos.Y >= image.Height) color = new Argb32(0, 0, 0, 0);
+				else color = image[mousePos.X, mousePos.Y];
 			}
 
 			ColorPicker.PushColorToPalette("tool", color);
