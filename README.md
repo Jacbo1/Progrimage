@@ -37,6 +37,7 @@ The main feature of this image editor is the ability for users to easily create 
     * When resizing a selected area, holding shift maintains aspect ratio
 
 **Non-key controls**
+* Middle mouse button - hold and drag mouse to pan.
 * Mouse scroll - Zoom in and out of the canvas centered on the cursor.
 * Marquee selections can be resized by dragging at any point on the edge, not just the dots while the marquee selection tool is active.
   * When cropping, the crop tool must be active.
