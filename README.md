@@ -11,7 +11,6 @@ The main feature of this image editor is the ability for users to easily create 
 
 **Note:** ImGui.NET switches between using sRGB and RGB depending on hardware conditions. There is no way to detect or fix this in this program. This means that some UI colors (the canvas is unaffected) may or may not be very dark. This can be fixed by editing the theme.
   
-**NOTE: This is an early unfinished build. There is an issue where under some conditions or on some computers the entire interface be black except for text and icons. This is suspected to be an issue with ImGui.NET or DesktopGL. Tests were done and the proper colors are being sent to ImGui.NET but are displayed as black. If the canvas is not black on startup, the program is still usable and theme colors can seemingly be reselected and saved without issue.**  
 Some (or a lot) of the code also needs refactoring to make it look better.  
 
 [Demo video](https://www.youtube.com/watch?v=uSaQBk6_q1U)  
