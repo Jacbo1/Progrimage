@@ -17,54 +17,94 @@ Some (or a lot) of the code also needs refactoring to make it look better.
 [Demo video](https://www.youtube.com/watch?v=uSaQBk6_q1U)  
 ![Demo video](https://github.com/Jacbo1/Progrimage/assets/86734639/570aea88-a4ef-4090-a17c-11b125baf8f5)
 
-**Features**
+# Controls
+* Ctrl + C - Copy selection
+* Ctrl + V - Paste
+  * Files can also be pasted in
+* Ctrl + Z - Undo (currently not supported by everything)
+* Ctrl + Y - Redo
+* Ctrl + A - Marquee select entire canvas
+* A - Marquee select current layer
+* H - Flip current layer horizontally
+* V - Flip current layer vertically
+* Escape - Closes some popups/menus and clears the selection
+* Shift/Control - Modifier keys for some tools
+  * Rectangle tool - Holding shift draws squares
+  * Oval tool - Holding shift draws circles
+  * Line tool - Holding shift draws vertical or horizontal lines
+  * Move tool
+    * When moving, holding shift makes it only move on one axis (vertically or horizontally but not both)
+    * When resizing a selected area, holding shift maintains aspect ratio
+
+**Non-key controls**
+* Middle mouse button - hold and drag mouse to pan.
+* Mouse scroll - Zoom in and out of the canvas centered on the cursor.
+* Marquee selections can be resized by dragging at any point on the edge, not just the dots while the marquee selection tool is active.
+  * When cropping, the crop tool must be active.
+
+# Supported file types
+* Import
+  * Png
+  * Jpeg
+  * Svg
+  * WebP (still image, first frame)
+  * Bmp
+  * Pbm
+  * Tiff
+  * Tga
+  * Dds
+  * Gif (still image, first frame)
+* Export
+  * Png
+  * Jpeg
+  * Bmp
+  * Tga
+
+# Features
 * Tools
   * Brush - has a pencil mode
   * Eraser - has a pencil mode
   * Fill - has an eraser mode and option for sampling all layers and filling contiguously
+  * Pipette/Color picker
   * Move - can move layers and selections or resize selections
-  * Marque Selection
+  * Marquee Selection
   * Rectangle
   * Oval
   * Line
   * Quadratic Bézier curve
   * Cubic Bézier curve
-  * Text tool (WIP)
+  * Text tool
   * Crop tool - automatically selects invisible edges to crop off when tool is selected
   * User-created Lua tools
 * Composites (procedural, non-destructive image filters)
   * Glow - Uses a bloom-like algorithm. Meant for transparent images.
   * HSV
   * HSL
+  * Multiply Color - Multiplies the colors in the image by the assigned color.
+  * Color Mask - Meant for transparent images. Sets every pixel in the image to the assigned color while preserving alpha.
   * Contrast
   * Invert
   * Grayscale
   * Remove Alpha - Make opaque
   * Multiply Alpha
+  * Crustify - Joke composite. Saves the image as a JPEG in memory with different quality levels and replaces the image with the final result.
   * User-created Lua composites
 * Other
-  * Lua tools and composites are automatically rerun when the file is edited so you can edit them in real-time
-  * Copy images directly out of the program to paste elsewhere without needing to save to a file. Note: Currently cannot preserve transparency
-* Other basic minor things not worth mentioning
+  * Lua tools and composites automatically rerun when the file is edited so you can edit them in real-time
+  * Copy images directly out of the program to paste elsewhere without needing to save to a file.
   
 **Planned Features**
 * Changeable brush textures
 * Allow multiple theme files
 * Save and load projects
-* User-created Lua scripts to generate new layers
-* Resizing entire layers
-* Flipping layers
+* ~~Resizing entire layers~~ - Added
+* ~~Flipping layers~~ - Added
 * Various snapping-related features
 * Output file specifications (e.g. jpeg quality)
 * Full undo and redo functionality (only certain tools currently have it)
 * Allow dragging anywhere on layer and composite tabs for reordering instead of only the thumbnail or name
 * Multiple project tabs
 * Create my own icons for the tools that currently have placeholders from Google images
-* Better Lua implementations
-* More Lua functionality
-* More that were not mentioned  
-  
-Known issue: sometimes everything will be black except for icons and text. I don't know what causes this but for me it happens when I start the program while on battery power. I think it's an issue with DesktopGL or ImGui.NET but I don't know if I can fix it.  
   
 # Building
 **Requirements**
@@ -77,4 +117,4 @@ Known issue: sometimes everything will be black except for icons and text. I don
 * [Pfim](https://www.nuget.org/packages/Pfim/0.11.2)
 
 ## Ownership
-I do not own or take credit for the brush, eraser, fill, or move tool icons. They are placeholders I found on Google images.
+I do not own or take credit for the brush, eraser, fill, pipette, or move tool icons. They are placeholders I found on Google Images.
