@@ -398,7 +398,7 @@ namespace Progrimage
                 }
             });
 
-            if (!offscreen) Util.DrawImageToTexture2DAsRGB24(tex!, temp);
+            if (!offscreen) Util.DrawImageToTexture2D(tex!, temp);
 
             size = _renderSize;
             offset = _renderOffset;

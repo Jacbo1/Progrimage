@@ -385,8 +385,8 @@ namespace Progrimage
 
 			_points.Add(pos);
             double2 strokeHalfSize = _brushSize * 0.5;
-            int2 min = Math2.Min(_maskMinBound, Math2.FloorToInt(pos - strokeHalfSize));
-            int2 max = Math2.Max(_maskMaxBound, Math2.CeilingToInt(pos + strokeHalfSize));
+            int2 min = Math2.Min(_maskMinBound, Math2.Floor(pos - strokeHalfSize));
+            int2 max = Math2.Max(_maskMaxBound, Math2.Ceiling(pos + strokeHalfSize));
             GrowMask(min, max);
 
 			_queuedJobs++;
@@ -401,8 +401,8 @@ namespace Progrimage
             _points.Clear();
             _points.Add(pos);
             double2 strokeHalfSize = _brushSize * 0.5;
-            _maskMinBound = Math2.FloorToInt(pos - strokeHalfSize);
-            _maskMaxBound = Math2.CeilingToInt(pos + strokeHalfSize);
+            _maskMinBound = Math2.Floor(pos - strokeHalfSize);
+            _maskMaxBound = Math2.Ceiling(pos + strokeHalfSize);
 			_maskSize = _maskMaxBound - _maskMinBound + 1;
             _mask = new float[_maskSize.X * _maskSize.Y];
 
@@ -779,8 +779,8 @@ namespace Progrimage
             for (int i = 0; i < _points.Count; i++)
             {
                 double2 point = _points[i];
-                min = Math2.Min(min, Math2.FloorToInt(point - strokeHalfSize));
-                max = Math2.Max(max, Math2.CeilingToInt(point + strokeHalfSize));
+                min = Math2.Min(min, Math2.Floor(point - strokeHalfSize));
+                max = Math2.Max(max, Math2.Ceiling(point + strokeHalfSize));
             }
         }
 

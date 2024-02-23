@@ -6,7 +6,7 @@
         public static Instance ActiveInstance;
         public static bool IsCtrlPressed, IsShiftPressed, IsAltPressed;
         public const bool DEV_MODE = false;
-        public const bool ALTERNATE_MODIFIER_KEYS = false;
+        public const bool ALTERNATE_MODIFIER_KEYS = true;
 
         [STAThread]
         static void Main(string[] args)

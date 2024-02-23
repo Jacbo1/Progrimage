@@ -36,8 +36,8 @@ namespace Progrimage.DrawingShapes
 			double2 pos = Util.CanvasToRenderDouble(Pos);
 			double2 size = Size * Program.ActiveInstance.Zoom;
 			double2 radius = size * 0.5;
-			int2 min = Math2.FloorToInt(pos - radius);
-			int2 max = Math2.CeilingToInt(pos + radius);
+			int2 min = Math2.Floor(pos - radius);
+			int2 max = Math2.Ceiling(pos + radius);
 			int2 isize = max - min + 1;
 
 			if (!Util.Overlaps(context, min, isize)) return; // Does not overlap

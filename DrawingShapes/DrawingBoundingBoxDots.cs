@@ -82,8 +82,8 @@ namespace Progrimage.DrawingShapes
 				if (collectionMember.AttachedToLayer)
 					origin += collectionMember.Layer.Pos;
 			}
-			int2 min = Math2.FloorToInt((Min + origin) * instance.Zoom) + MainWindow.CanvasOrigin;
-			int2 max = Math2.FloorToInt((Max + 1 + origin) * instance.Zoom) - 1 + MainWindow.CanvasOrigin;
+			int2 min = Math2.Floor((Min + origin) * instance.Zoom) + MainWindow.CanvasOrigin;
+			int2 max = Math2.Floor((Max + 1 + origin) * instance.Zoom) - 1 + MainWindow.CanvasOrigin;
 			int2 center = (max + min) / 2;
 
 			int minDist = int.MaxValue;

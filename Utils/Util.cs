@@ -188,7 +188,7 @@ namespace Progrimage.Utils
 		/// <param name="img">Source image</param>
 		public static void DrawImageToTexture2D(Texture2D tex, Image<Rgb24> img)
         {
-            uint[] pixels = new uint[tex.Width * tex.Height];
+            XnaColor[] pixels = new XnaColor[tex.Width * tex.Height];
 
             Parallel.For(0, Math.Min(img.Height, tex.Height), y =>
             {
@@ -197,20 +197,20 @@ namespace Progrimage.Utils
                 for (int x = 0; x < Math.Min(row.Length, tex.Width); x++)
                 {
                     var pixel = row[x];
-                    pixels[x + j] = (uint)((pixel.B << 16) + (pixel.G << 8) + pixel.R);
+                    pixels[x + j] = XnaColor.FromNonPremultiplied(pixel.R, pixel.G, pixel.B, 255);
                 }
             });
             tex.SetData(pixels);
         }
 
-		/// <summary>
-		/// Draws an <see cref="Image"/> to a <see cref="Texture2D"/>
-		/// </summary>
-		/// <param name="tex">Destination texture</param>
-		/// <param name="img">Source image</param>
-		public static void DrawImageToTexture2DAsRGB24(Texture2D tex, Image<Argb32> img)
+        /// <summary>
+        /// Draws an <see cref="Image"/> to a <see cref="Texture2D"/>
+        /// </summary>
+        /// <param name="tex">Destination texture</param>
+        /// <param name="img">Source image</param>
+        public static void DrawImageToTexture2D(Texture2D tex, Image<Argb32> img)
         {
-            uint[] pixels = new uint[tex.Width * tex.Height];
+            XnaColor[] pixels = new XnaColor[tex.Width * tex.Height];
 
             Parallel.For(0, Math.Min(img.Height, tex.Height), y =>
             {
@@ -219,18 +219,18 @@ namespace Progrimage.Utils
                 for (int x = 0; x < Math.Min(row.Length, tex.Width); x++)
                 {
                     var pixel = row[x];
-                    pixels[x + j] = (uint)((pixel.B << 16) + (pixel.G << 8) + pixel.R);
+                    pixels[x + j] = XnaColor.FromNonPremultiplied(pixel.R, pixel.G, pixel.B, pixel.A);
                 }
             });
             tex.SetData(pixels);
         }
 
-		/// <summary>
-		/// Draws an <see cref="Image"/> to a <see cref="Texture2D"/> while supporting alpha
-		/// </summary>
-		/// <param name="tex">Destination texture (must be SurfaceColor.Color)</param>
-		/// <param name="img">Source image</param>
-		public static void DrawImageToTexture2D(Texture2D tex, Image<Argb32> img)
+        /// <summary>
+        /// Draws an <see cref="Image"/> to a <see cref="Texture2D"/> while supporting alpha
+        /// </summary>
+        /// <param name="tex">Destination texture (must be SurfaceColor.Color)</param>
+        /// <param name="img">Source image</param>
+        public static void DrawImageToTexture2DFixSrgb(Texture2D tex, Image<Argb32> img)
         {
             XnaColor[] pixels = new XnaColor[tex.Width * tex.Height];
 
@@ -490,150 +490,6 @@ namespace Progrimage.Utils
 
             ImGui.GetIO().MouseDrawCursor = true;
             ImGui.SetMouseCursor(cursor);
-        }
-
-        /// <summary>
-        /// Copies the given image to the clipboard as PNG, DIB and standard Bitmap format.
-        /// </summary>
-        /// <param name="image">Image to put on the clipboard.</param>
-        /// <param name="imageNoTr">Optional specifically nontransparent version of the image to put on the clipboard.</param>
-        /// <param name="data">Clipboard data object to put the image into. Might already contain other stuff. Leave null to create a new one.</param>
-        public static void SetClipboardImage(Bitmap image)
-        {
-            Clipboard.SetImage(image);
-
-            //if (_codecInfo is null)
-            //{
-            //    ImageCodecInfo[] encoders = ImageCodecInfo.GetImageEncoders();
-            //    for (int t = 0; t < encoders.Length; t++)
-            //    {
-            //        if (encoders[t].FormatID == ImageFormat.Png.Guid)
-            //            _codecInfo = encoders[t];
-            //    }
-            //}
-
-            //MemoryStream ms = new MemoryStream();
-            //image.Save(ms, _codecInfo!, null);
-            //DataObject dataObject = new DataObject();
-            //dataObject.SetData("PNG", false, ms);
-            //Clipboard.Clear();
-            //Clipboard.SetDataObject(dataObject, false);
-            //Console.WriteLine("a");
-
-
-            //Clipboard.Clear();
-            //DataObject data = new DataObject();
-            //using (MemoryStream pngMemStream = new MemoryStream())
-            //using (MemoryStream dibMemStream = new MemoryStream())
-            //{
-            //    // As standard bitmap, without transparency support
-            //    //data.SetData(DataFormats.Bitmap, true, image);
-            //    // As PNG. Gimp will prefer this over the other two.
-            //    image.Save(pngMemStream, ImageFormat.Png);
-            //    data.SetData("PNG", false, pngMemStream);
-            //    //// As DIB. This is (wrongly) accepted as ARGB by many applications.
-            //    //byte[] dibData = ConvertToDib(image);
-            //    //dibMemStream.Write(dibData, 0, dibData.Length);
-            //    //data.SetData(DataFormats.Dib, false, dibMemStream);
-            //    // The 'copy=true' argument means the MemoryStreams can be safely disposed after the operation.
-
-            //    Clipboard.SetDataObject(data, true);
-            //}
-        }
-
-        /// <summary>
-        /// Converts the image to Device Independent Bitmap format of type BITFIELDS.
-        /// This is (wrongly) accepted by many applications as containing transparency,
-        /// so I'm abusing it for that.
-        /// </summary>
-        /// <param name="image">Image to convert to DIB</param>
-        /// <returns>The image converted to DIB, in bytes.</returns>
-        private static byte[] ConvertToDib(Bitmap image)
-        {
-            byte[] bm32bData;
-            int width = image.Width;
-            int height = image.Height;
-            // Ensure image is 32bppARGB by painting it on a new 32bppARGB image.
-            using (Bitmap bm32b = new Bitmap(image.Width, image.Height, PixelFormat.Format32bppArgb))
-            {
-                using (Graphics gr = Graphics.FromImage(bm32b))
-                    gr.DrawImage(image, new System.Drawing.Rectangle(0, 0, bm32b.Width, bm32b.Height));
-                // Bitmap format has its lines reversed.
-                bm32b.RotateFlip(RotateFlipType.Rotate180FlipX);
-
-                bm32bData = GetImageData(bm32b);
-            }
-            // BITMAPINFOHEADER struct for DIB.
-            Int32 hdrSize = 0x28;
-            Byte[] fullImage = new Byte[hdrSize + 12 + bm32bData.Length];
-            //Int32 biSize;
-            WriteIntToByteArray(fullImage, 0x00, 4, true, (uint)hdrSize);
-            //Int32 biWidth;
-            WriteIntToByteArray(fullImage, 0x04, 4, true, (uint)width);
-            //Int32 biHeight;
-            WriteIntToByteArray(fullImage, 0x08, 4, true, (uint)height);
-            //Int16 biPlanes;
-            WriteIntToByteArray(fullImage, 0x0C, 2, true, 1);
-            //Int16 biBitCount;
-            WriteIntToByteArray(fullImage, 0x0E, 2, true, 32);
-            //BITMAPCOMPRESSION biCompression = BITMAPCOMPRESSION.BITFIELDS;
-            WriteIntToByteArray(fullImage, 0x10, 4, true, 3);
-            //Int32 biSizeImage;
-            WriteIntToByteArray(fullImage, 0x14, 4, true, (uint)bm32bData.Length);
-            // These are all 0. Since .net clears new arrays, don't bother writing them.
-            //Int32 biXPelsPerMeter = 0;
-            //Int32 biYPelsPerMeter = 0;
-            //Int32 biClrUsed = 0;
-            //Int32 biClrImportant = 0;
-
-            // The aforementioned "BITFIELDS": colour masks applied to the Int32 pixel value to get the R, G and B values.
-            WriteIntToByteArray(fullImage, hdrSize + 0, 4, true, 0x00FF0000);
-            WriteIntToByteArray(fullImage, hdrSize + 4, 4, true, 0x0000FF00);
-            WriteIntToByteArray(fullImage, hdrSize + 8, 4, true, 0x000000FF);
-            Array.Copy(bm32bData, 0, fullImage, hdrSize + 12, bm32bData.Length);
-            return fullImage;
-        }
-
-        /// <summary>
-        /// Gets the raw bytes from an image.
-        /// </summary>
-        /// <param name="sourceImage">The image to get the bytes from.</param>
-        /// <param name="stride">Stride of the retrieved image data.</param>
-        /// <returns>The raw bytes of the image</returns>
-        private static byte[] GetImageData(Bitmap sourceImage)
-        {
-            BitmapData sourceData = sourceImage.LockBits(new System.Drawing.Rectangle(0, 0, sourceImage.Width, sourceImage.Height), ImageLockMode.ReadOnly, sourceImage.PixelFormat);
-            int stride = sourceData.Stride;
-            byte[] data = new byte[stride * sourceImage.Height];
-            Marshal.Copy(sourceData.Scan0, data, 0, data.Length);
-            sourceImage.UnlockBits(sourceData);
-            return data;
-        }
-
-        private static void WriteIntToByteArray(byte[] data, int startIndex, int bytes, bool littleEndian, uint value)
-        {
-            int lastByte = bytes - 1;
-            if (data.Length < startIndex + bytes)
-                throw new ArgumentOutOfRangeException("startIndex", "Data array is too small to write a " + bytes + "-byte value at offset " + startIndex + ".");
-            for (int index = 0; index < bytes; index++)
-            {
-                int offs = startIndex + (littleEndian ? index : lastByte - index);
-                data[offs] = (byte)(value >> (8 * index) & 0xFF);
-            }
-        }
-
-        private static uint ReadIntFromByteArray(byte[] data, int startIndex, int bytes, bool littleEndian)
-        {
-            int lastByte = bytes - 1;
-            if (data.Length < startIndex + bytes)
-                throw new ArgumentOutOfRangeException("startIndex", "Data array is too small to read a " + bytes + "-byte value at offset " + startIndex + ".");
-            uint value = 0;
-            for (int index = 0; index < bytes; index++)
-            {
-                int offs = startIndex + (littleEndian ? index : lastByte - index);
-                value += (uint)(data[offs] << (8 * index));
-            }
-            return value;
         }
 
         public static void DrawImageSafe(this IImageProcessingContext context, Image img, int2 pos)

@@ -1,9 +1,9 @@
 ﻿using ImGuiNET;
-using NewMath;
 using Progrimage.Utils;
 using System.Collections;
 using Progrimage.CoroutineUtils;
 using ImageSharpExtensions;
+using NewMath;
 
 namespace Progrimage.Composites
 {

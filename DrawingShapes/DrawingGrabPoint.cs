@@ -26,8 +26,8 @@ namespace Progrimage.DrawingShapes
 		public Rectangle GetBounds()
 		{
 			int2 size = Defs.DotOuterSize / 2;
-			int2 min = Math2.FloorToInt(Pos - size);
-			int2 max = Math2.CeilingToInt(Pos + size);
+			int2 min = Math2.Floor(Pos - size);
+			int2 max = Math2.Ceiling(Pos + size);
 			size = max - min + 1;
 			return new Rectangle(min.X, min.Y, size.X, size.Y);
 		}
@@ -35,8 +35,8 @@ namespace Progrimage.DrawingShapes
 		public int2 GetSize()
 		{
 			int2 size = Defs.DotOuterSize / 2;
-			int2 min = Math2.FloorToInt(Pos - size);
-			int2 max = Math2.CeilingToInt(Pos + size);
+			int2 min = Math2.Floor(Pos - size);
+			int2 max = Math2.Ceiling(Pos + size);
 			return max - min + 1;
 		}
 

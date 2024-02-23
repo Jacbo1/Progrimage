@@ -80,8 +80,8 @@ namespace Progrimage.DrawingShapes
 			PointF d = new PointF((float)Points[3].X, (float)Points[3].Y);
 			var bounds = new PathBuilder().AddCubicBezier(a, b, c, d).Build().Bounds;
 
-			int2 min = Math2.FloorToInt(new double2(bounds.X, bounds.Y) - Thickness);
-			int2 max = Math2.CeilingToInt(new double2(bounds.X + bounds.Width, bounds.Y + bounds.Height) + Thickness);
+			int2 min = Math2.Floor(new double2(bounds.X, bounds.Y) - Thickness);
+			int2 max = Math2.Ceiling(new double2(bounds.X + bounds.Width, bounds.Y + bounds.Height) + Thickness);
 			return (min, max - min);
 		}
 	}

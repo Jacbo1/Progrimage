@@ -74,8 +74,8 @@ namespace Progrimage.DrawingShapes
 			PointF c = new PointF((float)Points[2].X, (float)Points[2].Y);
 			var bounds = new PathBuilder().AddQuadraticBezier(a, b, c).Build().Bounds;
 
-			int2 min = Math2.FloorToInt(new double2(bounds.X, bounds.Y) - Thickness);
-			int2 max = Math2.CeilingToInt(new double2(bounds.X + bounds.Width, bounds.Y + bounds.Height) + Thickness);
+			int2 min = Math2.Floor(new double2(bounds.X, bounds.Y) - Thickness);
+			int2 max = Math2.Ceiling(new double2(bounds.X + bounds.Width, bounds.Y + bounds.Height) + Thickness);
 			return (min, max - min);
 		}
 	}

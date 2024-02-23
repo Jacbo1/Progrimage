@@ -154,8 +154,8 @@ namespace Progrimage.LuaDefs
 		public void expandToContain(double x, double y, double width, double height)
 		{
 			double2 pos = new double2(x, y);
-			int2 min = Math2.FloorToInt(pos);
-			int2 size = Math2.CeilingToInt(pos + new double2(width, height)) + 1 - min;
+			int2 min = Math2.Floor(pos);
+			int2 size = Math2.Ceiling(pos + new double2(width, height)) + 1 - min;
 			Image.ExpandToContain(min, size);
 		}
 

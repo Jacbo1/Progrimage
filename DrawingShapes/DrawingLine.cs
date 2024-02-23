@@ -61,8 +61,8 @@ namespace Progrimage.DrawingShapes
             double2 min = Math2.Min(Math2.Min(Math2.Min(a, b), c), d);
             double2 max = Math2.Max(Math2.Max(Math2.Max(a, b), c), d);
 
-            int2 imin = Math2.FloorToInt(min);
-            int2 size = Math2.CeilingToInt(max - min) + 1;
+            int2 imin = Math2.Floor(min);
+            int2 size = Math2.Ceiling(max - min) + 1;
 
             return new SixLabors.ImageSharp.Rectangle(imin.X, imin.Y, size.X, size.Y);
         }

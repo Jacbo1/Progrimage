@@ -60,7 +60,7 @@ namespace Progrimage.Utils
         {
             Texture = new Texture2D(MainWindow.GraphicsDevice, image.Width, image.Height, false, SurfaceFormat.Color);
             _ptr = MainWindow.ImGuiRenderer.BindTexture(Texture);
-            Util.DrawImageToTexture2D(Texture, image);
+            Util.DrawImageToTexture2DFixSrgb(Texture, image);
         }
 
         public TexPair()
@@ -83,7 +83,7 @@ namespace Progrimage.Utils
             {
                 using var img = Image.Load<Argb32>(path);
                 Texture = new Texture2D(MainWindow.GraphicsDevice, img.Width, img.Height, false, SurfaceFormat.Color);
-                Util.DrawImageToTexture2D(Texture, img);
+                Util.DrawImageToTexture2DFixSrgb(Texture, img);
             }
             else Texture = Texture2D.FromFile(MainWindow.GraphicsDevice, path);
             _ptr = MainWindow.ImGuiRenderer.BindTexture(Texture);
@@ -105,8 +105,8 @@ namespace Progrimage.Utils
             padded.DrawOver(img, new int2((size.X - img.Width) / 2, (size.Y - img.Height) / 2));
             img.Dispose();
             Texture = new Texture2D(MainWindow.GraphicsDevice, padded.Width, padded.Height, false, SurfaceFormat.Color);
-            if (hasAlpha) Util.DrawImageToTexture2D(Texture, padded);
-            else Util.DrawImageToTexture2DAsRGB24(Texture, padded);
+            if (hasAlpha) Util.DrawImageToTexture2DFixSrgb(Texture, padded);
+            else Util.DrawImageToTexture2D(Texture, padded);
 			padded.Dispose();
             _ptr = MainWindow.ImGuiRenderer.BindTexture(Texture);
         }

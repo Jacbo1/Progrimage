@@ -25,8 +25,8 @@ namespace Progrimage.Selectors
         public virtual ResizeDir? GetResizeDir(ImGuiMouseCursor defaultCursor = ImGuiMouseCursor.Arrow)
         {
             var instance = Program.ActiveInstance;
-            int2 min = Math2.FloorToInt(Min * instance.Zoom) + MainWindow.CanvasOrigin;
-            int2 max = Math2.FloorToInt((Max + 1) * instance.Zoom) - 1 + MainWindow.CanvasOrigin;
+            int2 min = Math2.Floor(Min * instance.Zoom) + MainWindow.CanvasOrigin;
+            int2 max = Math2.Floor((Max + 1) * instance.Zoom) - 1 + MainWindow.CanvasOrigin;
             
             if (instance.Selection != this || instance.ActiveLayer is null) return null;
             DrawBoundaryDots = true;

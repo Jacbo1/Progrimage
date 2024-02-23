@@ -9,6 +9,7 @@
 	<UseWindowsForms>true</UseWindowsForms>
 	<DisableWinExeOutputInference>true</DisableWinExeOutputInference>
 	<ApplicationIcon>icon.ico</ApplicationIcon>
+	<Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,20 +47,14 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DirectBitmap">
-      <HintPath>..\DirectBitmap\bin\Release\DirectBitmap.dll</HintPath>
-      <Private>True</Private>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+    <Reference Include="DirectBitmap64">
+      <HintPath>..\DirectBitmap\bin\x64\Release\DirectBitmap64.dll</HintPath>
     </Reference>
     <Reference Include="ImageSharpExtensions">
-      <HintPath>..\ImageSharpExtensions\bin\Release\net6.0\ImageSharpExtensions.dll</HintPath>
-      <Private>True</Private>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\ImageSharpExtensions\bin\x64\Release\net6.0\ImageSharpExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="Math2">
-      <HintPath>..\Math2\Math2\bin\Release\net48\Math2.dll</HintPath>
-      <Private>True</Private>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+    <Reference Include="Math2x64">
+      <HintPath>..\Math2\Math2\bin\x64\Release\net48\Math2x64.dll</HintPath>
     </Reference>
   </ItemGroup>
 
