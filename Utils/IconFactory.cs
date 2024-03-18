@@ -234,15 +234,20 @@ namespace Progrimage.Utils
 
 		private static byte[] CreateImageBuffer(Bitmap image)
 		{
-			//using var stream = new MemoryStream();
-			//image.Save(stream, ImageFormat.Png);
-			//return stream.ToArray();
-
-			EncoderParameters encoderParams = new(1);
-			encoderParams.Param[0] = new EncoderParameter(Encoder.ColorDepth, 32);
-			using var stream = new MemoryStream();
-			image.Save(stream, _pngCodecInfo, encoderParams);
-			return stream.ToArray();
+			if (_pngCodecInfo == null)
+			{
+				using var stream = new MemoryStream();
+				image.Save(stream, ImageFormat.Png);
+				return stream.ToArray();
+			}
+			else
+			{
+				EncoderParameters encoderParams = new(1);
+				encoderParams.Param[0] = new EncoderParameter(Encoder.ColorDepth, 32);
+				using var stream = new MemoryStream();
+				image.Save(stream, _pngCodecInfo, encoderParams);
+				return stream.ToArray();
+			}
 		}
 		#endregion
 	}
