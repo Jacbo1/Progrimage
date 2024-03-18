@@ -1,4 +1,6 @@
 ﻿using NewMath;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Progrimage

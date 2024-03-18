@@ -1,6 +1,7 @@
 ﻿using NewMath;
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using PointF = SixLabors.ImageSharp.PointF;
 
@@ -36,7 +37,7 @@ namespace Progrimage.DrawingShapes
 
         public void Draw(IImageProcessingContext context)
         {
-            context.DrawLines(Color, (float)Thickness, new PointF((float)Start.X, (float)Start.Y), new PointF((float)Stop.X, (float)Stop.Y));
+            context.DrawLine(Color, (float)Thickness, new PointF((float)Start.X, (float)Start.Y), new PointF((float)Stop.X, (float)Stop.Y));
         }
 
         public void DrawToRender(IImageProcessingContext context)
@@ -44,7 +45,7 @@ namespace Progrimage.DrawingShapes
             double2 start = Util.CanvasToRenderDouble(Start);
             double2 stop = Util.CanvasToRenderDouble(Stop);
             float thickness = (float)(ScaleThickness ? Thickness * Program.ActiveInstance.Zoom : Thickness);
-            context.DrawLines(Color, thickness, new PointF((float)start.X, (float)start.Y), new PointF((float)stop.X, (float)stop.Y));
+            context.DrawLine(Color, thickness, new PointF((float)start.X, (float)start.Y), new PointF((float)stop.X, (float)stop.Y));
         }
 
         public SixLabors.ImageSharp.Rectangle GetBounds()

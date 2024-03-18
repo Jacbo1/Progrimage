@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using PointF = SixLabors.ImageSharp.PointF;
 using Color = SixLabors.ImageSharp.Color;
 using Progrimage.Utils;
+using SixLabors.ImageSharp.Processing;
 
 namespace Progrimage.DrawingShapes
 {

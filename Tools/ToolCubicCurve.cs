@@ -4,6 +4,7 @@ using Progrimage.DrawingShapes;
 using Progrimage.ImGuiComponents;
 using Progrimage.Undo;
 using Progrimage.Utils;
+using SixLabors.ImageSharp.Processing;
 
 namespace Progrimage.Tools
 {

@@ -1,5 +1,6 @@
 ﻿using NewMath;
 using Progrimage.Utils;
+using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 

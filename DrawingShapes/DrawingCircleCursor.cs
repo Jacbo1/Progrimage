@@ -4,6 +4,9 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Drawing;
 using Color = SixLabors.ImageSharp.Color;
 using SixLabors.ImageSharp.Advanced;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp;
 
 namespace Progrimage.DrawingShapes
 {

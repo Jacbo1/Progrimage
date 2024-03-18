@@ -2,6 +2,7 @@
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 using Size = SixLabors.ImageSharp.Size;

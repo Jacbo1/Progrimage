@@ -1,6 +1,7 @@
 ﻿using ImageSharpExtensions;
 using NewMath;
 using SixLabors.ImageSharp.Advanced;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Progrimage.Undo
 {

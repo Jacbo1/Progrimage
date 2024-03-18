@@ -6,7 +6,10 @@ using Progrimage.LuaDefs;
 using Progrimage.Selectors;
 using Progrimage.Tools;
 using Progrimage.Utils;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using System.Numerics;
 using Color = SixLabors.ImageSharp.Color;
 
@@ -428,9 +431,9 @@ namespace Progrimage
 		#region Private Methods
 		private Image<Argb32> ZoomScale(Image<Argb32> image, int2 scaledMin, int2 scaledMax)
 		{
-			// Downscale with a modified Box algorithm that treats edge pixels as non-full pixels for fractional coordinates
+            // Downscale with a modified Box algorithm that treats edge pixels as non-full pixels for fractional coordinates
 			// Upscale with nearest neighbor sampling
-			// Downscaling and upscaling are separated on each axis
+            // Downscaling and upscaling are separated on each axis
 
 			int2 imageSize = new int2(image.Width, image.Height);
 			int2 newSize = Math2.Round(imageSize * _zoom);

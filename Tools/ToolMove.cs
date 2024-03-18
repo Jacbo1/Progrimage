@@ -3,6 +3,9 @@ using NewMath;
 using Progrimage.Selectors;
 using Progrimage.Undo;
 using Progrimage.Utils;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace Progrimage.Tools
 {

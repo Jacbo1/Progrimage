@@ -15,10 +15,10 @@ namespace Progrimage
     {
         public const string LAYER_PAYLOAD = "LAYER";
         public const string COMPOSITE_PAYLOAD = "COMP";
-        public const string EXPORT_FILE_FILTER_ANY = "|*.png;*.jpg;*.jpeg;*.bmp;*.tga";
-        public const string EXPORT_FILE_FILTER_FULL = EXPORT_FILE_FILTER_ANY + "|PNG (*.png)|*.png|JPG (*.jpg, *.jpeg)|*.jpg;*.jpeg|BMP (*.bmp)|*.bmp|TGA (*.tga)|*.tga";
-        public const string IMPORT_FILE_FILTER_ANY = "|*.png;*.jpg;*.jpeg;*.svg;*.webp;*.bmp;*.pbm;*.tif;*.tiff;*.tga;*.dds;*.gif";
-        public const string IMPORT_FILE_FILTER_FULL = IMPORT_FILE_FILTER_ANY + "|PNG (*.png)|*.png|JPG (*.jpg, *.jpeg)|*.jpg;*.jpeg|SVG (*.svg)|*.svg|WebP (*.webp)|*.webp|BMP (*.bmp)|*.bmp|TIFF (*.tif, *.tiff)|*.tif;*.tiff|TGA (*.tga)|*.tga|DDS (*.dds)|*.dds|GIF (*.gif)|*.gif";
+        public const string EXPORT_FILE_FILTER_ANY = "|*.png;*.jpg;*.jpeg;*.bmp;*.ico;*.tga";
+        public const string EXPORT_FILE_FILTER_FULL = EXPORT_FILE_FILTER_ANY + "|PNG (*.png)|*.png|JPG (*.jpg, *.jpeg)|*.jpg;*.jpeg|BMP (*.bmp)|*.bmp|ICO (*.ico)|*.ico|TGA (*.tga)|*.tga";
+        public const string IMPORT_FILE_FILTER_ANY = "|*.png;*.jpg;*.jpeg;*.svg;*.webp;*.bmp;*.ico;*.pbm;*.tif;*.tiff;*.tga;*.dds;*.gif";
+        public const string IMPORT_FILE_FILTER_FULL = IMPORT_FILE_FILTER_ANY + "|PNG (*.png)|*.png|JPG (*.jpg, *.jpeg)|*.jpg;*.jpeg|SVG (*.svg)|*.svg|WebP (*.webp)|*.webp|BMP (*.bmp)|*.bmp|ICO (*.ico)|*.ico|TIFF (*.tif, *.tiff)|*.tif;*.tiff|TGA (*.tga)|*.tga|DDS (*.dds)|*.dds|GIF (*.gif)|*.gif";
         public const string FILE_FILTER_LUA = "|*.lua;*.xml";
         public const string LUA_BASE_PATH = @"Lua\";
         public const string LUA_TOOL_PATH = @"Tools\";

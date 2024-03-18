@@ -2,6 +2,7 @@
 using ImGuiNET;
 using NewMath;
 using SixLabors.ImageSharp.Advanced;
+using SixLabors.ImageSharp.PixelFormats;
 using System.Collections;
 
 namespace Progrimage.Composites

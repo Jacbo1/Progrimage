@@ -7,6 +7,7 @@ using Progrimage.Utils;
 using SixLabors.ImageSharp.Drawing.Processing;
 using PointF = SixLabors.ImageSharp.PointF;
 using ImageSharpExtensions;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Progrimage.Composites
 {
@@ -185,7 +186,7 @@ namespace Progrimage.Composites
 			for (int i = 0; i < line.Length; i++)
 			{
 				current += line[i];
-				LetterRect rect = TextMeasurer.Measure(current, textOptions);
+				LetterRect rect = TextMeasurer.MeasureBounds(current, textOptions);
 				rect.CharWidth = rect.Right - x;
 				if (i + 1 == line.Length) rect.Width = maxWidth - x + 1; // Extend to right edge of textbox
 				else rect.Width += rect.X - x; // Extend to not move the right edge after moving the left
@@ -228,7 +229,7 @@ namespace Progrimage.Composites
 				lines.Add(new Line(textSplit[i], true));
             if (textSplit.Length != 0) lines.Add(new Line(textSplit[textSplit.Length - 1]));
 
-			float lineHeight = Font.FontMetrics.LineHeight * Font.Size / Font.FontMetrics.UnitsPerEm;
+			float lineHeight = Font.FontMetrics.VerticalMetrics.LineHeight * Font.Size / Font.FontMetrics.UnitsPerEm;
 			LetterBoxes.Clear();
             int lineIndex = 0;
             bool lastLineHadLineBreak = false;
@@ -237,7 +238,7 @@ namespace Progrimage.Composites
             {
                 Line line = lines[lineIndex];
 
-                if (line.Text.Length < 2 || TextMeasurer.Measure(line.Text, textOptions).Width <= maxWidth)
+                if (line.Text.Length < 2 || TextMeasurer.MeasureBounds(line.Text, textOptions).Width <= maxWidth)
                 {
                     // Empty line or line fits within bounds
                     WrappedText += line.Text + "\n";
@@ -269,7 +270,7 @@ namespace Progrimage.Composites
                 }
 
                 string current, next, remainder;
-                if (words.Count == 1 || TextMeasurer.Measure(words[0], textOptions).Width > maxWidth)
+                if (words.Count == 1 || TextMeasurer.MeasureBounds(words[0], textOptions).Width > maxWidth)
                 {
                     // Wrap single word
                     current = line.Text[0].ToString();
@@ -277,7 +278,7 @@ namespace Progrimage.Composites
 
                     // Iterate through string until the next char exceeds the bounds
                     int length = 2;
-                    while (length < line.Text.Length && TextMeasurer.Measure(next, textOptions).Width <= maxWidth)
+                    while (length < line.Text.Length && TextMeasurer.MeasureBounds(next, textOptions).Width <= maxWidth)
                     {
                         current = next;
                         next += line.Text[length];
@@ -302,7 +303,7 @@ namespace Progrimage.Composites
 
                 // Iterate through string until the next char exceeds the bounds
                 int i = 2;
-                while (i < words.Count && TextMeasurer.Measure(next, textOptions).Width <= maxWidth)
+                while (i < words.Count && TextMeasurer.MeasureBounds(next, textOptions).Width <= maxWidth)
                 {
                     current = next;
                     next += separators[i - 1] + words[i];

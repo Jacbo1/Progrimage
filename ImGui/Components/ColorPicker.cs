@@ -1,5 +1,6 @@
 ﻿using ImGuiNET;
 using Progrimage.Utils;
+using SixLabors.ImageSharp.PixelFormats;
 using System.Numerics;
 using Color = SixLabors.ImageSharp.Color;
 

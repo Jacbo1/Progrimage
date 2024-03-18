@@ -2,6 +2,8 @@
 using NewMath;
 using Progrimage.ImGuiComponents;
 using Progrimage.Utils;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Progrimage.Tools
 {

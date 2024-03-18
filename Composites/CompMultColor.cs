@@ -3,6 +3,7 @@ using ImGuiNET;
 using NewMath;
 using Progrimage.ImGuiComponents;
 using SixLabors.ImageSharp.Advanced;
+using SixLabors.ImageSharp.PixelFormats;
 using System.Collections;
 using System.Numerics;
 

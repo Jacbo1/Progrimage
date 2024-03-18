@@ -3,6 +3,7 @@ using ImageSharpExtensions;
 using ImGuiNET;
 using NewMath;
 using Progrimage;
+using SixLabors.ImageSharp.Processing;
 using System.Numerics;
 
 namespace ProgrimageImGui.Windows

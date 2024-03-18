@@ -1,7 +1,9 @@
 ﻿using ImageSharpExtensions;
 using NewMath;
 using Progrimage.CoroutineUtils;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
+using SixLabors.ImageSharp.PixelFormats;
 using System.Numerics;
 
 namespace Progrimage

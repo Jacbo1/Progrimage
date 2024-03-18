@@ -9,6 +9,9 @@ using SixLabors.Fonts;
 using SystemFonts = SixLabors.Fonts.SystemFonts;
 using SizeF = SixLabors.ImageSharp.SizeF;
 using PointF = SixLabors.ImageSharp.PointF;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Progrimage.Utils
 {
@@ -165,7 +168,7 @@ namespace Progrimage.Utils
                     op.Draw(color, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.X, (float)(0.15 * size.Y - yShift)), new SizeF((float)center.X, (float)center.Y), 0, (float)startAng, (float)arcLength)));
                     op.Draw(color, thickness, new SixLabors.ImageSharp.Drawing.Path(new ArcLineSegment(new PointF((float)center.X, (float)((1 - 0.15) * size.Y + yShift)), new SizeF((float)center.X, (float)center.Y), 0, (float)(startAng + 180), (float)arcLength)));
                     op.Fill(color, new EllipsePolygon((float)center.X, (float)center.Y, size.X * 0.15f, size.Y * 0.15f));
-                    op.DrawLines(color, thickness, new PointF((float)xOffset, (float)(center.Y + MULT * 0.35 * size.Y)), new PointF(size.X - (float)xOffset, (float)(center.Y - MULT * 0.35 * size.Y)));
+                    op.DrawLine(color, thickness, new PointF((float)xOffset, (float)(center.Y + MULT * 0.35 * size.Y)), new PointF(size.X - (float)xOffset, (float)(center.Y - MULT * 0.35 * size.Y)));
                     op.Crop(new Rectangle(32, 32, 192, 192));
                 });
                 img.SaveAsPng(OutputDir + "not_visible.png", new PngEncoder() { ColorType = PngColorType.GrayscaleWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression });
@@ -209,8 +212,8 @@ namespace Progrimage.Utils
             };
             img.Mutate(op =>
             {
-                op.DrawLines(Color.White, (float)thickness, corners[0].ToPointF(), corners[1].ToPointF());
-                op.DrawLines(Color.White, (float)thickness, corners[2].ToPointF(), corners[3].ToPointF());
+                op.DrawLine(Color.White, (float)thickness, corners[0].ToPointF(), corners[1].ToPointF());
+                op.DrawLine(Color.White, (float)thickness, corners[2].ToPointF(), corners[3].ToPointF());
             });
 			img.SaveAsPng(OutputDir + "delete.png", new PngEncoder() { ColorType = PngColorType.GrayscaleWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression });
 		}
@@ -229,8 +232,8 @@ namespace Progrimage.Utils
             };
             img.Mutate(op =>
             {
-                op.DrawLines(Color.White, thickness, points[0].ToPointF(), points[1].ToPointF());
-                op.DrawLines(Color.White, thickness, points[2].ToPointF(), points[3].ToPointF());
+                op.DrawLine(Color.White, thickness, points[0].ToPointF(), points[1].ToPointF());
+                op.DrawLine(Color.White, thickness, points[2].ToPointF(), points[3].ToPointF());
             });
 			img.SaveAsPng(OutputDir + "add.png", new PngEncoder() { ColorType = PngColorType.GrayscaleWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression });
 		}
@@ -246,7 +249,7 @@ namespace Progrimage.Utils
 
 			img.Mutate(op =>
 			{
-				op.DrawLines(color, (float)thickness, (center + diag).ToPointF(), (center - diag).ToPointF());
+				op.DrawLine(color, (float)thickness, (center + diag).ToPointF(), (center - diag).ToPointF());
 			});
 			img.SaveAsPng(OutputDir + "line.png", new PngEncoder() { ColorType = PngColorType.GrayscaleWithAlpha, CompressionLevel = PngCompressionLevel.BestCompression });
 		}
@@ -384,7 +387,7 @@ public static void MakeCubicCurveIcon()
             while (length <= pathLength - dashLength)
             {
                 double2 next = pos + dashDelta;
-                context.DrawLines(color, thickness, new PointF((float)pos.X, (float)pos.Y), new PointF((float)next.X, (float)next.Y));
+                context.DrawLine(color, thickness, new PointF((float)pos.X, (float)pos.Y), new PointF((float)next.X, (float)next.Y));
                 pos = next + gapDelta;
                 length += dashLength + gapLength;
             }
@@ -392,7 +395,7 @@ public static void MakeCubicCurveIcon()
             if (length >= pathLength) return;
 
             double2 next_ = pos + dashDelta * (pathLength - length) / dashLength;
-            context.DrawLines(color, thickness, new PointF((float)pos.X, (float)pos.Y), new PointF((float)next_.X, (float)next_.Y));
+            context.DrawLine(color, thickness, new PointF((float)pos.X, (float)pos.Y), new PointF((float)next_.X, (float)next_.Y));
         }
 
 		private static Rectangle Rectangle(int2 pos, int2 size) => new(pos.X, pos.Y, size.X, size.Y);

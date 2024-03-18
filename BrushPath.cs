@@ -1,4 +1,6 @@
 ﻿using NewMath;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using System.IO.Compression;
 using Image = SixLabors.ImageSharp.Image;
 

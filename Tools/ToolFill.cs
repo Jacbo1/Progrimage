@@ -6,6 +6,7 @@ using Progrimage.ImGuiComponents;
 using Progrimage.Undo;
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.PixelFormats;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 

@@ -4,6 +4,9 @@ using System.Collections;
 using Progrimage.CoroutineUtils;
 using ImageSharpExtensions;
 using NewMath;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace Progrimage.Composites
 {

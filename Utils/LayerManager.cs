@@ -5,6 +5,9 @@ using Rectangle = SixLabors.ImageSharp.Rectangle;
 using NewMath;
 using ImageSharpExtensions;
 using Progrimage.LuaDefs;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace Progrimage.Utils
 {

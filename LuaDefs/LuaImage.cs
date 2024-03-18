@@ -10,6 +10,8 @@ using Progrimage.DrawingShapes;
 using RectangleF = SixLabors.ImageSharp.RectangleF;
 using SixLabors.ImageSharp.Drawing;
 using SizeF = SixLabors.ImageSharp.SizeF;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace Progrimage.LuaDefs
 {
@@ -295,7 +297,7 @@ namespace Progrimage.LuaDefs
 
 		public void drawLine(LuaTable color, double thickness, double x1, double y1, double x2, double y2)
 		{
-			Image?.Mutate(op => op.DrawLines(
+			Image?.Mutate(op => op.DrawLine(
 				LuaManager.ToColor(color).ToArgb32(),
 				(float)thickness,
 				new PointF((float)x1, (float)y1),

@@ -11,9 +11,12 @@ using Progrimage.Undo;
 using Progrimage.Utils;
 using ProgrimageImGui;
 using SixLabors.Fonts;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using System.Runtime.InteropServices;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
@@ -431,7 +434,7 @@ namespace Progrimage
             {
                 char c = a.Character;
                 if (c == 13) c = '\n'; // Replace carriage return with line break
-                if (FontToCheckValidChars.GetGlyphs(new SixLabors.Fonts.Unicode.CodePoint(c), ColorFontSupport.None).First().GlyphMetrics.GlyphType != GlyphType.Fallback)
+                if (FontToCheckValidChars.TryGetGlyphs(new SixLabors.Fonts.Unicode.CodePoint(c), ColorFontSupport.None, out var glyphs) && glyphs.First().GlyphMetrics.GlyphType != GlyphType.Fallback)
                     TextInput.Add(new TextInput(c));
 
                 if (a.Character == '\t') return;
@@ -622,7 +625,7 @@ namespace Progrimage
 
             for (int n = 0; n < drawData.CmdListsCount; n++)
             {
-                ImDrawListPtr cmdList = drawData.CmdListsRange[n];
+                ImDrawListPtr cmdList = drawData.CmdLists[n];
 
                 fixed (void* vtxDstPtr = &_vertexData[vtxOffset * DrawVertDeclaration.Size])
                 fixed (void* idxDstPtr = &_indexData[idxOffset * sizeof(ushort)])
@@ -650,7 +653,7 @@ namespace Progrimage
 
             for (int n = 0; n < drawData.CmdListsCount; n++)
             {
-                ImDrawListPtr cmdList = drawData.CmdListsRange[n];
+                ImDrawListPtr cmdList = drawData.CmdLists[n];
 
                 for (int cmdi = 0; cmdi < cmdList.CmdBuffer.Size; cmdi++)
                 {

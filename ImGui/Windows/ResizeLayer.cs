@@ -3,6 +3,7 @@ using ImGuiNET;
 using NewMath;
 using Progrimage;
 using Progrimage.Undo;
+using SixLabors.ImageSharp.Processing;
 using System.Numerics;
 
 namespace ProgrimageImGui.Windows

@@ -24,6 +24,9 @@ using Progrimage.LuaDefs;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Advanced;
 using ImageSharpExtensions;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace Progrimage
 {
@@ -200,6 +203,15 @@ namespace Progrimage
                 bool setSavePath = manager.Layers.Count == 0 || (manager.Layers.Count == 1 && manager.Layers[0].Image.Image is null);
                 switch (Path.GetExtension(file).ToLower())
                 {
+                    case ".ico":
+                        {
+                            using Icon icon = new(file, -1, -1);
+                            using var bitmap = icon.ToBitmap();
+							Program.ActiveInstance.CreateLayer(Util.BitmapToImage(bitmap));
+							Util.SetLastSavePath(file);
+						}
+                        break;
+
                     case ".dds":
                         {
                             // Load DDS through Pfim
@@ -597,7 +609,7 @@ namespace Progrimage
             //ToolIconSize = new Vector2(30, 30) * (float)_uiScale;
 
             ImGui.SetNextWindowPos(new Vector2(0, y));
-            ImGui.BeginChild("tool panel", new Vector2(ToolIconSize.X, ImGui.GetWindowHeight() - y), false, ImGuiWindowFlags.NoBringToFrontOnFocus);
+            ImGui.BeginChild("tool panel", new Vector2(ToolIconSize.X, ImGui.GetWindowHeight() - y), ImGuiChildFlags.None, ImGuiWindowFlags.NoBringToFrontOnFocus);
             var buttonColor = Style.Colors[(int)ImGuiCol.Button];
             var buttonColorHover = Style.Colors[(int)ImGuiCol.ButtonHovered];
             var textColor = Style.Colors[(int)ImGuiCol.Text];
@@ -692,7 +704,7 @@ namespace Progrimage
             // Quick Actions Toolbar
             ChildBg = ColorManager.CustomColorsSRGB[(int)CustomColor.QuickActionsToolbar];
             ImGui.SetNextWindowPos(new Vector2(0, _quickBarHeight - 1));
-            ImGui.BeginChild("quick actions toolbar", new Vector2(ImGui.GetWindowWidth(), _quickBarHeight), false, ImGuiWindowFlags.NoBringToFrontOnFocus);
+            ImGui.BeginChild("quick actions toolbar", new Vector2(ImGui.GetWindowWidth(), _quickBarHeight), ImGuiChildFlags.None, ImGuiWindowFlags.NoBringToFrontOnFocus);
             //Program.ActiveInstance?.ActiveInteractive?.DrawQuickActionsToolbar();
             ref var TextColor = ref Style.Colors[(int)ImGuiCol.Text];
             var separatorColor = ColorManager.CustomColorsSRGB[(int)CustomColor.QuickbarSeparator];
@@ -1123,7 +1135,7 @@ namespace Progrimage
             var childBg = ChildBg;
             ChildBg = ColorManager.CustomColorsSRGB[(int)CustomColor.BottomBar];
             ImGui.SetNextWindowPos(new Vector2((float)(30 * _uiScale), ImGui.GetWindowHeight() - height));
-			ImGui.BeginChild("bottom bar", new Vector2(width, height), false, ImGuiWindowFlags.NoBringToFrontOnFocus);
+			ImGui.BeginChild("bottom bar", new Vector2(width, height), ImGuiChildFlags.None, ImGuiWindowFlags.NoBringToFrontOnFocus);
             float interval = width / Math.Max(1, strings.Count - 0.5f);
             for (int i = 0; i < Math.Max(strings.Count - 1, 1); i++)
             {
@@ -1190,7 +1202,7 @@ namespace Progrimage
                         VerticalAlignment = VerticalAlignment.Center,
                         Origin = new Vector2(TEXT_X, y + ITEM_CENTER)
                     };
-					op.DrawText(textOptions, family.Name, textColor);
+					op.DrawText((RichTextOptions)textOptions, family.Name, textColor);
                     spacerRect.Y = y + ITEM_HEIGHT;
                     op.Fill(separatorColor, spacerRect);
                 }
@@ -1248,6 +1260,10 @@ namespace Progrimage
                     break;
                 case ".tga":
                     image.SaveAsTgaAsync(path);
+                    break;
+                case ".ico":
+                    using (var bitmap = Util.ImageToBitmap(image))
+                        IconFactory.SaveAsIcon(bitmap.Bitmap, path);
                     break;
             }
             Util.SetLastSavePath(path);

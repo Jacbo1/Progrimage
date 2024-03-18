@@ -2,7 +2,10 @@
 using NewMath;
 using Progrimage.DrawingShapes;
 using Progrimage.Utils;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 

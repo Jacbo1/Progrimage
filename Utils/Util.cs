@@ -19,6 +19,9 @@ using ImageSharpExtensions;
 using Svg.Transforms;
 using Svg;
 using LockedBitmapLibrary;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp;
 
 namespace Progrimage.Utils
 {
@@ -260,13 +263,31 @@ namespace Progrimage.Utils
 				for (int x = 0; x < row.Length; x++)
 				{
 					SimpleColor srcPixel = src.GetPixel(x, y);
-					row[x].A = srcPixel.A;
-					row[x].R = srcPixel.R;
-					row[x].G = srcPixel.G;
-					row[x].B = srcPixel.B;
+                    ref var destPixel = ref row[x];
+					destPixel.A = srcPixel.A;
+					destPixel.R = srcPixel.R;
+					destPixel.G = srcPixel.G;
+					destPixel.B = srcPixel.B;
 				}
 			});
             src.Unlock();
+
+            return dest;
+		}
+
+        public static LockedBitmap ImageToBitmap(Image<Argb32> img)
+        {
+            LockedBitmap dest = new LockedBitmap(img.Width, img.Height, PixelFormat.Format32bppArgb);
+            dest.Lock();
+			Parallel.For(0, img.Height, y =>
+			{
+				Span<Argb32> row = img.DangerousGetPixelRowMemory(y).Span;
+				for (int x = 0; x < row.Length; x++)
+				{
+					ref var srcPixel = ref row[x];
+                    dest.SetPixel(x, y, new SimpleColor(srcPixel.R, srcPixel.G, srcPixel.B, srcPixel.A));
+				}
+			});
 
             return dest;
 		}
