@@ -432,8 +432,9 @@ namespace Progrimage
 		private Image<Argb32> ZoomScale(Image<Argb32> image, int2 scaledMin, int2 scaledMax)
 		{
             // Downscale with a modified Box algorithm that treats edge pixels as non-full pixels for fractional coordinates
-			// Upscale with nearest neighbor sampling
+            // Upscale with nearest neighbor sampling if over a threshold
             // Downscaling and upscaling are separated on each axis
+            const int SCALE_UP_PIXEL_THRESHOLD = 5;
 
 			int2 imageSize = new int2(image.Width, image.Height);
 			int2 newSize = Math2.Round(imageSize * _zoom);
@@ -448,6 +449,24 @@ namespace Progrimage
             }
 
 			RT_pixMin = scaledMin / scale;
+			if (scale > 0 && scale <= SCALE_UP_PIXEL_THRESHOLD)
+            {
+                // Use a high quality rescaler
+                int2 unscaledMin = Math2.Floor(scaledMin / _zoom);
+                int2 unscaledMax = Math2.Ceiling(scaledMax / _zoom);
+                int2 unscaledSize = unscaledMax - unscaledMin + 1;
+				int2 scaledSize = Math2.Round(unscaledSize * _zoom);
+                int2 scaledMinOffset = Math2.Round(scaledMin - unscaledMin * _zoom);
+                int2 scaledMaxOffset = Math2.Round(scaledMax - scaledMin - (scaledSize - 1));
+                int2 scaledSizeOffset = scaledSize + scaledMaxOffset - scaledMinOffset;
+                using var temp = image.GetSubimage(unscaledMin, unscaledSize);
+                temp.Mutate(op =>
+                {
+                    op.Resize(scaledSize.X, scaledSize.Y, KnownResamplers.Bicubic);
+                });
+                return temp.GetSubimage(scaledMinOffset, scaledSizeOffset);
+            }
+
 			Image<Argb32> scaledImage = new(croppedSize.X, croppedSize.Y);
 			if (_zoom > 1)
             {
