@@ -10,6 +10,7 @@
 	<DisableWinExeOutputInference>true</DisableWinExeOutputInference>
 	<ApplicationIcon>icon.ico</ApplicationIcon>
 	<Platforms>AnyCPU;x64</Platforms>
+	<AssemblyName>$(MSBuildProjectName)</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

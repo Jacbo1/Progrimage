@@ -1197,12 +1197,12 @@ namespace Progrimage
 						}
 					}
 
-					TextOptions textOptions = new TextOptions(family.CreateFont(FONT_SIZE))
+					RichTextOptions textOptions = new(family.CreateFont(FONT_SIZE))
                     {
                         VerticalAlignment = VerticalAlignment.Center,
                         Origin = new Vector2(TEXT_X, y + ITEM_CENTER)
                     };
-					op.DrawText((RichTextOptions)textOptions, family.Name, textColor);
+					op.DrawText(textOptions, family.Name, textColor);
                     spacerRect.Y = y + ITEM_HEIGHT;
                     op.Fill(separatorColor, spacerRect);
                 }

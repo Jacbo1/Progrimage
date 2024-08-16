@@ -17,6 +17,7 @@ using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System.Net;
 using System.Runtime.InteropServices;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
@@ -351,6 +352,20 @@ namespace Progrimage
                             }
 
                             Program.ActiveInstance.CreateLayer(img);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                string text = Clipboard.GetText();
+                                HttpClient request = new();
+								HttpResponseMessage response = request.GetAsync(text).GetAwaiter().GetResult();
+								response.EnsureSuccessStatusCode();
+								using Stream stream = response.Content.ReadAsStream();
+								var img = Image.Load<Argb32>(stream);
+								Program.ActiveInstance.CreateLayer(img);
+							}
+                            catch { }
                         }
 
                         if (Clipboard.ContainsFileDropList())
