@@ -1,4 +1,4 @@
-﻿using NewMath;
+﻿using Jacbo.Math2;
 using SixLabors.Fonts;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 

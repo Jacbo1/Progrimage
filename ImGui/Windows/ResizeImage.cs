@@ -1,7 +1,7 @@
 ﻿using CalculatorLibrary;
 using ImageSharpExtensions;
 using ImGuiNET;
-using NewMath;
+using Jacbo.Math2;
 using Progrimage;
 using SixLabors.ImageSharp.Processing;
 using System.Numerics;

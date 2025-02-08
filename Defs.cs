@@ -1,4 +1,5 @@
-﻿using NewMath;
+﻿
+using Jacbo.Math2;
 
 namespace Progrimage
 {

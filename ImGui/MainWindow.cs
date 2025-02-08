@@ -1,7 +1,6 @@
 ﻿using ImGuiNET;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NewMath;
 using Progrimage.Utils;
 using IS = SixLabors.ImageSharp;
 using Num = System.Numerics;
@@ -27,6 +26,7 @@ using ImageSharpExtensions;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using Jacbo.Math2;
 
 namespace Progrimage
 {

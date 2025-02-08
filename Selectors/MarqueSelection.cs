@@ -1,5 +1,5 @@
 ﻿using ImageSharpExtensions;
-using NewMath;
+using Jacbo.Math2;
 using Progrimage.DrawingShapes;
 using Progrimage.Utils;
 using SixLabors.ImageSharp;

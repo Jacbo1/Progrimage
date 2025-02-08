@@ -1,5 +1,5 @@
 ﻿using ImGuiNET;
-using NewMath;
+using Jacbo.Math2;
 using Progrimage.CoroutineUtils;
 using Progrimage.DrawingShapes;
 using Progrimage.Undo;

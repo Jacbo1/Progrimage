@@ -1,6 +1,6 @@
 ﻿using ImageSharpExtensions;
 using ImGuiNET;
-using NewMath;
+using Jacbo.Math2;
 using Progrimage.CoroutineUtils;
 using Progrimage.ImGuiComponents;
 using Progrimage.Undo;

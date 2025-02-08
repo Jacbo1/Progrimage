@@ -1,4 +1,4 @@
-﻿using NewMath;
+﻿using Jacbo.Math2;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;

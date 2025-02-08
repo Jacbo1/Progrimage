@@ -1,6 +1,6 @@
 ﻿using CalculatorLibrary;
 using ImGuiNET;
-using NewMath;
+using Jacbo.Math2;
 using Progrimage;
 using Progrimage.Undo;
 using SixLabors.ImageSharp.Processing;

@@ -1,6 +1,6 @@
 ﻿using ImageSharpExtensions;
+using Jacbo.Math2;
 using Microsoft.Xna.Framework.Graphics;
-using NewMath;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Image = SixLabors.ImageSharp.Image;

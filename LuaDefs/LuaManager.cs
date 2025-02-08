@@ -1,4 +1,4 @@
-﻿using NewMath;
+﻿using Jacbo.Math2;
 using NLua;
 using Progrimage.CoroutineUtils;
 using Progrimage.Utils;

@@ -1,6 +1,6 @@
 ﻿using ImageSharpExtensions;
 using ImGuiNET;
-using NewMath;
+using Jacbo.Math2;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Collections;

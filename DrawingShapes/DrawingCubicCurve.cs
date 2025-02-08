@@ -1,10 +1,10 @@
-﻿using NewMath;
-using SixLabors.ImageSharp.Drawing;
+﻿using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
 using PointF = SixLabors.ImageSharp.PointF;
 using Color = SixLabors.ImageSharp.Color;
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Processing;
+using Jacbo.Math2;
 
 namespace Progrimage.DrawingShapes
 {

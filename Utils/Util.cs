@@ -1,6 +1,5 @@
 ﻿using ImGuiNET;
 using Microsoft.Xna.Framework.Graphics;
-using NewMath;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Png;
@@ -22,6 +21,7 @@ using LockedBitmapLibrary;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
+using Jacbo.Math2;
 
 namespace Progrimage.Utils
 {

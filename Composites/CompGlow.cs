@@ -3,10 +3,10 @@ using Progrimage.Utils;
 using System.Collections;
 using Progrimage.CoroutineUtils;
 using ImageSharpExtensions;
-using NewMath;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using Jacbo.Math2;
 
 namespace Progrimage.Composites
 {

@@ -1,9 +1,9 @@
 ﻿using ImGuiNET;
+using Jacbo.Math2;
 using LockedBitmapLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using NewMath;
 using Progrimage.ImGuiComponents;
 using Progrimage.Selectors;
 using Progrimage.Tools;
@@ -17,7 +17,6 @@ using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using System.Net;
 using System.Runtime.InteropServices;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
@@ -29,10 +28,10 @@ using SystemFonts = SixLabors.Fonts.SystemFonts;
 
 namespace Progrimage
 {
-    /// <summary>
-    /// ImGui renderer for use with XNA-likes (FNA & MonoGame)
-    /// </summary>
-    public class ImGuiRenderer
+	/// <summary>
+	/// ImGui renderer for use with XNA-likes (FNA & MonoGame)
+	/// </summary>
+	public class ImGuiRenderer
     {
         public static List<TextInput> TextInput = new();
         public static Font FontToCheckValidChars = SystemFonts.CreateFont("Arial", 1);

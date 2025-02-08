@@ -2,12 +2,12 @@
 using SixLabors.ImageSharp.Drawing.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
-using NewMath;
 using ImageSharpExtensions;
 using Progrimage.LuaDefs;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using Jacbo.Math2;
 
 namespace Progrimage.Utils
 {

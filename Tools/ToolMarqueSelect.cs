@@ -1,6 +1,6 @@
-﻿using NewMath;
-using Progrimage.Utils;
+﻿using Progrimage.Utils;
 using Progrimage.Selectors;
+using Jacbo.Math2;
 
 namespace Progrimage.Tools
 {

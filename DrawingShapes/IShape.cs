@@ -1,5 +1,5 @@
 ﻿using ImageSharpExtensions;
-using NewMath;
+using Jacbo.Math2;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;

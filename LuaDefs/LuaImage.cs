@@ -1,5 +1,4 @@
-﻿using NewMath;
-using NLua;
+﻿using NLua;
 using ImageSharpExtensions;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -12,6 +11,7 @@ using SixLabors.ImageSharp.Drawing;
 using SizeF = SixLabors.ImageSharp.SizeF;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using Jacbo.Math2;
 
 namespace Progrimage.LuaDefs
 {

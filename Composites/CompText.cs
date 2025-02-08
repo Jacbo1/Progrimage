@@ -1,5 +1,4 @@
-﻿using NewMath;
-using System.Collections;
+﻿using System.Collections;
 using Color = SixLabors.ImageSharp.Color;
 using Font = SixLabors.Fonts.Font;
 using SixLabors.Fonts;
@@ -8,6 +7,7 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using PointF = SixLabors.ImageSharp.PointF;
 using ImageSharpExtensions;
 using SixLabors.ImageSharp.PixelFormats;
+using Jacbo.Math2;
 
 namespace Progrimage.Composites
 {

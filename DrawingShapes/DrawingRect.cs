@@ -1,11 +1,11 @@
-﻿using NewMath;
-using SixLabors.ImageSharp.Drawing.Processing;
+﻿using SixLabors.ImageSharp.Drawing.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 using RectangleF = SixLabors.ImageSharp.RectangleF;
 using Size = SixLabors.ImageSharp.Size;
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Processing;
+using Jacbo.Math2;
 
 namespace Progrimage.DrawingShapes
 {

@@ -1,5 +1,4 @@
-﻿using NewMath;
-using Progrimage.Utils;
+﻿using Progrimage.Utils;
 using System.Numerics;
 using System.Collections;
 using Progrimage.CoroutineUtils;
@@ -7,6 +6,7 @@ using ImageSharpExtensions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using Jacbo.Math2;
 
 namespace Progrimage.Composites
 {

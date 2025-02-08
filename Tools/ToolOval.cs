@@ -1,11 +1,11 @@
 ﻿using ImGuiNET;
-using NewMath;
 using Color = SixLabors.ImageSharp.Color;
 using System.Numerics;
 using Progrimage.Utils;
 using Progrimage.DrawingShapes;
 using Progrimage.ImGuiComponents;
 using Progrimage.Undo;
+using Jacbo.Math2;
 
 namespace Progrimage.Tools
 {

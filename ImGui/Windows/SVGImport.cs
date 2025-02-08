@@ -1,11 +1,11 @@
 ﻿using CalculatorLibrary;
 using ImGuiNET;
-using NewMath;
 using Progrimage;
 using System.Numerics;
 using Progrimage.Utils;
 using LockedBitmapLibrary;
 using Color = Microsoft.Xna.Framework.Color;
+using Jacbo.Math2;
 
 namespace ProgrimageImGui.Windows
 {

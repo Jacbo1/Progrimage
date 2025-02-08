@@ -1,5 +1,5 @@
 ﻿using ImGuiNET;
-using NewMath;
+using Jacbo.Math2;
 using Progrimage.LuaDefs;
 using Progrimage.Utils;
 using System.Xml;
