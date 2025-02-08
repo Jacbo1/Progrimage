@@ -16,6 +16,7 @@ namespace Progrimage.Composites
         public int2 Pos { get; set; }
         private int _seed = Math2.RandomInt(0, 65536);
         private int _level = 75;
+        private int _minLevel = 1;
         private const int MAX_QUALITY = 75;
         private bool _preserveAlpha = true;
 
@@ -49,17 +50,17 @@ namespace Progrimage.Composites
             else alpha = null;
 
             Random rand = new Random(_seed);
-            List<int> qualities = new List<int>(_level);
-            if (_level == 1) qualities.Add(1);
+            List<int> qualities = new List<int>(_level - _minLevel + 1);
+            if (_level <= _minLevel) qualities.Add(_minLevel);
             else
             {
-                for (int i = 0; i < _level; i++)
+                for (int i = _minLevel; i <= _level; i++)
                 {
-                    qualities.Add(i * (MAX_QUALITY - 1) / (_level - 1) + 1);
+                    qualities.Add((i - _minLevel) * (MAX_QUALITY - _minLevel) / (_level - _minLevel) + _minLevel);
                 }
             }
 
-            for (int i = 0; i < _level; i++)
+            for (int i = _minLevel; i <= _level; i++)
             {
                 if (JobQueue.ShouldYield) yield return true;
                 MemoryStream stream = new MemoryStream();
@@ -98,7 +99,19 @@ namespace Progrimage.Composites
 
             ImGui.SameLine();
             ImGui.SetNextItemWidth(100);
-            if (ImGui.SliderInt("Level", ref _level, 1, MAX_QUALITY - 1)) ((ICompositeAction)this).Rerun();
+            if (ImGui.SliderInt("Min Level", ref _minLevel, 1, MAX_QUALITY))
+            {
+                _level = Math.Max(_minLevel, _level);
+                ((ICompositeAction)this).Rerun();
+            }
+
+            ImGui.SameLine();
+            ImGui.SetNextItemWidth(100);
+            if (ImGui.SliderInt("Level", ref _level, 1, MAX_QUALITY))
+            {
+				_minLevel = Math.Min(_minLevel, _level);
+				((ICompositeAction)this).Rerun();
+            }
 
             ImGui.SameLine();
             if (ImGui.Checkbox("Preserve Alpha", ref _preserveAlpha)) ((ICompositeAction)this).Rerun();
