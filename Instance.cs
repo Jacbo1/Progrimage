@@ -5,6 +5,7 @@ using Progrimage.DrawingShapes;
 using Progrimage.LuaDefs;
 using Progrimage.Selectors;
 using Progrimage.Tools;
+using Progrimage.Undo;
 using Progrimage.Utils;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
@@ -269,10 +270,25 @@ namespace Progrimage
                 CanvasSize = new int2(img.Width, img.Height);
             }
 
-            Layer layer = new Layer(this, img);
-            LayerManager.Add(layer);
-            ActiveLayer = layer;
-            _changed = true;
+			Layer layer = new(this, img);
+			LayerManager.Add(layer);
+			ActiveLayer = layer;
+			_changed = true;
+
+			UndoManager.AddUndo(new UndoAction(() =>
+            {
+                int index = LayerManager.Layers.IndexOf(layer);
+                if (index != 0 && index + 1 == LayerManager.Layers.Count) ActiveLayer = LayerManager.Layers[^1];
+                layer.Dispose();
+            },
+            () =>
+            {
+				layer = new Layer(this);
+				LayerManager.Add(layer);
+				ActiveLayer = layer;
+				_changed = true;
+			}));
+
             return layer;
         }
 
@@ -285,10 +301,25 @@ namespace Progrimage
 
         public Layer CreateLayer()
         {
-            Layer layer = new Layer(this);
-            LayerManager.Add(layer);
-            ActiveLayer = layer;
-            _changed = true;
+            Layer layer = new(this);
+			LayerManager.Add(layer);
+			ActiveLayer = layer;
+			_changed = true;
+
+			UndoManager.AddUndo(new UndoAction(() =>
+			{
+				int index = LayerManager.Layers.IndexOf(layer);
+				if (index != 0 && index + 1 == LayerManager.Layers.Count) ActiveLayer = LayerManager.Layers[^1];
+				layer.Dispose();
+			},
+			() =>
+			{
+				layer = new Layer(this);
+				LayerManager.Add(layer);
+				ActiveLayer = layer;
+				_changed = true;
+			}));
+
             return layer;
         }
 
