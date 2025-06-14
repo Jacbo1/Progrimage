@@ -136,7 +136,7 @@ namespace Progrimage.Composites
 
             ImGui.SameLine();
             ImGui.SetNextItemWidth(100);
-            if (ImGui.DragInt("Radius", ref _blurRadius, 1, 1))
+            if (ImGui.DragInt("Radius", ref _blurRadius, 0.25f, 1))
             {
                 _blurRadius = Math.Max(_blurRadius, 1);
                 ((ICompositeAction)this).Rerun();
