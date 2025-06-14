@@ -1253,7 +1253,10 @@ namespace Progrimage
                     break;
                 case ".jpg":
                 case ".jpeg":
-                    image.SaveAsJpegAsync(path);
+                    image.SaveAsJpegAsync(path, new IS.Formats.Jpeg.JpegEncoder()
+                    {
+                        Quality = 90
+                    });
                     break;
                 case ".bmp":
                     image.SaveAsBmpAsync(path);
