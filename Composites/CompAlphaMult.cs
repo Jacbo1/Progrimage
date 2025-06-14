@@ -18,7 +18,7 @@ namespace Progrimage.Composites
 		public void Init(Composite composite)
 		{
 			Composite = composite;
-			composite.Name = "Remove Alpha";
+			composite.Name = "Multiply Alpha";
 		}
 
 		public IEnumerator Run(PositionedImage<Argb32> result)
