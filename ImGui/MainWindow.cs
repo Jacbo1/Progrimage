@@ -119,7 +119,7 @@ namespace Progrimage
         public static ImGuiIOPtr IO;
         public static string? LastLoadPath, LastSavePath;
         public static Vector2 ToolIconSize = new(Defs.TOOL_ICON_SIZE, Defs.TOOL_ICON_SIZE);
-        public static string SelectedFont = "Arial";
+        public static FontFamily SelectedFont = SystemFonts.Collection.Families.FirstOrDefault(fontFamily => fontFamily.Name.Equals("Arial", StringComparison.OrdinalIgnoreCase), SystemFonts.Collection.Families.First());
         public static Popup FontPickerPopup, CreateLuaCompPopup;
         public static MainWindow Self;
 
@@ -136,6 +136,7 @@ namespace Progrimage
 		private static TexPair _fontPickerTexture;
 		private static Image<Rgb24>? _fontPickerImage;
         private static string _luaCompositeInputName;
+		private static readonly FontCollection _fontCollection = new();
 
 		// Private
 		private readonly GraphicsDeviceManager _graphics;
@@ -244,6 +245,14 @@ namespace Progrimage
                         SVGImport.SetPath(file);
                         SVGImport.Show = true;
                         break;
+
+                    case ".ttc":
+                    case ".ttf":
+                    case ".woff":
+                    case ".woff2":
+                    case ".otf":
+                        _fontCollection.Add(file);
+						break;
 
                     default:
                             // Load image normally
@@ -1166,7 +1175,8 @@ namespace Progrimage
 			Util.ClearAndSetSize(ref _fontPickerImage, selectorSize, new IS.Color(ColorManager.CustomColorsRGB[(int)CustomColor.FontPickerItem]));
 			const int ITEM_HEIGHT = 30;
 			const int ITEM_SPACING = 2;
-			FontFamily[] families = SystemFonts.Collection.Families.ToArray();
+			var families = SystemFonts.Collection.Families.Concat(_fontCollection.Families).OrderBy(fontFamily => fontFamily.Name);
+            int familyCount = families.Count();
 			_fontPickerImage.Mutate(op =>
             {
                 const float FONT_SIZE = ITEM_HEIGHT * 0.5f;
@@ -1177,12 +1187,15 @@ namespace Progrimage
 				var separatorColor = new IS.Color(ColorManager.CustomColorsRGB[(int)CustomColor.FontPickerSeparator]);
 				var textColor = new IS.Color(ColorManager.CustomColorsRGB[(int)CustomColor.FontPickerText]);
 
-				for (int i = _fontPickerScroll / (ITEM_HEIGHT + ITEM_SPACING); i < families.Length; i++)
+                int i = 0;
+                int startIndex = _fontPickerScroll / (ITEM_HEIGHT + ITEM_SPACING);
+				foreach (FontFamily family in families)
                 {
+                    i++;
+                    if (i < startIndex) continue;
+
                     int y = (ITEM_HEIGHT + ITEM_SPACING) * i - _fontPickerScroll;
                     if (y >= selectorSize.Y) break;
-
-                    FontFamily family = families[i];
 
 					if (mousePos.X >= 0 && mousePos.X < selectorSize.X && mousePos.Y >= y && mousePos.Y < y + ITEM_HEIGHT)
 					{
@@ -1192,7 +1205,7 @@ namespace Progrimage
 						if (ImGui.IsMouseClicked(ImGuiMouseButton.Left))
 						{
                             // Clicked
-                            SelectedFont = family.Name;
+                            SelectedFont = family;
                             FontPicked?.Invoke(null, EventArgs.Empty);
 						}
 					}
@@ -1212,7 +1225,7 @@ namespace Progrimage
 			Util.DrawImageToTexture2D(_fontPickerTexture!, _fontPickerImage!);
             ImGui.Image(_fontPickerTexture, selectorSize);
 
-            if (ImGui.IsItemHovered()) _fontPickerScroll = Math.Clamp(_fontPickerScroll - (int)IO.MouseWheel * 35, 0, (families.Length - 1) * (ITEM_HEIGHT + ITEM_SPACING) + ITEM_HEIGHT - selectorSize.Y);
+            if (ImGui.IsItemHovered()) _fontPickerScroll = Math.Clamp(_fontPickerScroll - (int)IO.MouseWheel * 35, 0, (familyCount - 1) * (ITEM_HEIGHT + ITEM_SPACING) + ITEM_HEIGHT - selectorSize.Y);
 		}
 
         private static void DrawCreateLuaCompositePopup()

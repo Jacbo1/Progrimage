@@ -4,7 +4,9 @@ using Progrimage.Composites;
 using Progrimage.DrawingShapes;
 using Progrimage.ImGuiComponents;
 using Progrimage.Utils;
+using SixLabors.Fonts;
 using Color = SixLabors.ImageSharp.Color;
+using FontFamily = SixLabors.Fonts.FontFamily;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using SystemFonts = SixLabors.Fonts.SystemFonts;
 
@@ -25,7 +27,7 @@ namespace Progrimage.Tools
         private double _cursorChangeTime;
         private bool _cursorBlinkOn, _shouldUpdateCursor, _holdCursorX;
         private int _prevFontSize = 50;
-        private string _prevFontName = "Arial";
+        private FontFamily _prevFont = MainWindow.SelectedFont;
         private Color _prevColor = Color.Red;
         #endregion
 
@@ -347,7 +349,7 @@ namespace Progrimage.Tools
             _overlayShapeSet.AttachedToLayer = true;
             if (layer.Image.Image is null) _overlayShapeSet.Pos = pos;
             Program.ActiveInstance.ActiveLayer!.RenderOverlayShapes.Add(_overlayShapeSet);
-            var comp = new CompText(shiftedCorner - layer.Pos, shiftedCorner - layer.Pos, SystemFonts.CreateFont(_prevFontName, _prevFontSize), _prevColor);
+            var comp = new CompText(shiftedCorner - layer.Pos, shiftedCorner - layer.Pos, _prevFont.CreateFont(_prevFontSize), _prevColor);
             CompText = comp;
             Program.ActiveInstance.ActiveLayer!.AddComposite(new Composite(Program.ActiveInstance.ActiveLayer!, comp));
             _textPos = comp.Text.Length;
@@ -417,7 +419,7 @@ namespace Progrimage.Tools
 				}
                 _holdCursorX = false;
                 _shouldUpdateCursor = true;
-                CompText.Font = SystemFonts.CreateFont(CompText.Font.Name, _prevFontSize);
+                CompText.Font = _prevFont.CreateFont(_prevFontSize);
                 CompText.Changed();
             }
 
@@ -427,12 +429,12 @@ namespace Progrimage.Tools
         #region Private Methods
         private void FontPicked(object _, EventArgs _2)
         {
-            _prevFontName = MainWindow.SelectedFont;
+            _prevFont = MainWindow.SelectedFont;
             if (CompText is not null)
             {
 				_holdCursorX = false;
 				_shouldUpdateCursor = true;
-				CompText.Font = SystemFonts.CreateFont(_prevFontName, CompText.Font.Size);
+                CompText.Font = _prevFont.CreateFont(CompText.Font.Size);
                 CompText.Changed();
             }
         }
