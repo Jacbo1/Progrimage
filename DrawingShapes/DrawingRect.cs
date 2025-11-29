@@ -6,6 +6,7 @@ using Size = SixLabors.ImageSharp.Size;
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Processing;
 using Jacbo.Math2;
+using System;
 
 namespace Progrimage.DrawingShapes
 {

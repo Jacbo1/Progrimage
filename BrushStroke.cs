@@ -1,6 +1,7 @@
 ﻿using Jacbo.Math2;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Progrimage

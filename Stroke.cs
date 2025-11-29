@@ -1,10 +1,14 @@
 ﻿using ImageSharpExtensions;
 using Jacbo.Math2;
+using LimParallel;
 using Progrimage.CoroutineUtils;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
+using System.Collections.Generic;
 using System.Numerics;
+using System.Threading;
 
 namespace Progrimage
 {
@@ -12,7 +16,7 @@ namespace Progrimage
     {
         #region Fields
         // Private
-        private List<double2> _points = new();
+        private List<double2> _points = [];
         // Mask is _mask[x + y * width]
         private float[] _mask, _brushTexture, _unscaledBrushTexture, _normTexture, _unscaledNormTexture;
         private int2 _maskMinBound, _maskMaxBound, _targetBrushSize, _brushSize, _unscaledBrushSize, _maskSize, _unscaledNormSize;
@@ -578,7 +582,7 @@ namespace Progrimage
             int2 unscaledSize1 = currentSize - 1;
 
             int2 size = newSize; // Can't use out variables in Parallel.For()
-			Parallel.For(0, newSize.Y, y =>
+			LimitedParallel.For(0, newSize.Y, y =>
             {
                 int yw = y * size.X;
                 for (int x = 0; x < size.X; x++)

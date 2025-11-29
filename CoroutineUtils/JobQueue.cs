@@ -1,11 +1,13 @@
 ﻿using Progrimage.Utils;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Progrimage.CoroutineUtils
 {
     public static class JobQueue
     {
-        public static List<CoroutineJob> Queue = new();
+        public static List<CoroutineJob> Queue = [];
         public const int MAX_PROCESSING_TIME = 1000 / 60 - 4;
 		public static bool UnlimitedTime = false;
 
@@ -28,7 +30,7 @@ namespace Progrimage.CoroutineUtils
         /// </summary>
         public static void Work()
         {
-            while (Queue.Any())
+            while (Queue.Count != 0)
             {
                 CoroutineJob job = Queue[0];
                 if (job.JobIdentifier != null && job.JobIdentifier.JobID != job.JobID)

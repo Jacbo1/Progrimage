@@ -6,6 +6,7 @@ using Progrimage.DrawingShapes;
 using Progrimage.ImGuiComponents;
 using Progrimage.Undo;
 using Jacbo.Math2;
+using System;
 
 namespace Progrimage.Tools
 {

@@ -5,6 +5,8 @@ using Progrimage.Selectors;
 using Progrimage.Utils;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
+using System.Collections.Generic;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace Progrimage.Tools

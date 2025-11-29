@@ -7,6 +7,7 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
 using Jacbo.Math2;
+using System;
 
 namespace Progrimage.DrawingShapes
 {

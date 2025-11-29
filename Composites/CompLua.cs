@@ -2,6 +2,7 @@
 using Jacbo.Math2;
 using Progrimage.LuaDefs;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
 using System.Collections;
 
 namespace Progrimage.Composites

@@ -1,17 +1,20 @@
-﻿using NLua;
-using ImageSharpExtensions;
+﻿using ImageSharpExtensions;
+using Jacbo.Math2;
+using LimParallel;
+using NLua;
+using Progrimage.DrawingShapes;
 using SixLabors.ImageSharp.Advanced;
+using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using System;
+using System.Linq;
 using Color = SixLabors.ImageSharp.Color;
 using PointF = SixLabors.ImageSharp.PointF;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
-using Progrimage.DrawingShapes;
 using RectangleF = SixLabors.ImageSharp.RectangleF;
-using SixLabors.ImageSharp.Drawing;
 using SizeF = SixLabors.ImageSharp.SizeF;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
-using Jacbo.Math2;
 
 namespace Progrimage.LuaDefs
 {
@@ -92,7 +95,7 @@ namespace Progrimage.LuaDefs
 			if (Image.Image is null) return null;
 
 			string[] columns = new string[Image.Width];
-			Parallel.For(0, Image.Width, x =>
+			LimitedParallel.For(0, Image.Width, x =>
 			{
 				string s = "{";
 				for (int y = 0; y < Image.Height; y++)
@@ -269,7 +272,7 @@ namespace Progrimage.LuaDefs
 		{
 			if (Image.Image is null) return;
 			int4 col = Math2.Round(LuaManager.ToColor(color));
-			Parallel.For(0, Image.Height, y =>
+			LimitedParallel.For(0, Image.Height, y =>
 			{
                 Span<Argb32> row = Image.Image.DangerousGetPixelRowMemory(y).Span;
 				for (int x = 0; x < row.Length; x++)

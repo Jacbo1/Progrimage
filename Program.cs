@@ -1,4 +1,6 @@
-﻿namespace Progrimage
+﻿using System;
+
+namespace Progrimage
 {
     internal class Program
     {

@@ -1,5 +1,7 @@
 ﻿using Jacbo.Math2;
 using SixLabors.ImageSharp.Processing;
+using System;
+using System.Collections.Generic;
 
 namespace Progrimage.DrawingShapes
 {

@@ -2,6 +2,9 @@
 using Jacbo.Math2;
 using Progrimage.LuaDefs;
 using Progrimage.Utils;
+using System;
+using System.IO;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace Progrimage.Tools
@@ -83,10 +86,12 @@ namespace Progrimage.Tools
                     if (ImGui.MenuItem("Load"))
                     {
                         // Import image
-                        OpenFileDialog picker = new OpenFileDialog();
-                        picker.InitialDirectory = Directory.GetCurrentDirectory() + "\\" + Defs.LUA_BASE_PATH + Defs.LUA_TOOL_PATH;
-                        picker.Title = "Import file";
-                        picker.Filter = Defs.FILE_FILTER_LUA;
+                        OpenFileDialog picker = new()
+                        {
+                            InitialDirectory = Directory.GetCurrentDirectory() + "\\" + Defs.LUA_BASE_PATH + Defs.LUA_TOOL_PATH,
+                            Title = "Import file",
+                            Filter = Defs.FILE_FILTER_LUA
+                        };
                         if (picker.ShowDialog() == DialogResult.OK)
                             Load(picker.FileName);
                     }

@@ -5,7 +5,10 @@ using Progrimage.CoroutineUtils;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Progrimage.Composites
 {
@@ -32,7 +35,7 @@ namespace Progrimage.Composites
             if (result.Image is null) yield break;
 
             bool applyAlpha = false;
-            byte[,] alpha;
+            byte[,]? alpha;
             if (_preserveAlpha)
             {
                 alpha = new byte[result.Width, result.Height];
@@ -49,8 +52,8 @@ namespace Progrimage.Composites
             }
             else alpha = null;
 
-            Random rand = new Random(_seed);
-            List<int> qualities = new List<int>(_level - _minLevel + 1);
+            Random rand = new(_seed);
+            List<int> qualities = new(_level - _minLevel + 1);
             if (_level <= _minLevel) qualities.Add(_minLevel);
             else
             {
@@ -63,7 +66,7 @@ namespace Progrimage.Composites
             for (int i = _minLevel; i <= _level; i++)
             {
                 if (JobQueue.ShouldYield) yield return true;
-                MemoryStream stream = new MemoryStream();
+                MemoryStream stream = new();
                 int index = rand.Next(qualities.Count);
                 result.Image.SaveAsJpeg(stream, new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder
                 {
@@ -72,7 +75,7 @@ namespace Progrimage.Composites
                 qualities.RemoveAt(index);
                 stream.Position = 0;
                 result.Image.Dispose();
-                result.Image = SixLabors.ImageSharp.Image.Load<Argb32>(stream);
+                result.Image = Image.Load<Argb32>(stream);
                 stream.Dispose();
             }
 

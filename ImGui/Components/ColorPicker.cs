@@ -1,6 +1,7 @@
 ﻿using ImGuiNET;
 using Progrimage.Utils;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Collections.Generic;
 using System.Numerics;
 using Color = SixLabors.ImageSharp.Color;
 
@@ -12,7 +13,7 @@ namespace Progrimage.ImGuiComponents
 
         public int ID { get; private set; }
         public Vector4[] Colors;
-        public Dictionary<int, bool> ShouldPushColor = new();
+        public Dictionary<int, bool> ShouldPushColor = [];
 
         public Palette()
         {

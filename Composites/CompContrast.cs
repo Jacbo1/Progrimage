@@ -1,8 +1,10 @@
 ﻿using ImageSharpExtensions;
 using ImGuiNET;
 using Jacbo.Math2;
+using LimParallel;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
 using System.Collections;
 
 namespace Progrimage.Composites
@@ -26,7 +28,7 @@ namespace Progrimage.Composites
 		{
 			if (result.Image is null) yield break;
 
-			Parallel.For(0, result.Image.Height, y =>
+			LimitedParallel.For(0, result.Image.Height, y =>
 			{
 				var row = result.Image.DangerousGetPixelRowMemory(y).Span;
 				for (int x = 0; x < result.Image.Width; x++)

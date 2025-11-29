@@ -1,4 +1,6 @@
-﻿namespace Progrimage.Undo
+﻿using System;
+
+namespace Progrimage.Undo
 {
     public class UndoAction : IUndoAction
 	{

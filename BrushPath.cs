@@ -1,6 +1,8 @@
 ﻿using Jacbo.Math2;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
+using System.IO;
 using System.IO.Compression;
 using Image = SixLabors.ImageSharp.Image;
 
@@ -36,14 +38,14 @@ namespace Progrimage
             {
                 // No normalization file
                 size = int2.One;
-                return new float[] { 1 };
+                return [1];
             }
 
             byte[] data;
-            using (MemoryStream stream = new MemoryStream())
+            using (MemoryStream stream = new())
             {
                 using (FileStream fileStream = File.OpenRead(NormPath))
-                using (GZipStream zipStream = new GZipStream(fileStream, CompressionMode.Decompress))
+                using (GZipStream zipStream = new(fileStream, CompressionMode.Decompress))
                     zipStream.CopyTo(stream);
                 data = stream.ToArray();
             }

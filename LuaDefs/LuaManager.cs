@@ -2,6 +2,9 @@
 using NLua;
 using Progrimage.CoroutineUtils;
 using Progrimage.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace Progrimage.LuaDefs

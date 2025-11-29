@@ -1,5 +1,6 @@
 ﻿using ImageSharpExtensions;
 using Jacbo.Math2;
+using LimParallel;
 using Progrimage.Composites;
 using Progrimage.DrawingShapes;
 using Progrimage.LuaDefs;
@@ -11,8 +12,9 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System;
+using System.Collections.Generic;
 using System.Numerics;
-using Color = SixLabors.ImageSharp.Color;
 
 namespace Progrimage
 {
@@ -41,22 +43,22 @@ namespace Progrimage
         // Public fields
         public LayerManager LayerManager;
         public string? LastSavePath, LastLoadPath;
-        public Dictionary<string, ITool> Tools = new();
+        public Dictionary<string, ITool> Tools = [];
         public int MaxBrushSize = 500;
         public BrushMode BrushMode = BrushMode.Brush;
-        public List<BrushPath> BrushTextures = new()
-        {
+        public List<BrushPath> BrushTextures =
+        [
             new BrushPath<L16>(@"Assets\Textures\Brushes\brush_regular.png"),
 			new BrushPath<L16>(@"Assets\Textures\Brushes\brush_distance.png"),
 			new BrushPath<L8>(@"Assets\Textures\Brushes\brush_circle.png")
-        };
+        ];
         public BrushState BrushSettings;
         public BrushState EraserSettings;
         public ISelector? Selection = null;
         private bool _changed = true, _overlayChanged;
-        public List<ToolLua> LuaTools = new();
-        public ITool[] DefaultTools = new ITool[]
-        {
+        public List<ToolLua> LuaTools = [];
+        public ITool[] DefaultTools =
+        [
             new ToolBrush(),
             new ToolEraser(),
 			new ToolFill(),
@@ -70,7 +72,7 @@ namespace Progrimage
             new ToolCubicCurve(),
             new ToolText(),
             new ToolCrop()
-        };
+        ];
         public ToolCreateScript ToolCreateScript = new();
         public LuaLayer? ActiveLuaLayer { get; private set; }
         private Composite? _activeComposite;
@@ -501,8 +503,8 @@ namespace Progrimage
 			Image<Argb32> scaledImage = new(croppedSize.X, croppedSize.Y);
 			if (_zoom > 1)
             {
-                // Scale up using nearest neighbor
-                Parallel.For(scaledMin.Y, scaledMax.Y + 1, y =>
+				// Scale up using nearest neighbor
+				LimitedParallel.For(scaledMin.Y, scaledMax.Y + 1, y =>
                 {
                     Span<Argb32> destRow = scaledImage.DangerousGetPixelRowMemory(y - scaledMin.Y).Span;
                     Span<Argb32> srcRow = image.DangerousGetPixelRowMemory((int)(y / scale.Y)).Span;
@@ -515,7 +517,7 @@ namespace Progrimage
 			// Scale down using modified box sampling
 			double2 boxSize1 = 1 / scale - 1;
 			int2 unscaledSize1 = imageSize - 1;
-			Parallel.For(scaledMin.Y, scaledMax.Y + 1, y =>
+			LimitedParallel.For(scaledMin.Y, scaledMax.Y + 1, y =>
             {
                 Span<Argb32> destRow = scaledImage.DangerousGetPixelRowMemory(y - scaledMin.Y).Span;
                 double yd = y / scale.Y; // y in the original image's scale

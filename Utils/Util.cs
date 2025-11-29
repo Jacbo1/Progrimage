@@ -22,6 +22,10 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
 using Jacbo.Math2;
+using LimParallel;
+using System;
+using System.Drawing;
+using System.IO;
 
 namespace Progrimage.Utils
 {
@@ -116,31 +120,33 @@ namespace Progrimage.Utils
             return false;
         }
 
-        public static Argb32 Blend(Argb32 source, Argb32 over)
+        public static Argb32 Blend(in Argb32 source, in Argb32 over)
         {
-            if (over.A == 0) return source; // Overlay pixel is fully transparent
+			if (over.A == 0) return source; // Overlay pixel is fully transparent
+			if (over.A == 255)
+			{
+				// Overlay pixel is opaque
+				return new(over.R, over.G, over.B, 255);
+			}
 
-            byte iOverlayAlpha = (byte)(255 - over.A);
-            byte alpha = (byte)(over.A + source.A * iOverlayAlpha / 255);
+			int iOverlayAlpha = 255 - over.A;
+			int overAlpha = over.A * 255;
+			int alpha = overAlpha + source.A * iOverlayAlpha;
 
-            if (source.A == 0)
-            {
-                // Overlay is the only source of color and will darken if not handled separately
-                source.R = over.R;
-                source.G = over.G;
-                source.B = over.B;
-            }
-            else
-            {
+			if (source.A == 0)
+			{
+				// Overlay is the only source of color and will darken if not handled separately
+                return new(over.R, over.G, over.B, (byte)(alpha / 255));
+			}
+			else
+			{
                 // Blend colors
-                source.R = (byte)((over.R * over.A + source.R * source.A * iOverlayAlpha / 255) / alpha);
-                source.G = (byte)((over.G * over.A + source.G * source.A * iOverlayAlpha / 255) / alpha);
-                source.B = (byte)((over.B * over.A + source.B * source.A * iOverlayAlpha / 255) / alpha);
-            }
-
-            source.A = alpha;
-
-            return source;
+                return new(
+                    (byte)((over.R * overAlpha + source.R * source.A * iOverlayAlpha) / alpha),
+                    (byte)((over.G * overAlpha + source.G * source.A * iOverlayAlpha) / alpha),
+                    (byte)((over.B * overAlpha + source.B * source.A * iOverlayAlpha) / alpha),
+                    (byte)(alpha / 255));
+			}
         }
 
         ///// <summary>
@@ -193,7 +199,7 @@ namespace Progrimage.Utils
         {
             XnaColor[] pixels = new XnaColor[tex.Width * tex.Height];
 
-            Parallel.For(0, Math.Min(img.Height, tex.Height), y =>
+            LimitedParallel.For(0, Math.Min(img.Height, tex.Height), y =>
             {
                 int j = y * tex.Width;
                 var row = img.DangerousGetPixelRowMemory(y).Span;
@@ -215,7 +221,7 @@ namespace Progrimage.Utils
         {
             XnaColor[] pixels = new XnaColor[tex.Width * tex.Height];
 
-            Parallel.For(0, Math.Min(img.Height, tex.Height), y =>
+			LimitedParallel.For(0, Math.Min(img.Height, tex.Height), y =>
             {
                 int j = y * tex.Width;
                 var row = img.DangerousGetPixelRowMemory(y).Span;
@@ -237,7 +243,7 @@ namespace Progrimage.Utils
         {
             XnaColor[] pixels = new XnaColor[tex.Width * tex.Height];
 
-            Parallel.For(0, Math.Min(img.Height, tex.Height), y =>
+			LimitedParallel.For(0, Math.Min(img.Height, tex.Height), y =>
             {
                 int j = y * img.Width;
                 var row = img.DangerousGetPixelRowMemory(y).Span;
@@ -255,9 +261,9 @@ namespace Progrimage.Utils
 
         public static Image<Argb32> BitmapToImage(Bitmap img)
         {
-            LockedBitmap src = new LockedBitmap(img);
+            LockedBitmap src = new(img);
             Image<Argb32> dest = new(img.Width, img.Height);
-			Parallel.For(0, src.Height, y =>
+			LimitedParallel.For(0, src.Height, y =>
 			{
 				Span<Argb32> row = dest.DangerousGetPixelRowMemory(y).Span;
 				for (int x = 0; x < row.Length; x++)
@@ -277,9 +283,9 @@ namespace Progrimage.Utils
 
         public static LockedBitmap ImageToBitmap(Image<Argb32> img)
         {
-            LockedBitmap dest = new LockedBitmap(img.Width, img.Height, PixelFormat.Format32bppArgb);
+            LockedBitmap dest = new(img.Width, img.Height, PixelFormat.Format32bppArgb);
             dest.Lock();
-			Parallel.For(0, img.Height, y =>
+			LimitedParallel.For(0, img.Height, y =>
 			{
 				Span<Argb32> row = img.DangerousGetPixelRowMemory(y).Span;
 				for (int x = 0; x < row.Length; x++)
@@ -380,7 +386,7 @@ namespace Progrimage.Utils
             TexPair pair = MainWindow.CreateTexture(img.Width, img.Height);
             Texture2D tex = pair.Texture;
             XnaColor[] pixels = new XnaColor[tex.Width * tex.Height];
-            Parallel.For(0, img.Height, y =>
+			LimitedParallel.For(0, img.Height, y =>
             {
                 int j = y * tex.Width;
                 var row = img.DangerousGetPixelRowMemory(y).Span;

@@ -1,5 +1,6 @@
 ﻿using ImGuiNET;
 using Jacbo.Math2;
+using LimParallel;
 using LockedBitmapLibrary;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +18,14 @@ using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 using Color = Microsoft.Xna.Framework.Color;
 using Font = SixLabors.Fonts.Font;
@@ -33,7 +41,7 @@ namespace Progrimage
 	/// </summary>
 	public class ImGuiRenderer
     {
-        public static List<TextInput> TextInput = new();
+        public static List<TextInput> TextInput = [];
         public static Font FontToCheckValidChars = SystemFonts.CreateFont("Arial", 1);
 
 		private readonly Game _game;
@@ -79,7 +87,7 @@ namespace Progrimage
             _game = game ?? throw new ArgumentNullException(nameof(game));
             _graphicsDevice = game.GraphicsDevice;
 
-            _loadedTextures = new Dictionary<IntPtr, Texture2D>();
+            _loadedTextures = [];
 
             _rasterizerState = new RasterizerState()
             {
@@ -274,25 +282,25 @@ namespace Progrimage
                         // Copy selection to clipboard
                         using (Image<Argb32> copiedImage = Program.ActiveInstance.Selection.GetImageFromRender())
                         {
-                            DataObject dataObject = new DataObject();
+                            DataObject dataObject = new();
 
-                            using MemoryStream pngStream = new MemoryStream();
+                            using MemoryStream pngStream = new();
                             copiedImage.SaveAsPng(pngStream, new PngEncoder()
                             {
                                 CompressionLevel = PngCompressionLevel.BestCompression
                             });
                             dataObject.SetData("PNG", pngStream);
 
-                            using MemoryStream bmpStream = new MemoryStream();
+                            using MemoryStream bmpStream = new();
                             copiedImage.SaveAsBmp(bmpStream, new BmpEncoder()
                             {
                                 SupportTransparency = true
                             });
                             dataObject.SetData("Bitmap", bmpStream);
 
-                            using (LockedBitmap bitmap = new LockedBitmap(copiedImage.Width, copiedImage.Height))
+                            using (LockedBitmap bitmap = new(copiedImage.Width, copiedImage.Height))
                             {
-                                Parallel.For(0, copiedImage.Height, y =>
+								LimitedParallel.For(0, copiedImage.Height, y =>
                                 {
                                     Span<Argb32> row = copiedImage.DangerousGetPixelRowMemory(y).Span;
                                     for (int x = 0; x < row.Length; x++)

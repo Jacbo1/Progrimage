@@ -4,11 +4,10 @@ using Progrimage.Composites;
 using Progrimage.DrawingShapes;
 using Progrimage.ImGuiComponents;
 using Progrimage.Utils;
-using SixLabors.Fonts;
+using System;
 using Color = SixLabors.ImageSharp.Color;
 using FontFamily = SixLabors.Fonts.FontFamily;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
-using SystemFonts = SixLabors.Fonts.SystemFonts;
 
 namespace Progrimage.Tools
 {

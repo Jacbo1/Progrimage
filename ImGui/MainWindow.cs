@@ -18,7 +18,6 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.Fonts;
 using Rectangle = SixLabors.ImageSharp.Rectangle;
 using ProgrimageImGui;
-using System.Buffers;
 using Progrimage.LuaDefs;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Advanced;
@@ -27,6 +26,12 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using Jacbo.Math2;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Progrimage
 {
@@ -64,7 +69,7 @@ namespace Progrimage
                 }
 
                 // Directory
-                FileTree = new();
+                FileTree = [];
 
                 string[] dirs = Directory.GetDirectories(path);
                 for (int i = 0; i < dirs.Length; i++)
@@ -481,7 +486,7 @@ namespace Progrimage
                 if (ImGui.MenuItem("Import"))
                 {
                     // Import image
-                    OpenFileDialog picker = new OpenFileDialog();
+                    OpenFileDialog picker = new();
                     if (Util.GetLoadPath() is string s)
                         picker.InitialDirectory = s;
                     picker.Title = "Import file";

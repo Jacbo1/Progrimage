@@ -1,8 +1,12 @@
 ﻿using Jacbo.Math2;
+using LimParallel;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
+using System.IO;
 using System.IO.Compression;
+using System.Threading.Tasks;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Progrimage
@@ -60,7 +64,7 @@ namespace Progrimage
 			double cornerAng = _imageSize.GetAngle();
 			double2 halfSize = _imageSize * 0.5;
 			int stepsCompleted = 0;
-			Parallel.For(0, _angleSteps, angStep =>
+			LimitedParallel.For(0, _angleSteps, angStep =>
 			{
 				float[] canvas = new float[_imageSize.X * _imageSize.Y];
 				double angle = Math.PI * 2 * angStep / _angleSteps - Math.PI;
@@ -178,7 +182,7 @@ namespace Progrimage
 			double2 boxSize1 = 1 / scale_ - 1;
 			int2 unscaledSize1 = _imageSize - 1;
 
-			Parallel.For(0, newSize.Y, y =>
+			LimitedParallel.For(0, newSize.Y, y =>
 			{
 				int yw = y * newSize.X;
 				for (int x = 0; x < newSize.X; x++)

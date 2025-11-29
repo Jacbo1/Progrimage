@@ -8,6 +8,8 @@ using PointF = SixLabors.ImageSharp.PointF;
 using ImageSharpExtensions;
 using SixLabors.ImageSharp.PixelFormats;
 using Jacbo.Math2;
+using System.Collections.Generic;
+using System;
 
 namespace Progrimage.Composites
 {
@@ -19,7 +21,7 @@ namespace Progrimage.Composites
         public int2 MinBound, MaxBound;
         public Font Font;
         public Color Color;
-        public readonly List<List<LetterRect>> LetterBoxes = new();
+        public readonly List<List<LetterRect>> LetterBoxes = [];
         public sbyte LastMoveDir = 0;
 		#endregion
 

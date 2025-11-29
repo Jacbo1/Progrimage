@@ -2,6 +2,9 @@
 using Progrimage;
 using Progrimage.ImGuiComponents;
 using Progrimage.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using System.Xml;
 
@@ -14,7 +17,7 @@ namespace ProgrimageImGui.Windows
 
         private const string PALETTE_NAME = "Style Editor";
         private const string THEME_DIR = "Themes\\";
-        private static List<ComparableImGuiCol> _items = new();
+        private static List<ComparableImGuiCol> _items = [];
         private static bool _first = true;
 
         // Struct for sorting alphabetically
@@ -176,7 +179,7 @@ namespace ProgrimageImGui.Windows
             string path = GetThemeFilePath(theme);
             if (!File.Exists(path)) return;
 
-            Dictionary<string, Enum> dict = new();
+            Dictionary<string, Enum> dict = [];
 
             foreach (ComparableImGuiCol item in _items)
                 dict[item.Name] = item.Enum;

@@ -6,6 +6,9 @@ using Progrimage.Utils;
 using LockedBitmapLibrary;
 using Color = Microsoft.Xna.Framework.Color;
 using Jacbo.Math2;
+using System.Drawing;
+using System.IO;
+using System;
 
 namespace ProgrimageImGui.Windows
 {
@@ -23,7 +26,7 @@ namespace ProgrimageImGui.Windows
 
 		public static void TryShowWindow(ref bool mouseOverCanvasWindow)
 		{
-			if (_hasThumbnail == null) return;
+			if (!_hasThumbnail) return;
 			if (!Show)
 			{
 				_wasShowing = false;
@@ -94,9 +97,7 @@ namespace ProgrimageImGui.Windows
 				using Bitmap? bmp = Util.LoadSVG(_path, size.X, size.Y, false);
 				if (bmp != null)
 				{
-					Console.WriteLine("a");
 					Program.ActiveInstance.CreateLayer(Util.BitmapToImage(bmp));
-					Console.WriteLine("b");
 				}
 				Show = false;
 			}
@@ -146,7 +147,7 @@ namespace ProgrimageImGui.Windows
 
 				for (int y = ((x + 1) % 2) * CHECKER_SIZE; y < opaque.Height; y += CHECKER_SIZE * 2)
 				{
-					opaque.FillRectangle(SimpleColor.White, x1, y, CHECKER_SIZE, CHECKER_SIZE);
+					opaque.FillRectangle(SimpleColor.Colors.White, x1, y, CHECKER_SIZE, CHECKER_SIZE);
 					opaque.GetPixel(x1, y);
 				}
 			}

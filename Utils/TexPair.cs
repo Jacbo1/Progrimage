@@ -3,13 +3,15 @@ using Jacbo.Math2;
 using Microsoft.Xna.Framework.Graphics;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System;
+using System.IO;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace Progrimage.Utils
 {
 	public struct TexPair : IDisposable
     {
-        public Texture2D Texture;
+        public Texture2D? Texture;
         private IntPtr _ptr;
 
         public IntPtr Ptr
@@ -103,7 +105,7 @@ namespace Progrimage.Utils
 
             Image<Argb32> img = Image.Load<Argb32>(path);
 			ISEUtils.HighQualityDownscale(ref img, Util.ScaleToFit(new int2(img.Width, img.Height), size), true);
-            Image<Argb32> padded = new Image<Argb32>(size.X, size.Y);
+            Image<Argb32> padded = new(size.X, size.Y);
             padded.DrawOver(img, new int2((size.X - img.Width) / 2, (size.Y - img.Height) / 2));
             img.Dispose();
             Texture = new Texture2D(MainWindow.GraphicsDevice, padded.Width, padded.Height, false, SurfaceFormat.Color);

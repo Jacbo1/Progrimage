@@ -8,6 +8,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using Jacbo.Math2;
+using System.Collections.Generic;
 
 namespace Progrimage.Utils
 {

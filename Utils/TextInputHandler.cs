@@ -1,4 +1,5 @@
-﻿using Keys = Microsoft.Xna.Framework.Input.Keys;
+﻿using System;
+using Keys = Microsoft.Xna.Framework.Input.Keys;
 
 namespace Progrimage.Utils
 {
